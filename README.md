@@ -30,6 +30,7 @@
 
 ```bash
 $ npm install
+$ docker run --name catarina-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=catarina-pwd -d mysql
 ```
 
 ## Running the app
