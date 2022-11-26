@@ -11,10 +11,13 @@ import { typeOrmConfig } from './config/TypeOrmModuleOptions';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(typeOrmConfig),
-    AuthModule, UsersModule, PessoaModule],
+    AuthModule,
+    UsersModule,
+    PessoaModule,
+  ],
   controllers: [],
   providers: [],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) { }
+  constructor(private dataSource: DataSource) {}
 }

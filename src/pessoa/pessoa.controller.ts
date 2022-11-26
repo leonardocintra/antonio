@@ -4,15 +4,15 @@ import { PessoaService } from './pessoa.service';
 
 @Controller('pessoa')
 export class PessoaController {
-    constructor(private readonly pessoaService: PessoaService) { }
+  constructor(private readonly pessoaService: PessoaService) {}
 
-    @Get()
-    getPessoas() {
-        return this.pessoaService.getAll();
-    }
+  @Get()
+  getPessoas() {
+    return this.pessoaService.getAll();
+  }
 
-    @Post()
-    createPessoa(@Body() pessoa: CreatePessoaDto) {
-        return this.pessoaService.create(pessoa);
-    }
+  @Post()
+  createPessoa(@Body() pessoa: CreatePessoaDto) {
+    return this.pessoaService.create(pessoa);
+  }
 }
