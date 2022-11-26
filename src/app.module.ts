@@ -1,22 +1,20 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { PessoaModule } from './pessoa/pessoa.module';
+import { DataSource } from 'typeorm';
+import { typeOrmConfig } from './config/TypeOrmModuleOptions';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: 'catarina-pwd',
-    database: 'catarinadb',
-    entities: [],
-    synchronize: true,
-  }), AuthModule, UsersModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(typeOrmConfig),
+    AuthModule, UsersModule, PessoaModule],
+  controllers: [],
+  providers: [],
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private dataSource: DataSource) { }
+}
