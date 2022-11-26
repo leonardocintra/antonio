@@ -6,5 +6,8 @@ import { Pessoa } from './pessoa.entity';
 @Injectable()
 export class PessoaService {
     constructor(@InjectRepository(Pessoa) private readonly pessoaRepository: Repository<Pessoa>) { }
-    
+
+    getAll() {
+        return this.pessoaRepository.find();
+    }
 }
