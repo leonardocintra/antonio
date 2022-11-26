@@ -1,5 +1,5 @@
 import { SexoEnum } from 'src/utils/enum/sexoEnum';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 @Entity()
 export class Pessoa {
@@ -21,6 +21,18 @@ export class Pessoa {
     @Column({ type: "enum", enum: SexoEnum, default: SexoEnum.MASCULINO })
     sexo: string;
 
+    @Column()
+    email: string;
+
     @Column({ default: true })
     isActive: boolean;
+
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt: string;
+
+    @UpdateDateColumn({ name: 'updated_at' })
+    updateddAt: string;
+
+    @DeleteDateColumn({ name: 'deleted_at' })
+    deletedAt: string;
 }
