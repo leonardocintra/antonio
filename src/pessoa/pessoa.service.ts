@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePessoaDto } from './dto/createPessoaDto';
@@ -16,13 +16,14 @@ export class PessoaService {
   }
 
   async findByUuid(uuid: string) {
-    return await this.pessoaRepository.findOneByOrFail({ id: uuid });
+    try {
+      return await this.pessoaRepository.findOneByOrFail({ id: uuid });
+    } catch (error) {
+      throw new NotFoundException('Pessoa', error.message);
+    }
   }
 
-  async create(pessoa: CreatePessoaDto): Promise<CreatePessoaDto> {
-    const novaPessoa = this.pessoaRepository.create(pessoa);
-    await this.pessoaRepository.save(novaPessoa);
-
-    return pessoa;
+  async create(pessoa: CreatePessoaDto): Promise<Pessoa> {
+    return this.pessoaRepository.save(this.pessoaRepository.create(pessoa));
   }
 }
