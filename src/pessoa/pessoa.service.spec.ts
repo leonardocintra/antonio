@@ -5,17 +5,19 @@ import { SexoEnum } from './enum/sexoEnum';
 import { Pessoa } from './pessoa.entity';
 import { PessoaService } from './pessoa.service';
 
+const pessoaEntity: Pessoa = new Pessoa({
+  id: '26c971c2-b831-4df0-9947-319900a92064',
+  nome: 'Leonardo',
+  sobrenome: 'Cintra',
+  cpfCnpj: '56655835453',
+  sexo: SexoEnum.MASCULINO,
+  email: 'leonardo.ncintra@outlook.com',
+});
+
 const pessoaEntityList: Pessoa[] = [
+  pessoaEntity,
   new Pessoa({
-    id: '1',
-    nome: 'Leonardo',
-    sobrenome: 'Cintra',
-    cpfCnpj: '56655835453',
-    sexo: SexoEnum.MASCULINO,
-    email: 'leonardo.ncintra@outlook.com',
-  }),
-  new Pessoa({
-    id: '2',
+    id: '2d2a5822-5424-4030-9ab7-3a70a52d0843',
     nome: 'Juliana',
     sobrenome: 'Cintra',
     cpfCnpj: '56655835453',
@@ -38,6 +40,7 @@ describe('PessoaService', () => {
           provide: GET_REPOSITORY_TOKEN_PESSOA,
           useValue: {
             find: jest.fn().mockResolvedValue(pessoaEntityList),
+            findOneByOrFail: jest.fn().mockResolvedValue(pessoaEntity),
           },
         },
       ],
@@ -60,6 +63,19 @@ describe('PessoaService', () => {
       // assert
       expect(result).toHaveLength(2);
       expect(result).toEqual(pessoaEntityList);
+    });
+  });
+
+  describe('findByUuid pessoa', () => {
+    it('deve retornar uma pessoa por uuid com sucesso', async () => {
+      // arrange
+      // act
+      const result = await pessoaService.findByUuid(
+        '2d2a5822-5424-4030-9ab7-3a70a52d0843',
+      );
+      // assert
+      expect(result).toEqual(pessoaEntity);
+      expect(result.nome).toEqual('Leonardo');
     });
   });
 });

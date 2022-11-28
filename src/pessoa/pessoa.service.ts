@@ -15,6 +15,10 @@ export class PessoaService {
     return await this.pessoaRepository.find();
   }
 
+  async findByUuid(uuid: string) {
+    return await this.pessoaRepository.findOneByOrFail({ id: uuid });
+  }
+
   async create(pessoa: CreatePessoaDto): Promise<CreatePessoaDto> {
     const novaPessoa = this.pessoaRepository.create(pessoa);
     await this.pessoaRepository.save(novaPessoa);
