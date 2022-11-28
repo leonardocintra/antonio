@@ -1,4 +1,5 @@
-import { SexoEnum } from 'src/utils/enum/sexoEnum';
+import { SexoEnum } from './enum/sexoEnum';
+
 import {
   Entity,
   Column,
@@ -11,7 +12,7 @@ import {
 @Entity()
 export class Pessoa {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ length: 100 })
   nome: string;
@@ -32,7 +33,7 @@ export class Pessoa {
   email: string;
 
   @Column({ default: true })
-  isActive: boolean;
+  ativo: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
@@ -42,4 +43,17 @@ export class Pessoa {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: string;
+
+  constructor(pessoa?: Partial<Pessoa>) {
+    this.id = pessoa?.id;
+    this.nome = pessoa.nome;
+    this.sobrenome = pessoa.sobrenome;
+    this.cpfCnpj = pessoa.cpfCnpj;
+    this.sexo = pessoa?.sexo;
+    this.email = pessoa.email;
+    this.ativo = pessoa?.ativo;
+    this.createdAt = pessoa?.createdAt;
+    this.updateddAt = pessoa?.updateddAt;
+    this.deletedAt = pessoa?.deletedAt;
+  }
 }

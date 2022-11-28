@@ -11,11 +11,11 @@ export class PessoaService {
     private readonly pessoaRepository: Repository<Pessoa>,
   ) {}
 
-  getAll() {
-    return this.pessoaRepository.find();
+  async findAll(): Promise<Pessoa[]> {
+    return await this.pessoaRepository.find();
   }
 
-  async create(pessoa: CreatePessoaDto) {
+  async create(pessoa: CreatePessoaDto): Promise<CreatePessoaDto> {
     const novaPessoa = this.pessoaRepository.create(pessoa);
     await this.pessoaRepository.save(novaPessoa);
 

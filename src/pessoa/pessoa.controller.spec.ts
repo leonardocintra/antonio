@@ -1,18 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PessoaController } from './pessoa.controller';
+import { PessoaService } from './pessoa.service';
 
 describe('PessoaController', () => {
-  let controller: PessoaController;
+  let pessoaController: PessoaController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PessoaController],
+      providers: [
+        {
+          provide: PessoaService,
+          useValue: {
+            save: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
-    controller = module.get<PessoaController>(PessoaController);
+    pessoaController = module.get<PessoaController>(PessoaController);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(pessoaController).toBeDefined();
   });
 });
