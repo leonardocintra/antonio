@@ -46,11 +46,11 @@ export class Pessoa {
 
   constructor(pessoa?: Partial<Pessoa>) {
     this.id = pessoa?.id;
-    this.nome = pessoa.nome;
-    this.sobrenome = pessoa.sobrenome;
-    this.cpfCnpj = pessoa.cpfCnpj;
+    this.nome = pessoa?.nome;
+    this.sobrenome = pessoa?.sobrenome;
+    this.cpfCnpj = pessoa?.cpfCnpj;
     this.sexo = pessoa?.sexo;
-    this.email = pessoa.email;
+    this.email = pessoa?.email;
     this.ativo = pessoa?.ativo;
     this.createdAt = pessoa?.createdAt;
     this.updateddAt = pessoa?.updateddAt;
