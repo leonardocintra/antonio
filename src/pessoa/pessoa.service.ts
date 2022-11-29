@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePessoaDto } from './dto/createPessoaDto';
+import { UpdatePessoaDto } from './dto/updatePessoaDto';
 import { Pessoa } from './pessoa.entity';
 
 @Injectable()
@@ -25,5 +26,17 @@ export class PessoaService {
 
   async create(pessoa: CreatePessoaDto): Promise<Pessoa> {
     return this.pessoaRepository.save(this.pessoaRepository.create(pessoa));
+  }
+
+  async update(id: string, data: UpdatePessoaDto): Promise<Pessoa> {
+    const pessoa = await this.findByUuid(id);
+
+    this.pessoaRepository.merge(pessoa, data);
+    return await this.pessoaRepository.save(pessoa);
+  }
+
+  async deleteByUuid(id: string) {
+    await this.findByUuid(id);
+    await this.pessoaRepository.softDelete(id);
   }
 }
