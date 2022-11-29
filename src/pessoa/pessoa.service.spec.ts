@@ -33,7 +33,7 @@ describe('PessoaService', () => {
             create: jest.fn().mockReturnValue(pessoaEntityListMock[1]),
             save: jest.fn().mockReturnValue(pessoaEntityListMock[1]),
             merge: jest.fn().mockReturnValue(pessoaEntityMockUpdated),
-            softDelete: jest.fn(),
+            softDelete: jest.fn().mockReturnValue(undefined),
           },
         },
       ],
@@ -97,7 +97,7 @@ describe('PessoaService', () => {
     });
   });
 
-  describe('crete pessoa', () => {
+  describe('create pessoa', () => {
     it('deve dar erro na hora de criar uma pessoa', async () => {
       const data: CreatePessoaDto = {
         nome: 'Juliana',
@@ -171,5 +171,30 @@ describe('PessoaService', () => {
       // assert
       expect(result).toEqual(pessoaEntityMockUpdated);
     });
+  });
+
+  describe('delete pessoa', () => {
+
+    it('deve dar exception quando ocorrer um erro ao salvar', async () => {
+      jest.spyOn(pessoaRepository, 'softDelete').mockRejectedValueOnce(new Error());
+
+      expect(pessoaService.deleteByUuid('32')).rejects.toThrowError()
+    })
+
+    it('deve dar not found exception quando pessoa nao existe', async () => {
+      jest.spyOn(pessoaRepository, 'findOneByOrFail').mockRejectedValueOnce(new Error());
+
+      expect(pessoaService.deleteByUuid('32')).rejects.toThrowError(NotFoundException)
+    })
+
+    it('deve deletar uma pessoa com sucesso', async () => {
+      // act
+      const result = await pessoaService.deleteByUuid('2323');
+
+      // assert
+      expect(result).toBeUndefined()
+      expect(pessoaRepository.softDelete).toBeCalledTimes(1)
+      expect(pessoaRepository.findOneByOrFail).toBeCalledTimes(1)
+    })
   });
 });
