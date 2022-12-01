@@ -174,7 +174,6 @@ describe('PessoaService', () => {
   });
 
   describe('delete pessoa', () => {
-
     it('deve dar exception quando ocorrer um erro ao salvar', async () => {
       jest.spyOn(pessoaRepository, 'softDelete').mockRejectedValueOnce(new Error());
 

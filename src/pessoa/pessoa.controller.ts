@@ -3,7 +3,7 @@ import { CreatePessoaDto } from './dto/createPessoaDto';
 import { Pessoa } from './pessoa.entity';
 import { PessoaService } from './pessoa.service';
 
-@Controller('pessoa')
+@Controller('api/v1/pessoa')
 export class PessoaController {
   constructor(private readonly pessoaService: PessoaService) {}
 
