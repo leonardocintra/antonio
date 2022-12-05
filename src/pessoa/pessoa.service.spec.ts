@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePessoaDto } from './dto/createPessoaDto';
 import { SexoEnum } from './enum/sexoEnum';
-import { Pessoa } from './pessoa.entity';
+import { Pessoa } from './entity/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { UpdatePessoaDto } from './dto/updatePessoaDto';
 import {
@@ -175,25 +175,31 @@ describe('PessoaService', () => {
 
   describe('delete pessoa', () => {
     it('deve dar exception quando ocorrer um erro ao salvar', async () => {
-      jest.spyOn(pessoaRepository, 'softDelete').mockRejectedValueOnce(new Error());
+      jest
+        .spyOn(pessoaRepository, 'softDelete')
+        .mockRejectedValueOnce(new Error());
 
-      expect(pessoaService.deleteByUuid('32')).rejects.toThrowError()
-    })
+      expect(pessoaService.deleteByUuid('32')).rejects.toThrowError();
+    });
 
     it('deve dar not found exception quando pessoa nao existe', async () => {
-      jest.spyOn(pessoaRepository, 'findOneByOrFail').mockRejectedValueOnce(new Error());
+      jest
+        .spyOn(pessoaRepository, 'findOneByOrFail')
+        .mockRejectedValueOnce(new Error());
 
-      expect(pessoaService.deleteByUuid('32')).rejects.toThrowError(NotFoundException)
-    })
+      expect(pessoaService.deleteByUuid('32')).rejects.toThrowError(
+        NotFoundException,
+      );
+    });
 
     it('deve deletar uma pessoa com sucesso', async () => {
       // act
       const result = await pessoaService.deleteByUuid('2323');
 
       // assert
-      expect(result).toBeUndefined()
-      expect(pessoaRepository.softDelete).toBeCalledTimes(1)
-      expect(pessoaRepository.findOneByOrFail).toBeCalledTimes(1)
-    })
+      expect(result).toBeUndefined();
+      expect(pessoaRepository.softDelete).toBeCalledTimes(1);
+      expect(pessoaRepository.findOneByOrFail).toBeCalledTimes(1);
+    });
   });
 });

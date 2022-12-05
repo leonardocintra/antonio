@@ -5,8 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { DataSource } from 'typeorm';
-import { typeOrmConfig } from './config/TypeOrmModuleOptions';
-import { Pessoa } from './pessoa/pessoa.entity';
+import { Pessoa } from './pessoa/entity/pessoa.entity';
 
 @Module({
   imports: [
@@ -17,14 +16,14 @@ import { Pessoa } from './pessoa/pessoa.entity';
       useFactory: (configService: ConfigService) => ({
         // TODO: pegar parametros da .env que não esta funcionano aqui
         type: 'mysql',
-        host: configService.get('DB_HOST', 'localhost'), 
+        host: configService.get('DB_HOST', 'localhost'),
         port: Number(configService.get('DB_PORT', 3306)),
         username: configService.get('DB_USERNAME', 'root'),
         password: configService.get('DB_PASSWORD', 'catarina-pwd'),
         database: configService.get('DB_DATABASE', 'catarinadb'),
         entities: [Pessoa],
         synchronize: true,
-      })
+      }),
     }),
     AuthModule,
     UsersModule,
@@ -34,5 +33,5 @@ import { Pessoa } from './pessoa/pessoa.entity';
   providers: [],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) { }
+  constructor(private dataSource: DataSource) {}
 }

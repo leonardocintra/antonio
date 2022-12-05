@@ -1,4 +1,4 @@
-import { SexoEnum } from './enum/sexoEnum';
+import { SexoEnum } from '../enum/sexoEnum';
 
 import {
   Entity,

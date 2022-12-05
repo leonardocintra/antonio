@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreatePessoaDto } from './dto/createPessoaDto';
-import { Pessoa } from './pessoa.entity';
+import { Pessoa } from './entity/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 
 @Controller('api/v1/pessoa')
