@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePessoaDto } from './dto/createPessoaDto';
 import { SexoEnum } from './enum/sexoEnum';
-import { Pessoa } from './entity/pessoa.entity';
+import { Pessoa } from '../entity/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { UpdatePessoaDto } from './dto/updatePessoaDto';
 import {

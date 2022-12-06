@@ -1,5 +1,5 @@
 import { SexoEnum } from '../../src/pessoa/enum/sexoEnum';
-import { Pessoa } from '../../src/pessoa/entity/pessoa.entity';
+import { Pessoa } from '../../src/entity/pessoa.entity';
 
 export const pessoaEntityMockUpdated: Pessoa = new Pessoa({
   id: '2d2a5822-5424-4030-9ab7-3a70a52d0843',

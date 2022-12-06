@@ -4,6 +4,6 @@ import { EnderecoController } from './endereco.controller';
 
 @Module({
   providers: [EnderecoService],
-  controllers: [EnderecoController]
+  controllers: [EnderecoController],
 })
 export class EnderecoModule {}

@@ -5,8 +5,9 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { DataSource } from 'typeorm';
-import { Pessoa } from './pessoa/entity/pessoa.entity';
+import { Pessoa } from './entity/pessoa.entity';
 import { EnderecoModule } from './endereco/endereco.module';
+import { Endereco } from './entity/endereco.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { EnderecoModule } from './endereco/endereco.module';
         username: configService.get('DB_USERNAME', 'root'),
         password: configService.get('DB_PASSWORD', 'catarina-pwd'),
         database: configService.get('DB_DATABASE', 'catarinadb'),
-        entities: [Pessoa],
+        entities: [Pessoa, Endereco],
         synchronize: true,
       }),
     }),

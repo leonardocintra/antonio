@@ -19,7 +19,7 @@ export class CreatePessoaDto {
   @ApiProperty()
   cpfCnpj: string;
 
-  @ApiPropertyOptional({default: "m"})
+  @ApiPropertyOptional({ default: 'm' })
   sexo: SexoEnum;
 
   @IsEmail()

@@ -1,4 +1,4 @@
-import { SexoEnum } from '../enum/sexoEnum';
+import { SexoEnum } from '../pessoa/enum/sexoEnum';
 
 import {
   Entity,
@@ -7,7 +7,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Endereco } from './endereco.entity';
 
 @Entity()
 export class Pessoa {
@@ -36,6 +38,9 @@ export class Pessoa {
 
   @Column({ default: true })
   ativo: boolean;
+
+  @OneToMany(() => Endereco, (endereco) => endereco.pessoa)
+  enderecos: Endereco[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
