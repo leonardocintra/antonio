@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { DataSource } from 'typeorm';
 import { Pessoa } from './pessoa/entity/pessoa.entity';
+import { EnderecoModule } from './endereco/endereco.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { Pessoa } from './pessoa/entity/pessoa.entity';
     AuthModule,
     UsersModule,
     PessoaModule,
+    EnderecoModule,
   ],
   controllers: [],
   providers: [],
