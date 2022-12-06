@@ -29,7 +29,9 @@ export class Pessoa {
   @Column({ type: 'enum', enum: SexoEnum, default: SexoEnum.MASCULINO })
   sexo: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   email: string;
 
   @Column({ default: true })

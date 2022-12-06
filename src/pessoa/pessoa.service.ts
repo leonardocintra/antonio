@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePessoaDto } from './dto/createPessoaDto';
@@ -7,6 +7,8 @@ import { Pessoa } from './entity/pessoa.entity';
 
 @Injectable()
 export class PessoaService {
+  private readonly logger = new Logger(PessoaService.name);
+
   constructor(
     @InjectRepository(Pessoa)
     private readonly pessoaRepository: Repository<Pessoa>,
@@ -16,7 +18,7 @@ export class PessoaService {
     return await this.pessoaRepository.find();
   }
 
-  async findByUuid(uuid: string) {
+  async findByUuid(uuid: string): Promise<Pessoa> {
     try {
       return await this.pessoaRepository.findOneByOrFail({ id: uuid });
     } catch (error) {
