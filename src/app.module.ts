@@ -18,11 +18,11 @@ import { Endereco } from './entity/endereco.entity';
       useFactory: (configService: ConfigService) => ({
         // TODO: pegar parametros da .env que não esta funcionano aqui
         type: 'mysql',
-        host: configService.get('DB_HOST', 'localhost'),
-        port: Number(configService.get('DB_PORT', 3306)),
-        username: configService.get('DB_USERNAME', 'root'),
-        password: configService.get('DB_PASSWORD', 'catarina-pwd'),
-        database: configService.get('DB_DATABASE', 'catarinadb'),
+        host: configService.get('DB_HOST'),
+        port: Number(configService.get('DB_PORT')),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_DATABASE'),
         entities: [Pessoa, Endereco],
         synchronize: true,
       }),
