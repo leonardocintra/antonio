@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreatePessoaDto } from './dto/createPessoaDto';
 import { UpdatePessoaDto } from './dto/updatePessoaDto';
 import { Pessoa } from '../entity/pessoa.entity';
+import { EnderecoService } from '../endereco/endereco.service';
 
 @Injectable()
 export class PessoaService {
@@ -12,6 +13,7 @@ export class PessoaService {
   constructor(
     @InjectRepository(Pessoa)
     private readonly pessoaRepository: Repository<Pessoa>,
+    private readonly enderecoService: EnderecoService
   ) {}
 
   async findAll(): Promise<Pessoa[]> {
@@ -20,14 +22,19 @@ export class PessoaService {
 
   async findByUuid(uuid: string): Promise<Pessoa> {
     try {
-      return await this.pessoaRepository.findOneByOrFail({ id: uuid });
+      let pessoa = await this.pessoaRepository.findOneByOrFail({ id: uuid });
+      const enderecos = await this.enderecoService.findByPessoa(pessoa);
+      pessoa.enderecos = enderecos;
+      return pessoa;
     } catch (error) {
       throw new NotFoundException('Pessoa', error.message);
     }
   }
 
   async create(pessoa: CreatePessoaDto): Promise<Pessoa> {
-    return this.pessoaRepository.save(this.pessoaRepository.create(pessoa));
+    const pessoaSaved = await this.pessoaRepository.save(this.pessoaRepository.create(pessoa));
+    await this.enderecoService.create(pessoa.enderecos[0], pessoaSaved)
+    return pessoaSaved;
   }
 
   async update(id: string, data: UpdatePessoaDto): Promise<Pessoa> {

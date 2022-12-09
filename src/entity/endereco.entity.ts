@@ -41,7 +41,7 @@ export class Endereco {
   @Column({ default: true })
   ativo: boolean;
 
-  @ManyToOne(() => Pessoa, (pessoa) => pessoa.enderecos)
+  @ManyToOne(() => Pessoa, (pessoa) => pessoa.enderecos, { nullable: false, cascade: true })
   pessoa: Pessoa;
 
   @CreateDateColumn({ name: 'created_at' })
