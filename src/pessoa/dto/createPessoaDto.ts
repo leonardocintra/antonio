@@ -1,5 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsEmail,
+  IsNotEmpty,
+  MaxLength,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
 import { CreateEnderecoDto } from '../../endereco/dto/createEnderecoDto';
 import { SexoEnum } from '../enum/sexoEnum';
 
@@ -27,5 +34,7 @@ export class CreatePessoaDto {
   @ApiProperty()
   email: string;
 
+  @ValidateNested()
+  @Type(() => CreateEnderecoDto)
   enderecos: CreateEnderecoDto[];
 }

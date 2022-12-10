@@ -10,4 +10,4 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [EnderecoController],
   exports: [EnderecoService],
 })
-export class EnderecoModule { }
+export class EnderecoModule {}

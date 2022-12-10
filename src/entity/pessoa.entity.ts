@@ -59,6 +59,7 @@ export class Pessoa {
     this.sexo = pessoa?.sexo;
     this.email = pessoa?.email;
     this.ativo = pessoa?.ativo;
+    this.enderecos = pessoa?.enderecos;
     this.createdAt = pessoa?.createdAt;
     this.updateddAt = pessoa?.updateddAt;
     this.deletedAt = pessoa?.deletedAt;

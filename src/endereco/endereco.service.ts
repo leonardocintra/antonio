@@ -7,27 +7,25 @@ import { CreateEnderecoDto } from './dto/createEnderecoDto';
 
 @Injectable()
 export class EnderecoService {
+  constructor(
+    @InjectRepository(Endereco)
+    private readonly enderecoRepository: Repository<Endereco>,
+  ) {}
 
-    constructor(
-        @InjectRepository(Endereco)
-        private readonly enderecoRepository: Repository<Endereco>,
-    ) { }
+  async create(endereco: CreateEnderecoDto, pessoa: Pessoa): Promise<Endereco> {
+    const enderecoCreated = this.enderecoRepository.create(endereco);
+    enderecoCreated.pessoa = pessoa;
+    return await this.enderecoRepository.save(enderecoCreated);
+  }
 
-    async create(endereco: CreateEnderecoDto, pessoa: Pessoa): Promise<Endereco> {
-        const enderecoCreated = this.enderecoRepository.create(endereco)
-        enderecoCreated.pessoa = pessoa;
-        return await this.enderecoRepository.save(enderecoCreated);
-    }
-
-    async findByPessoa(pessoa: Pessoa): Promise<Endereco[]> {
-        let enderecos = await this.enderecoRepository.find({
-            where: {
-                pessoa: {
-                    id: pessoa.id
-                }
-            }
-        })
-        return enderecos;
-    }
-
+  async findByPessoa(pessoa: Pessoa): Promise<Endereco[]> {
+    const enderecos = await this.enderecoRepository.find({
+      where: {
+        pessoa: {
+          id: pessoa.id,
+        },
+      },
+    });
+    return enderecos;
+  }
 }

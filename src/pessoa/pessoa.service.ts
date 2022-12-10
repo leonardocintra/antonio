@@ -13,7 +13,7 @@ export class PessoaService {
   constructor(
     @InjectRepository(Pessoa)
     private readonly pessoaRepository: Repository<Pessoa>,
-    private readonly enderecoService: EnderecoService
+    private readonly enderecoService: EnderecoService,
   ) {}
 
   async findAll(): Promise<Pessoa[]> {
@@ -22,7 +22,7 @@ export class PessoaService {
 
   async findByUuid(uuid: string): Promise<Pessoa> {
     try {
-      let pessoa = await this.pessoaRepository.findOneByOrFail({ id: uuid });
+      const pessoa = await this.pessoaRepository.findOneByOrFail({ id: uuid });
       const enderecos = await this.enderecoService.findByPessoa(pessoa);
       pessoa.enderecos = enderecos;
       return pessoa;
@@ -32,8 +32,14 @@ export class PessoaService {
   }
 
   async create(pessoa: CreatePessoaDto): Promise<Pessoa> {
-    const pessoaSaved = await this.pessoaRepository.save(this.pessoaRepository.create(pessoa));
-    await this.enderecoService.create(pessoa.enderecos[0], pessoaSaved)
+    const pessoaSaved = await this.pessoaRepository.save(
+      this.pessoaRepository.create(pessoa),
+    );
+    pessoa.enderecos.map(async (e) => {
+      const enderecoSaved = await this.enderecoService.create(e, pessoaSaved);
+      console.log(enderecoSaved);
+      pessoaSaved.enderecos.push(enderecoSaved);
+    });
     return pessoaSaved;
   }
 

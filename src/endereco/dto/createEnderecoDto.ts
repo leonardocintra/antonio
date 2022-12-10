@@ -43,6 +43,4 @@ export class CreateEnderecoDto {
   @MaxLength(50)
   @ApiProperty()
   complemento: string;
-
-  pessoaId: string;
 }
