@@ -35,11 +35,12 @@ export class PessoaService {
     const pessoaSaved = await this.pessoaRepository.save(
       this.pessoaRepository.create(pessoa),
     );
-    pessoa.enderecos.map(async (e) => {
-      const enderecoSaved = await this.enderecoService.create(e, pessoaSaved);
-      console.log(enderecoSaved);
-      pessoaSaved.enderecos.push(enderecoSaved);
-    });
+    if (pessoa.enderecos) {
+      pessoa.enderecos.map(async (e) => {
+        const enderecoSaved = await this.enderecoService.create(e, pessoaSaved);
+        pessoaSaved.enderecos.push(enderecoSaved);
+      });
+    }
     return pessoaSaved;
   }
 

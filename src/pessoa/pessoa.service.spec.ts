@@ -12,16 +12,32 @@ import {
   pessoaEntityMockUpdated,
 } from '../../test/mocks/pessoaEntityMock';
 import { updatePessoaDtoMock } from '../../test/mocks/pessoaDtoMock';
+import { EnderecoService } from '../endereco/endereco.service';
+import { Endereco } from '../entity/endereco.entity';
 
 describe('PessoaService', () => {
   let pessoaService: PessoaService;
+  let enderecoService: EnderecoService;
   let pessoaRepository: Repository<Pessoa>;
 
   const GET_REPOSITORY_TOKEN_PESSOA = getRepositoryToken(Pessoa);
+  const GET_REPOSITORY_TOKEN_ENDERECO = getRepositoryToken(Endereco);
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
+        EnderecoService,
+        {
+          provide: GET_REPOSITORY_TOKEN_ENDERECO,
+          useValue: {
+            find: jest.fn(),
+            findOneByOrFail: jest.fn(),
+            create: jest.fn(),
+            save: jest.fn(),
+            merge: jest.fn(),
+            softDelete: jest.fn(),
+          },
+        },
         PessoaService,
         {
           provide: GET_REPOSITORY_TOKEN_PESSOA,
@@ -40,6 +56,7 @@ describe('PessoaService', () => {
     }).compile();
 
     pessoaService = module.get<PessoaService>(PessoaService);
+    enderecoService = module.get<EnderecoService>(EnderecoService);
     pessoaRepository = module.get<Repository<Pessoa>>(
       GET_REPOSITORY_TOKEN_PESSOA,
     );
@@ -47,6 +64,7 @@ describe('PessoaService', () => {
 
   it('should be defined', () => {
     expect(pessoaService).toBeDefined();
+    expect(enderecoService).toBeDefined();
     expect(pessoaRepository).toBeDefined();
   });
 
@@ -105,6 +123,7 @@ describe('PessoaService', () => {
         cpfCnpj: '56655835453',
         sexo: SexoEnum.FEMININO,
         email: 'juliana.ncintra@outlook.com',
+        enderecos: [],
       };
 
       jest.spyOn(pessoaRepository, 'save').mockRejectedValueOnce(new Error());
@@ -120,6 +139,7 @@ describe('PessoaService', () => {
         cpfCnpj: '56655835453',
         sexo: SexoEnum.FEMININO,
         email: 'juliana.ncintra@outlook.com',
+        enderecos: [],
       };
       // act
       const result = await pessoaService.create(data);
