@@ -36,5 +36,6 @@ export class CreatePessoaDto {
 
   @ValidateNested()
   @Type(() => CreateEnderecoDto)
+  @ApiProperty()
   enderecos: CreateEnderecoDto[];
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Endereco } from '../entity/endereco.entity';
@@ -16,6 +16,16 @@ export class EnderecoService {
     const enderecoCreated = this.enderecoRepository.create(endereco);
     enderecoCreated.pessoa = pessoa;
     return await this.enderecoRepository.save(enderecoCreated);
+  }
+
+  async findByUuid(uuid: string): Promise<Endereco> {
+    try {
+      return await this.enderecoRepository.findOneByOrFail({
+        id: uuid,
+      });
+    } catch (error) {
+      throw new NotFoundException('Endereço', error.message);
+    }
   }
 
   async findByPessoa(pessoa: Pessoa): Promise<Endereco[]> {

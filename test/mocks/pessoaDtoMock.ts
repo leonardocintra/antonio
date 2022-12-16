@@ -1,3 +1,4 @@
+import { CreatePessoaDto } from '../../src/pessoa/dto/createPessoaDto';
 import { UpdatePessoaDto } from '../../src/pessoa/dto/updatePessoaDto';
 import { SexoEnum } from '../../src/pessoa/enum/sexoEnum';
 
@@ -9,4 +10,13 @@ export const updatePessoaDtoMock: UpdatePessoaDto = {
   sexo: SexoEnum.FEMININO,
   email: 'Luisa.ncintra@outlook.com',
   ativo: true,
+};
+
+export const createPessoaDtoMock: CreatePessoaDto = {
+  nome: 'Juliana',
+  sobrenome: 'Cintra',
+  cpfCnpj: '56655835453',
+  sexo: SexoEnum.FEMININO,
+  email: 'juliana.ncintra@outlook.com',
+  enderecos: [],
 };

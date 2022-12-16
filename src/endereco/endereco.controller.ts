@@ -1,4 +1,14 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { EnderecoService } from './endereco.service';
 
-@Controller('endereco')
-export class EnderecoController {}
+@Controller('api/v1/endereco')
+@ApiTags('endereco')
+export class EnderecoController {
+  constructor(private readonly enderecoService: EnderecoService) {}
+
+  @Get(':id')
+  async getEnderecoById(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.enderecoService.findByUuid(id);
+  }
+}

@@ -2,8 +2,6 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreatePessoaDto } from './dto/createPessoaDto';
-import { SexoEnum } from './enum/sexoEnum';
 import { Pessoa } from '../entity/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { UpdatePessoaDto } from './dto/updatePessoaDto';
@@ -11,7 +9,10 @@ import {
   pessoaEntityListMock,
   pessoaEntityMockUpdated,
 } from '../../test/mocks/pessoaEntityMock';
-import { updatePessoaDtoMock } from '../../test/mocks/pessoaDtoMock';
+import {
+  createPessoaDtoMock,
+  updatePessoaDtoMock,
+} from '../../test/mocks/pessoaDtoMock';
 import { EnderecoService } from '../endereco/endereco.service';
 import { Endereco } from '../entity/endereco.entity';
 
@@ -117,14 +118,7 @@ describe('PessoaService', () => {
 
   describe('create pessoa', () => {
     it('deve dar erro na hora de criar uma pessoa', async () => {
-      const data: CreatePessoaDto = {
-        nome: 'Juliana',
-        sobrenome: 'Cintra',
-        cpfCnpj: '56655835453',
-        sexo: SexoEnum.FEMININO,
-        email: 'juliana.ncintra@outlook.com',
-        enderecos: [],
-      };
+      const data = createPessoaDtoMock;
 
       jest.spyOn(pessoaRepository, 'save').mockRejectedValueOnce(new Error());
 
@@ -133,14 +127,7 @@ describe('PessoaService', () => {
 
     it('deve criar uma pessoa com sucesso', async () => {
       // arrange
-      const data: CreatePessoaDto = {
-        nome: 'Juliana',
-        sobrenome: 'Cintra',
-        cpfCnpj: '56655835453',
-        sexo: SexoEnum.FEMININO,
-        email: 'juliana.ncintra@outlook.com',
-        enderecos: [],
-      };
+      const data = createPessoaDtoMock;
       // act
       const result = await pessoaService.create(data);
       // assert

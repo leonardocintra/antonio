@@ -10,45 +10,57 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Endereco } from './endereco.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class Pessoa {
   @PrimaryGeneratedColumn('uuid')
+  @ApiProperty()
   id: string;
 
   @Column({ length: 100 })
+  @ApiProperty()
   nome: string;
 
   @Column({ length: 100 })
+  @ApiProperty()
   sobrenome: string;
 
   @Column({
     unique: true,
     length: 14,
   })
+  @ApiProperty()
   cpfCnpj: string;
 
   @Column({ type: 'enum', enum: SexoEnum, default: SexoEnum.MASCULINO })
+  @ApiProperty()
   sexo: string;
 
   @Column({
     unique: true,
   })
+  @ApiProperty()
   email: string;
 
   @Column({ default: true })
+  @ApiProperty()
   ativo: boolean;
 
   @OneToMany(() => Endereco, (endereco) => endereco.pessoa)
+  @ApiProperty()
   enderecos: Endereco[];
 
   @CreateDateColumn({ name: 'created_at' })
+  @ApiProperty()
   createdAt: string;
 
   @UpdateDateColumn({ name: 'updated_at' })
+  @ApiProperty()
   updateddAt: string;
 
   @DeleteDateColumn({ name: 'deleted_at' })
+  @ApiProperty()
   deletedAt: string;
 
   constructor(pessoa?: Partial<Pessoa>) {
