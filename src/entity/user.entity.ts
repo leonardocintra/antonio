@@ -9,7 +9,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
-export class Usuario {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty()
   id: string;
@@ -44,14 +44,14 @@ export class Usuario {
   @ApiProperty()
   deletedAt: string;
 
-  constructor(usuario?: Partial<Usuario>) {
-    this.id = usuario?.id;
-    this.username = usuario?.username;
-    this.password = usuario?.password;
-    this.email = usuario?.email;
-    this.ativo = usuario?.ativo;
-    this.createdAt = usuario?.createdAt;
-    this.updateddAt = usuario?.updateddAt;
-    this.deletedAt = usuario?.deletedAt;
+  constructor(user?: Partial<User>) {
+    this.id = user?.id;
+    this.username = user?.username;
+    this.password = user?.password;
+    this.email = user?.email;
+    this.ativo = user?.ativo;
+    this.createdAt = user?.createdAt;
+    this.updateddAt = user?.updateddAt;
+    this.deletedAt = user?.deletedAt;
   }
 }
