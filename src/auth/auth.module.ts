@@ -10,4 +10,4 @@ import { LocalStrategy } from './local.strategy';
   controllers: [AuthController],
   imports: [UsersModule, PassportModule],
 })
-export class AuthModule { }
+export class AuthModule {}

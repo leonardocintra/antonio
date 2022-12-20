@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PessoaModule } from './pessoa/pessoa.module';
@@ -8,6 +8,7 @@ import { DataSource } from 'typeorm';
 import { Pessoa } from './entity/pessoa.entity';
 import { EnderecoModule } from './endereco/endereco.module';
 import { Endereco } from './entity/endereco.entity';
+import { User } from './entity/user.entity';
 
 @Module({
   imports: [
@@ -16,16 +17,15 @@ import { Endereco } from './entity/endereco.entity';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        // TODO: pegar parametros da .env que não esta funcionano aqui
-        type: 'mysql',
+        type: configService.get('DB_TYPE'),
         host: configService.get('DB_HOST'),
         port: Number(configService.get('DB_PORT')),
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: [Pessoa, Endereco],
+        entities: [Pessoa, Endereco, User],
         synchronize: true,
-      }),
+      } as TypeOrmModuleAsyncOptions),
     }),
     AuthModule,
     UsersModule,
@@ -36,5 +36,5 @@ import { Endereco } from './entity/endereco.entity';
   providers: [],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource) { }
 }
