@@ -6,7 +6,8 @@ import { PessoaService } from './pessoa.service';
 import { EnderecoModule } from '../endereco/endereco.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pessoa]), EnderecoModule],
+  imports: [
+    TypeOrmModule.forFeature([Pessoa]), EnderecoModule],
   controllers: [PessoaController],
   providers: [PessoaService],
 })

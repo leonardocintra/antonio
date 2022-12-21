@@ -9,6 +9,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QueryFailedError } from 'typeorm';
@@ -17,8 +18,10 @@ import { Pessoa } from '../entity/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { EnderecoService } from '../endereco/endereco.service';
 import { IndexPessoaSwagger } from './swagger/index-pessoa.swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('api/v1/pessoa')
+@UseGuards(JwtAuthGuard)
 @ApiTags('pessoa')
 export class PessoaController {
   constructor(

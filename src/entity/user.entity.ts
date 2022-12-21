@@ -10,7 +10,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { hashSync } from 'bcrypt';
 
-@Entity({ name: 'users'})
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty()

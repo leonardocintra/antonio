@@ -16,16 +16,17 @@ import { User } from './entity/user.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: configService.get('DB_TYPE'),
-        host: configService.get('DB_HOST'),
-        port: Number(configService.get('DB_PORT')),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_DATABASE'),
-        entities: [Pessoa, Endereco, User],
-        synchronize: true,
-      } as TypeOrmModuleAsyncOptions),
+      useFactory: (configService: ConfigService) =>
+        ({
+          type: configService.get('DB_TYPE'),
+          host: configService.get('DB_HOST'),
+          port: Number(configService.get('DB_PORT')),
+          username: configService.get('DB_USERNAME'),
+          password: configService.get('DB_PASSWORD'),
+          database: configService.get('DB_DATABASE'),
+          entities: [Pessoa, Endereco, User],
+          synchronize: true,
+        } as TypeOrmModuleAsyncOptions),
     }),
     AuthModule,
     UsersModule,
@@ -36,5 +37,5 @@ import { User } from './entity/user.entity';
   providers: [],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) { }
+  constructor(private dataSource: DataSource) {}
 }
