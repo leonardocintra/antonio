@@ -68,7 +68,14 @@ describe('PessoaController', () => {
       expect(result).toEqual(pessoaEntityListMock[1]);
       expect(pessoaService.create).toHaveBeenCalledTimes(1);
       // assert - espero que tenha chamado com um parametro especifico, nesse caso o body
-      expect(pessoaService.create).toHaveBeenCalledWith(body)
-    })
-  })
+      expect(pessoaService.create).toHaveBeenCalledWith(body);
+    });
+
+    it('deve retornar uma exception (geral)', () => {
+      const body = createPessoaDtoMock;
+      jest.spyOn(pessoaService, 'create').mockRejectedValueOnce(new Error());
+
+      expect(pessoaController.createPessoa(body)).rejects.toThrowError();
+    });
+  });
 });
