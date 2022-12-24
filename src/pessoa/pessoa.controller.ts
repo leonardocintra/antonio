@@ -65,9 +65,9 @@ export class PessoaController {
   @ApiOperation({ summary: 'Cadastrar uma pessoa' })
   @ApiResponse({ status: 201, description: 'Pessoa cadastrada com sucesso' })
   @ApiResponse({ status: 400, description: 'Dados inválidos no cadastro' })
-  async createPessoa(@Body() pessoa: CreatePessoaDto) {
+  async createPessoa(@Body() body: CreatePessoaDto) {
     try {
-      return await this.pessoaService.create(pessoa);
+      return await this.pessoaService.create(body);
     } catch (error) {
       if (error instanceof QueryFailedError) {
         throw new HttpException(

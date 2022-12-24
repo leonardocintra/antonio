@@ -11,7 +11,6 @@ import { CreateEnderecoDto } from '../../endereco/dto/createEnderecoDto';
 import { SexoEnum } from '../enum/sexoEnum';
 
 export class CreatePessoaDto {
-  
   @IsNotEmpty()
   @MaxLength(100)
   @ApiProperty()

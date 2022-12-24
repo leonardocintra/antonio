@@ -19,16 +19,18 @@ describe('AuthService', () => {
           provide: getRepositoryToken(User),
           useValue: {},
         },
-        JwtService
+        JwtService,
       ],
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
     userService = module.get<UsersService>(UsersService);
+    jwtService = module.get<JwtService>(JwtService);
   });
 
   it('should be defined', () => {
     expect(authService).toBeDefined();
     expect(userService).toBeDefined();
+    expect(jwtService).toBeDefined();
   });
 });
