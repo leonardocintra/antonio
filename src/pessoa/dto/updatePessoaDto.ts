@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, MaxLength, MinLength } from 'class-validator';
+import { SexoEnum } from '../enum/sexoEnum';
 
 export class UpdatePessoaDto {
   @IsNotEmpty()
@@ -17,6 +18,9 @@ export class UpdatePessoaDto {
   @MinLength(11)
   cpfCnpj: string;
 
+  @IsOptional()
+  @MaxLength(1)
+  @IsEnum(SexoEnum)
   sexo: string;
 
   @IsEmail()

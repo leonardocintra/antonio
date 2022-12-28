@@ -2,7 +2,9 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
+  IsOptional,
   MaxLength,
   MinLength,
   ValidateNested,
@@ -27,8 +29,10 @@ export class CreatePessoaDto {
   @ApiProperty()
   cpfCnpj: string;
 
-  @ApiPropertyOptional({ default: 'm' })
-  sexo: SexoEnum;
+  @IsOptional()
+  @MaxLength(1)
+  @IsEnum(SexoEnum)
+  sexo: string;
 
   @IsEmail()
   @ApiProperty()
