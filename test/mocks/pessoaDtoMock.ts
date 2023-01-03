@@ -1,6 +1,8 @@
 import { CreatePessoaDto } from '../../src/pessoa/dto/createPessoaDto';
 import { UpdatePessoaDto } from '../../src/pessoa/dto/updatePessoaDto';
 import { SexoEnum } from '../../src/pessoa/enum/sexoEnum';
+import { faker } from '@faker-js/faker';
+import { Util } from '../utils';
 
 export const updatePessoaDtoMock: UpdatePessoaDto = {
   id: '2d2a5822-5424-4030-9ab7-3a70a52d0843',
@@ -13,10 +15,10 @@ export const updatePessoaDtoMock: UpdatePessoaDto = {
 };
 
 export const createPessoaDtoMock: CreatePessoaDto = {
-  nome: 'Juliana',
-  sobrenome: 'Cintra',
-  cpfCnpj: '56655835453',
+  nome: faker.name.firstName(),
+  sobrenome: faker.name.lastName(),
+  cpfCnpj: Util.getRandomCPF(),
   sexo: SexoEnum.FEMININO,
-  email: 'juliana.ncintra@outlook.com',
+  email: faker.internet.email(),
   enderecos: [],
 };
