@@ -1,4 +1,4 @@
-import { SexoEnum } from '../pessoa/enum/sexoEnum';
+import { SexoEnum } from '../enum/sexoEnum';
 
 import {
   Entity,
@@ -9,9 +9,9 @@ import {
   DeleteDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Endereco } from './endereco.entity';
+import { Endereco } from '../../endereco/entity/endereco.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Telefone } from './telefone.entity';
+import { Telefone } from '../../telefone/entity/telefone.entity';
 
 @Entity()
 export class Pessoa {

@@ -7,7 +7,7 @@ import {
   DeleteDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { Pessoa } from './pessoa.entity';
+import { Pessoa } from '../../pessoa/entity/pessoa.entity';
 
 @Entity()
 export class Endereco {

@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Endereco } from '../entity/endereco.entity';
-import { Pessoa } from '../entity/pessoa.entity';
+import { Endereco } from './entity/endereco.entity';
+import { Pessoa } from '../pessoa/entity/pessoa.entity';
 import { CreateEnderecoDto } from './dto/createEnderecoDto';
 
 @Injectable()

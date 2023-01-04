@@ -5,12 +5,12 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { DataSource } from 'typeorm';
-import { Pessoa } from './entity/pessoa.entity';
+import { Pessoa } from './pessoa/entity/pessoa.entity';
 import { EnderecoModule } from './endereco/endereco.module';
-import { Endereco } from './entity/endereco.entity';
-import { User } from './entity/user.entity';
+import { Endereco } from './endereco/entity/endereco.entity';
+import { User } from './users/entity/user.entity';
 import { TelefoneModule } from './telefone/telefone.module';
-import { Telefone } from './entity/telefone.entity';
+import { Telefone } from './telefone/entity/telefone.entity';
 
 @Module({
   imports: [

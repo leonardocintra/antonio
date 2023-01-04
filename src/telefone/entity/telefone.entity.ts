@@ -8,8 +8,8 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { TelefoneTipo } from '../telefone/enum/telefoneTipoEnum';
-import { Pessoa } from './pessoa.entity';
+import { TelefoneTipo } from '../enum/telefoneTipoEnum';
+import { Pessoa } from '../../pessoa/entity/pessoa.entity';
 
 @Entity()
 export class Telefone {

@@ -7,7 +7,7 @@ API de dados pessoais
 
 ## Description
 
-Não precisem mais criar tabela de clientes, endereço em seus sitemas. Use o Catarina-API
+Não precisem mais criar tabela de clientes, empresas, endereço, telefones, etc em seus sitemas. Use o Catarina-API
 
 ## Installation
 
