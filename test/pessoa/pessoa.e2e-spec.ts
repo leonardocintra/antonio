@@ -345,13 +345,12 @@ describe('PessoaController (e2e)', () => {
     expect(response.body.message[0]).toEqual("sobrenome must be shorter than or equal to 100 characters")
   });
 
-  it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa sem endereço', async () => {
+  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ not send', async () => {
     const token = await fazerLogin();
 
-    const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName("female"),
+    const pessoa = {
       sobrenome: faker.name.lastName(),
-      cpfCnpj: Util.getRandomCPF(),
+      nome: faker.name.firstName(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
@@ -362,7 +361,161 @@ describe('PessoaController (e2e)', () => {
       .set('Authorization', 'Bearer ' + token)
       .send(pessoa);
 
-    console.log(response.body)
+    expect(response.body).toBeDefined();
+    expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+    expect(response.body.statusCode).toEqual(400)
+    expect(response.body.message).toHaveLength(3)
+    expect(response.body.message[0]).toEqual("cpfCnpj must be longer than or equal to 11 characters")
+    expect(response.body.message[1]).toEqual("cpfCnpj must be shorter than or equal to 14 characters")
+    expect(response.body.message[2]).toEqual("cpfCnpj should not be empty")
+  });
+
+  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ null', async () => {
+    const token = await fazerLogin();
+
+    const pessoa: CreatePessoaDto = {
+      sobrenome: faker.name.lastName(),
+      nome: faker.name.firstName(),
+      cpfCnpj: null,
+      sexo: SexoEnum.FEMININO,
+      email: faker.internet.email(),
+      enderecos: [],
+    };
+
+    const response = await request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + token)
+      .send(pessoa);
+
+    expect(response.body).toBeDefined();
+    expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+    expect(response.body.statusCode).toEqual(400)
+    expect(response.body.message).toHaveLength(3)
+    expect(response.body.message[0]).toEqual("cpfCnpj must be longer than or equal to 11 characters")
+    expect(response.body.message[1]).toEqual("cpfCnpj must be shorter than or equal to 14 characters")
+    expect(response.body.message[2]).toEqual("cpfCnpj should not be empty")
+  });
+
+  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ empty', async () => {
+    const token = await fazerLogin();
+
+    const pessoa: CreatePessoaDto = {
+      sobrenome: faker.name.lastName(),
+      nome: faker.name.firstName(),
+      cpfCnpj: '',
+      sexo: SexoEnum.FEMININO,
+      email: faker.internet.email(),
+      enderecos: [],
+    };
+
+    const response = await request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + token)
+      .send(pessoa);
+
+    expect(response.body).toBeDefined();
+    expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+    expect(response.body.statusCode).toEqual(400)
+    expect(response.body.message).toHaveLength(2)
+    expect(response.body.message[0]).toEqual("cpfCnpj must be longer than or equal to 11 characters")
+    expect(response.body.message[1]).toEqual("cpfCnpj should not be empty")
+  });
+
+  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ mais que 100 caracteres', async () => {
+    const token = await fazerLogin();
+
+    const pessoa: CreatePessoaDto = {
+      nome: faker.name.firstName(),
+      sobrenome: faker.name.lastName(),
+      cpfCnpj: 'Util.getRandomCPF()33333333333333333333333',
+      sexo: SexoEnum.MASCULINO,
+      email: faker.internet.email(),
+      enderecos: [],
+    };
+
+    const response = await request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + token)
+      .send(pessoa);
+
+    expect(response.body).toBeDefined();
+    expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+    expect(response.body.statusCode).toEqual(400)
+    expect(response.body.message).toHaveLength(1)
+    expect(response.body.message[0]).toEqual("cpfCnpj must be shorter than or equal to 14 characters")
+  });
+
+  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ duplicado', async () => {
+    const token = await fazerLogin();
+
+    const cpfUnico = Util.getRandomCPF()
+
+    const pessoa1: CreatePessoaDto = {
+      nome: faker.name.firstName("female"),
+      sobrenome: faker.name.lastName(),
+      cpfCnpj: cpfUnico,
+      sexo: SexoEnum.FEMININO,
+      email: faker.internet.email('example.fakerjs.dev'),
+      enderecos: [],
+    };
+
+    const pessoa2: CreatePessoaDto = {
+      nome: faker.name.firstName("female"),
+      sobrenome: faker.name.lastName(),
+      cpfCnpj: cpfUnico,
+      sexo: SexoEnum.FEMININO,
+      email: faker.internet.email('example.fakerjs.dev'),
+      enderecos: [],
+    };
+
+    const response1 = await request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + token)
+      .send(pessoa1);
+
+    expect(response1.status).toEqual(HttpStatus.CREATED);
+    expect(response1.body).toBeDefined();
+    expect(response1.body.id).toMatch(
+      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
+    );
+    expect(response1.body.nome).not.toBeNull();
+    expect(response1.body.sobrenome).not.toBeNull();
+    expect(response1.body.cpfCnpj).not.toBeNull();
+    expect(response1.body.sexo).not.toBeNull();
+    expect(response1.body.ativo).not.toBeNull();
+    expect(response1.body.email).not.toBeNull();
+    expect(response1.body.enderecos).toHaveLength(0);
+
+    const response2 = await request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + token)
+      .send(pessoa1);
+
+    console.log(response2.body)
+
+    expect(response2.status).toEqual(HttpStatus.BAD_REQUEST);
+    expect(response2.body).toBeDefined();
+    expect(response2.body.status).toEqual(400)
+    expect(response2.body.error).toContain('Duplicate entry')
+
+  });
+
+  it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa sem endereço', async () => {
+    const token = await fazerLogin();
+
+    const pessoa: CreatePessoaDto = {
+      nome: faker.name.firstName("female"),
+      sobrenome: faker.name.lastName(),
+      cpfCnpj: Util.getRandomCPF(),
+      sexo: SexoEnum.FEMININO,
+      email: faker.internet.email('example.fakerjs.dev'),
+      enderecos: [],
+    };
+
+    const response = await request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + token)
+      .send(pessoa);
 
     expect(response.status).toEqual(HttpStatus.CREATED);
     expect(response.body).toBeDefined();
