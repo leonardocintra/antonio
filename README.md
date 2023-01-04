@@ -2,7 +2,7 @@
 API de dados pessoais
 - Dados pessoas
 - Dados endereco
-- Dados telefone (todo)
+- Dados telefone
 
 
 ## Description

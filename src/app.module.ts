@@ -9,6 +9,8 @@ import { Pessoa } from './entity/pessoa.entity';
 import { EnderecoModule } from './endereco/endereco.module';
 import { Endereco } from './entity/endereco.entity';
 import { User } from './entity/user.entity';
+import { TelefoneModule } from './telefone/telefone.module';
+import { Telefone } from './entity/telefone.entity';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { User } from './entity/user.entity';
           username: configService.get('DB_USERNAME'),
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB_DATABASE'),
-          entities: [Pessoa, Endereco, User],
+          entities: [Pessoa, Endereco, User, Telefone],
           synchronize: true,
         } as TypeOrmModuleAsyncOptions),
     }),
@@ -32,6 +34,7 @@ import { User } from './entity/user.entity';
     UsersModule,
     PessoaModule,
     EnderecoModule,
+    TelefoneModule,
   ],
   controllers: [],
   providers: [],

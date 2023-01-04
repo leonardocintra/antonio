@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Endereco } from './endereco.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Telefone } from './telefone.entity';
 
 @Entity()
 export class Pessoa {
@@ -50,6 +51,10 @@ export class Pessoa {
   @OneToMany(() => Endereco, (endereco) => endereco.pessoa)
   @ApiProperty()
   enderecos: Endereco[];
+
+  @OneToMany(() => Telefone, (telefone) => telefone.pessoa)
+  @ApiProperty()
+  telefones: Telefone[];
 
   @CreateDateColumn({ name: 'created_at' })
   @ApiProperty()

@@ -12,6 +12,7 @@ describe('PessoaController (e2e)', () => {
   const BASE_PATH = '/api/v1/pessoa';
 
   async function fazerLogin() {
+    // TODO: precisa criar o usuario primeiro
     const loginResponse = await request(app.getHttpServer())
       .post('/api/auth/login')
       .send({ username: 'leonardo', password: 'C7jwurrnleo#' })
@@ -31,6 +32,10 @@ describe('PessoaController (e2e)', () => {
       new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
     );
     await app.init();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   it('/api/v1/pessoa (GET - 401) - Unauthorized', async () => {
@@ -60,7 +65,7 @@ describe('PessoaController (e2e)', () => {
     const token = await fazerLogin();
 
     const pessoa = {
-      nome: faker.name.firstName("female"),
+      nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
@@ -74,16 +79,16 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(1)
-    expect(response.body.message[0]).toEqual("email must be an email")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(1);
+    expect(response.body.message[0]).toEqual('email must be an email');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email null', async () => {
     const token = await fazerLogin();
 
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName("female"),
+      nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
@@ -98,16 +103,16 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(1)
-    expect(response.body.message[0]).toEqual("email must be an email")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(1);
+    expect(response.body.message[0]).toEqual('email must be an email');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email empty', async () => {
     const token = await fazerLogin();
 
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName("female"),
+      nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
@@ -122,16 +127,16 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(1)
-    expect(response.body.message[0]).toEqual("email must be an email")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(1);
+    expect(response.body.message[0]).toEqual('email must be an email');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email invalid', async () => {
     const token = await fazerLogin();
 
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName("female"),
+      nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
@@ -146,9 +151,9 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(1)
-    expect(response.body.message[0]).toEqual("email must be an email")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(1);
+    expect(response.body.message[0]).toEqual('email must be an email');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome not send', async () => {
@@ -169,10 +174,12 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(2)
-    expect(response.body.message[0]).toEqual("nome must be shorter than or equal to 100 characters")
-    expect(response.body.message[1]).toEqual("nome should not be empty")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(2);
+    expect(response.body.message[0]).toEqual(
+      'nome must be shorter than or equal to 100 characters',
+    );
+    expect(response.body.message[1]).toEqual('nome should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome null', async () => {
@@ -194,10 +201,12 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(2)
-    expect(response.body.message[0]).toEqual("nome must be shorter than or equal to 100 characters")
-    expect(response.body.message[1]).toEqual("nome should not be empty")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(2);
+    expect(response.body.message[0]).toEqual(
+      'nome must be shorter than or equal to 100 characters',
+    );
+    expect(response.body.message[1]).toEqual('nome should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome empty', async () => {
@@ -219,9 +228,9 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(1)
-    expect(response.body.message[0]).toEqual("nome should not be empty")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(1);
+    expect(response.body.message[0]).toEqual('nome should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome mais que 100 caracteres', async () => {
@@ -243,9 +252,11 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(1)
-    expect(response.body.message[0]).toEqual("nome must be shorter than or equal to 100 characters")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(1);
+    expect(response.body.message[0]).toEqual(
+      'nome must be shorter than or equal to 100 characters',
+    );
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome not send', async () => {
@@ -266,10 +277,12 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(2)
-    expect(response.body.message[0]).toEqual("sobrenome must be shorter than or equal to 100 characters")
-    expect(response.body.message[1]).toEqual("sobrenome should not be empty")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(2);
+    expect(response.body.message[0]).toEqual(
+      'sobrenome must be shorter than or equal to 100 characters',
+    );
+    expect(response.body.message[1]).toEqual('sobrenome should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome null', async () => {
@@ -291,10 +304,12 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(2)
-    expect(response.body.message[0]).toEqual("sobrenome must be shorter than or equal to 100 characters")
-    expect(response.body.message[1]).toEqual("sobrenome should not be empty")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(2);
+    expect(response.body.message[0]).toEqual(
+      'sobrenome must be shorter than or equal to 100 characters',
+    );
+    expect(response.body.message[1]).toEqual('sobrenome should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome empty', async () => {
@@ -316,16 +331,17 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(1)
-    expect(response.body.message[0]).toEqual("sobrenome should not be empty")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(1);
+    expect(response.body.message[0]).toEqual('sobrenome should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome mais que 100 caracteres', async () => {
     const token = await fazerLogin();
 
     const pessoa: CreatePessoaDto = {
-      sobrenome: 'aaaaaaaaaaaaaaadddddddddddd kkkkkkkkkkkkkkkkkkkkkkk dddddddddddd oooooooooooooooo oooooooooooooooo ppppppppppppp ccccccccc',
+      sobrenome:
+        'aaaaaaaaaaaaaaadddddddddddd kkkkkkkkkkkkkkkkkkkkkkk dddddddddddd oooooooooooooooo oooooooooooooooo ppppppppppppp ccccccccc',
       nome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
@@ -340,9 +356,11 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(1)
-    expect(response.body.message[0]).toEqual("sobrenome must be shorter than or equal to 100 characters")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(1);
+    expect(response.body.message[0]).toEqual(
+      'sobrenome must be shorter than or equal to 100 characters',
+    );
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ not send', async () => {
@@ -363,11 +381,15 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(3)
-    expect(response.body.message[0]).toEqual("cpfCnpj must be longer than or equal to 11 characters")
-    expect(response.body.message[1]).toEqual("cpfCnpj must be shorter than or equal to 14 characters")
-    expect(response.body.message[2]).toEqual("cpfCnpj should not be empty")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(3);
+    expect(response.body.message[0]).toEqual(
+      'cpfCnpj must be longer than or equal to 11 characters',
+    );
+    expect(response.body.message[1]).toEqual(
+      'cpfCnpj must be shorter than or equal to 14 characters',
+    );
+    expect(response.body.message[2]).toEqual('cpfCnpj should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ null', async () => {
@@ -389,11 +411,15 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(3)
-    expect(response.body.message[0]).toEqual("cpfCnpj must be longer than or equal to 11 characters")
-    expect(response.body.message[1]).toEqual("cpfCnpj must be shorter than or equal to 14 characters")
-    expect(response.body.message[2]).toEqual("cpfCnpj should not be empty")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(3);
+    expect(response.body.message[0]).toEqual(
+      'cpfCnpj must be longer than or equal to 11 characters',
+    );
+    expect(response.body.message[1]).toEqual(
+      'cpfCnpj must be shorter than or equal to 14 characters',
+    );
+    expect(response.body.message[2]).toEqual('cpfCnpj should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ empty', async () => {
@@ -415,10 +441,12 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(2)
-    expect(response.body.message[0]).toEqual("cpfCnpj must be longer than or equal to 11 characters")
-    expect(response.body.message[1]).toEqual("cpfCnpj should not be empty")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(2);
+    expect(response.body.message[0]).toEqual(
+      'cpfCnpj must be longer than or equal to 11 characters',
+    );
+    expect(response.body.message[1]).toEqual('cpfCnpj should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ mais que 100 caracteres', async () => {
@@ -440,18 +468,20 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400)
-    expect(response.body.message).toHaveLength(1)
-    expect(response.body.message[0]).toEqual("cpfCnpj must be shorter than or equal to 14 characters")
+    expect(response.body.statusCode).toEqual(400);
+    expect(response.body.message).toHaveLength(1);
+    expect(response.body.message[0]).toEqual(
+      'cpfCnpj must be shorter than or equal to 14 characters',
+    );
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ duplicado', async () => {
     const token = await fazerLogin();
 
-    const cpfUnico = Util.getRandomCPF()
+    const cpfUnico = Util.getRandomCPF();
 
     const pessoa1: CreatePessoaDto = {
-      nome: faker.name.firstName("female"),
+      nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
       cpfCnpj: cpfUnico,
       sexo: SexoEnum.FEMININO,
@@ -460,7 +490,7 @@ describe('PessoaController (e2e)', () => {
     };
 
     const pessoa2: CreatePessoaDto = {
-      nome: faker.name.firstName("female"),
+      nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
       cpfCnpj: cpfUnico,
       sexo: SexoEnum.FEMININO,
@@ -489,22 +519,19 @@ describe('PessoaController (e2e)', () => {
     const response2 = await request(app.getHttpServer())
       .post(BASE_PATH)
       .set('Authorization', 'Bearer ' + token)
-      .send(pessoa1);
-
-    console.log(response2.body)
+      .send(pessoa2);
 
     expect(response2.status).toEqual(HttpStatus.BAD_REQUEST);
     expect(response2.body).toBeDefined();
-    expect(response2.body.status).toEqual(400)
-    expect(response2.body.error).toContain('Duplicate entry')
-
+    expect(response2.body.status).toEqual(400);
+    expect(response2.body.error).toContain('Duplicate entry');
   });
 
   it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa sem endereço', async () => {
     const token = await fazerLogin();
 
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName("female"),
+      nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,

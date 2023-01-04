@@ -1,0 +1,68 @@
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  ManyToOne,
+} from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { TelefoneTipo } from '../telefone/enum/telefoneTipoEnum';
+import { Pessoa } from './pessoa.entity';
+
+@Entity()
+export class Telefone {
+  @PrimaryGeneratedColumn('uuid')
+  @ApiProperty()
+  id: string;
+
+  @Column({ length: 3 })
+  @ApiProperty()
+  area: string;
+
+  @Column({ length: 9 })
+  @ApiProperty()
+  number: string;
+
+  @Column({
+    type: 'enum',
+    enum: TelefoneTipo,
+    default: TelefoneTipo.MOBILE,
+  })
+  @ApiProperty()
+  tipo: string;
+
+  @Column({ default: true })
+  @ApiProperty()
+  ativo: boolean;
+
+  @CreateDateColumn({ name: 'created_at' })
+  @ApiProperty()
+  createdAt: string;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  @ApiProperty()
+  updateddAt: string;
+
+  @DeleteDateColumn({ name: 'deleted_at' })
+  @ApiProperty()
+  deletedAt: string;
+
+  @ManyToOne(() => Pessoa, (pessoa) => pessoa.telefones, {
+    nullable: false,
+    cascade: true,
+  })
+  pessoa: Pessoa;
+
+  constructor(telefone?: Partial<Telefone>) {
+    this.id = telefone?.id;
+    this.area = telefone?.area;
+    this.number = telefone?.number;
+    this.tipo = telefone?.tipo;
+    this.ativo = telefone?.ativo;
+    this.createdAt = telefone?.createdAt;
+    this.updateddAt = telefone?.updateddAt;
+    this.deletedAt = telefone?.deletedAt;
+  }
+}
