@@ -5,6 +5,7 @@ import { CreatePessoaDto } from './dto/createPessoaDto';
 import { UpdatePessoaDto } from './dto/updatePessoaDto';
 import { Pessoa } from './entity/pessoa.entity';
 import { EnderecoService } from '../endereco/endereco.service';
+import { TelefoneService } from '../telefone/telefone.service';
 
 @Injectable()
 export class PessoaService {
@@ -14,7 +15,8 @@ export class PessoaService {
     @InjectRepository(Pessoa)
     private readonly pessoaRepository: Repository<Pessoa>,
     private readonly enderecoService: EnderecoService,
-  ) {}
+    private readonly telefoneService: TelefoneService,
+  ) { }
 
   async findAll(): Promise<Pessoa[]> {
     return await this.pessoaRepository.find();
@@ -39,6 +41,13 @@ export class PessoaService {
       pessoa.enderecos.map(async (e) => {
         const enderecoSaved = await this.enderecoService.create(e, pessoaSaved);
         pessoaSaved.enderecos.push(enderecoSaved);
+      });
+    }
+
+    if (pessoa.telefones) {
+      pessoa.telefones.map(async (t) => {
+        const telefoneSaved = await this.telefoneService.create(t, pessoaSaved);
+        pessoaSaved.telefones.push(telefoneSaved);
       });
     }
     return pessoaSaved;

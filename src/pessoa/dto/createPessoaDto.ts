@@ -10,6 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { CreateEnderecoDto } from '../../endereco/dto/createEnderecoDto';
+import { CreateTefoneDto } from '../../telefone/dto/createTelefoneDto';
 import { SexoEnum } from '../enum/sexoEnum';
 
 export class CreatePessoaDto {
@@ -42,4 +43,9 @@ export class CreatePessoaDto {
   @Type(() => CreateEnderecoDto)
   @ApiProperty()
   enderecos: CreateEnderecoDto[];
+
+  @ValidateNested()
+  @Type(() => CreateTefoneDto)
+  @ApiProperty()
+  telefones: CreateTefoneDto[];
 }

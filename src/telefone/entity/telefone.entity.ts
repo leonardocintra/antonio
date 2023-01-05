@@ -22,7 +22,7 @@ export class Telefone {
 
   @Column({ length: 9 })
   @ApiProperty()
-  number: string;
+  numero: string;
 
   @Column({
     type: 'enum',
@@ -54,7 +54,7 @@ export class Telefone {
   constructor(telefone?: Partial<Telefone>) {
     this.id = telefone?.id;
     this.area = telefone?.area;
-    this.number = telefone?.number;
+    this.numero = telefone?.numero;
     this.tipo = telefone?.tipo;
     this.ativo = telefone?.ativo;
     this.createdAt = telefone?.createdAt;
