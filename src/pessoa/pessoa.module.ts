@@ -9,5 +9,6 @@ import { EnderecoModule } from '../endereco/endereco.module';
   imports: [TypeOrmModule.forFeature([Pessoa]), EnderecoModule],
   controllers: [PessoaController],
   providers: [PessoaService],
+  exports: [PessoaService],
 })
 export class PessoaModule {}

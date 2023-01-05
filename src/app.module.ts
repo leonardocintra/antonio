@@ -11,6 +11,7 @@ import { Endereco } from './endereco/entity/endereco.entity';
 import { User } from './users/entity/user.entity';
 import { TelefoneModule } from './telefone/telefone.module';
 import { Telefone } from './telefone/entity/telefone.entity';
+import { PessoaEnderecoModule } from './pessoa-endereco/pessoa-endereco.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { Telefone } from './telefone/entity/telefone.entity';
     PessoaModule,
     EnderecoModule,
     TelefoneModule,
+    PessoaEnderecoModule,
   ],
   controllers: [],
   providers: [],
