@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Pessoa } from '../../pessoa/entity/pessoa.entity';
 
@@ -43,8 +44,9 @@ export class Endereco {
 
   @ManyToOne(() => Pessoa, (pessoa) => pessoa.enderecos, {
     nullable: false,
-    cascade: true,
+    onDelete: 'CASCADE'
   })
+  @JoinColumn()
   pessoa: Pessoa;
 
   @CreateDateColumn({ name: 'created_at' })

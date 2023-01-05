@@ -85,18 +85,4 @@ export class PessoaController {
       }
     }
   }
-
-  @Get(':id/enderecos')
-  @ApiOperation({
-    summary: 'Busca enderecos cadastrado de uma pessoa especifica',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Lista dados de endereço de uma pessoa',
-  })
-  @ApiResponse({ status: 404, description: 'Pessoa não encontrada' })
-  async getEnderecoByPessoaId(@Param('id', new ParseUUIDPipe()) id: string) {
-    const pessoa = await this.pessoaService.findByUuid(id);
-    return this.enderecoService.findByPessoa(pessoa);
-  }
 }

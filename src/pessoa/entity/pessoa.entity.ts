@@ -48,7 +48,7 @@ export class Pessoa {
   @ApiProperty()
   ativo: boolean;
 
-  @OneToMany(() => Endereco, (endereco) => endereco.pessoa)
+  @OneToMany(() => Endereco, (endereco) => endereco.pessoa, { cascade: ['remove']})
   @ApiProperty()
   enderecos: Endereco[];
 
@@ -64,10 +64,6 @@ export class Pessoa {
   @ApiProperty()
   updateddAt: string;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
-  @ApiProperty()
-  deletedAt: string;
-
   constructor(pessoa?: Partial<Pessoa>) {
     this.id = pessoa?.id;
     this.nome = pessoa?.nome;
@@ -79,6 +75,5 @@ export class Pessoa {
     this.enderecos = pessoa?.enderecos;
     this.createdAt = pessoa?.createdAt;
     this.updateddAt = pessoa?.updateddAt;
-    this.deletedAt = pessoa?.deletedAt;
   }
 }

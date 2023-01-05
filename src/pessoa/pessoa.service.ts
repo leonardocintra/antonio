@@ -53,6 +53,6 @@ export class PessoaService {
 
   async deleteByUuid(id: string) {
     await this.findByUuid(id);
-    await this.pessoaRepository.softDelete(id);
+    await this.pessoaRepository.delete(id);
   }
 }

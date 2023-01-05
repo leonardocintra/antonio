@@ -36,7 +36,7 @@ describe('PessoaService', () => {
             create: jest.fn(),
             save: jest.fn(),
             merge: jest.fn(),
-            softDelete: jest.fn(),
+            delete: jest.fn(),
           },
         },
         PessoaService,
@@ -50,7 +50,7 @@ describe('PessoaService', () => {
             create: jest.fn().mockReturnValue(pessoaEntityListMock[1]),
             save: jest.fn().mockReturnValue(pessoaEntityListMock[1]),
             merge: jest.fn().mockReturnValue(pessoaEntityMockUpdated),
-            softDelete: jest.fn().mockReturnValue(undefined),
+            delete: jest.fn().mockReturnValue(undefined),
           },
         },
       ],
@@ -183,7 +183,7 @@ describe('PessoaService', () => {
   describe('delete pessoa', () => {
     it('deve dar exception quando ocorrer um erro ao salvar', async () => {
       jest
-        .spyOn(pessoaRepository, 'softDelete')
+        .spyOn(pessoaRepository, 'delete')
         .mockRejectedValueOnce(new Error());
 
       expect(pessoaService.deleteByUuid('32')).rejects.toThrowError();
@@ -205,7 +205,7 @@ describe('PessoaService', () => {
 
       // assert
       expect(result).toBeUndefined();
-      expect(pessoaRepository.softDelete).toBeCalledTimes(1);
+      expect(pessoaRepository.delete).toBeCalledTimes(1);
       expect(pessoaRepository.findOneByOrFail).toBeCalledTimes(1);
     });
   });

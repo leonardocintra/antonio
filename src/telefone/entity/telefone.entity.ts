@@ -4,7 +4,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
   ManyToOne,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
@@ -45,13 +44,10 @@ export class Telefone {
   @ApiProperty()
   updateddAt: string;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
-  @ApiProperty()
-  deletedAt: string;
-
   @ManyToOne(() => Pessoa, (pessoa) => pessoa.telefones, {
     nullable: false,
-    cascade: true,
+    cascade: ['remove'],
+    onDelete: 'CASCADE'
   })
   pessoa: Pessoa;
 
@@ -63,6 +59,5 @@ export class Telefone {
     this.ativo = telefone?.ativo;
     this.createdAt = telefone?.createdAt;
     this.updateddAt = telefone?.updateddAt;
-    this.deletedAt = telefone?.deletedAt;
   }
 }
