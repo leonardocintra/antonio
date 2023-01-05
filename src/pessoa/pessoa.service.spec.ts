@@ -182,9 +182,7 @@ describe('PessoaService', () => {
 
   describe('delete pessoa', () => {
     it('deve dar exception quando ocorrer um erro ao salvar', async () => {
-      jest
-        .spyOn(pessoaRepository, 'delete')
-        .mockRejectedValueOnce(new Error());
+      jest.spyOn(pessoaRepository, 'delete').mockRejectedValueOnce(new Error());
 
       expect(pessoaService.deleteByUuid('32')).rejects.toThrowError();
     });

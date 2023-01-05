@@ -47,7 +47,7 @@ export class Telefone {
   @ManyToOne(() => Pessoa, (pessoa) => pessoa.telefones, {
     nullable: false,
     cascade: ['remove'],
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   pessoa: Pessoa;
 

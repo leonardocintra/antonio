@@ -69,6 +69,9 @@
     "typescript": "^4.7.4"
   },
   "jest": {
+    "coveragePathIgnorePatterns": [
+      ".module.ts"
+    ],
     "moduleFileExtensions": [
       "js",
       "json",

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateEnderecoDto } from '../endereco/dto/createEnderecoDto';
@@ -9,7 +17,7 @@ import { PessoaEnderecoService } from './pessoa-endereco.service';
 @UseGuards(JwtAuthGuard)
 @ApiTags('pessoa-endereco')
 export class PessoaEnderecoController {
-  constructor(private readonly pessoaEnderecoService: PessoaEnderecoService) { }
+  constructor(private readonly pessoaEnderecoService: PessoaEnderecoService) {}
 
   @Get(':id')
   @ApiOperation({
@@ -20,7 +28,9 @@ export class PessoaEnderecoController {
     description: 'Lista dados de endereço de uma pessoa',
   })
   @ApiResponse({ status: 404, description: 'Pessoa não encontrada' })
-  async getEnderecoByPessoaId(@Param('id', new ParseUUIDPipe()) id: string): Promise<Endereco[]> {
+  async getEnderecoByPessoaId(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<Endereco[]> {
     return await this.pessoaEnderecoService.getEnderecoByPessoa(id);
   }
 

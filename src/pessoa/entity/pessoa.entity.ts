@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
   OneToMany,
 } from 'typeorm';
 import { Endereco } from '../../endereco/entity/endereco.entity';
@@ -48,7 +47,9 @@ export class Pessoa {
   @ApiProperty()
   ativo: boolean;
 
-  @OneToMany(() => Endereco, (endereco) => endereco.pessoa, { cascade: ['remove']})
+  @OneToMany(() => Endereco, (endereco) => endereco.pessoa, {
+    cascade: ['remove'],
+  })
   @ApiProperty()
   enderecos: Endereco[];
 

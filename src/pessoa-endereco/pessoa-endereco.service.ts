@@ -10,7 +10,7 @@ export class PessoaEnderecoService {
   constructor(
     private readonly pessoaService: PessoaService,
     private readonly enderecoService: EnderecoService,
-  ) { }
+  ) {}
 
   async getEnderecoByPessoa(pessoaId: string): Promise<Endereco[]> {
     const pessoa = await this.getPessoaByUuid(pessoaId);

@@ -44,7 +44,7 @@ export class Endereco {
 
   @ManyToOne(() => Pessoa, (pessoa) => pessoa.enderecos, {
     nullable: false,
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   pessoa: Pessoa;
