@@ -8,6 +8,6 @@ import { Telefone } from './entity/telefone.entity';
   imports: [TypeOrmModule.forFeature([Telefone])],
   providers: [TelefoneService],
   controllers: [TelefoneController],
-  exports: [TelefoneService]
+  exports: [TelefoneService],
 })
-export class TelefoneModule { }
+export class TelefoneModule {}

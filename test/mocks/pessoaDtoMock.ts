@@ -21,4 +21,42 @@ export const createPessoaDtoMock: CreatePessoaDto = {
   sexo: SexoEnum.FEMININO,
   email: faker.internet.email(),
   enderecos: [],
+  telefones: [],
+};
+
+export const createPessoaEnderecoTelefoneDtoMock: CreatePessoaDto = {
+  nome: faker.name.firstName(),
+  sobrenome: faker.name.lastName(),
+  cpfCnpj: Util.getRandomCPF(),
+  sexo: SexoEnum.FEMININO,
+  email: faker.internet.email(),
+  enderecos: [
+    {
+      bairro: faker.address.streetName(),
+      cep: faker.address.zipCode('########'),
+      cidade: faker.address.cityName(),
+      uf: faker.address.stateAbbr(),
+      complemento: 'CASA',
+      referencia: faker.music.genre(),
+      endereco: faker.address.street(),
+      numero: faker.address.buildingNumber(),
+    },
+    {
+      bairro: faker.address.streetName(),
+      cep: faker.address.zipCode('########'),
+      cidade: faker.address.cityName(),
+      uf: faker.address.stateAbbr(),
+      complemento: 'AP 11 Bloco 10',
+      referencia: faker.music.genre(),
+      endereco: faker.address.street(),
+      numero: faker.address.buildingNumber(),
+    },
+  ],
+  telefones: [
+    {
+      area: faker.phone.number('##'),
+      numero: faker.phone.number('########'),
+      tipo: 'mobile',
+    },
+  ],
 };

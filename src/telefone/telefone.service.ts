@@ -7,14 +7,14 @@ import { Telefone } from './entity/telefone.entity';
 
 @Injectable()
 export class TelefoneService {
-    constructor(
-        @InjectRepository(Telefone)
-        private readonly telefoneRepository: Repository<Telefone>
-    ) { }
+  constructor(
+    @InjectRepository(Telefone)
+    private readonly telefoneRepository: Repository<Telefone>,
+  ) {}
 
-    async create(telefone: CreateTefoneDto, pessoa: Pessoa) {
-        const telefoneCreated = this.telefoneRepository.create(telefone)
-        telefoneCreated.pessoa = pessoa;
-        return await this.telefoneRepository.save(telefoneCreated);
-    }
+  async create(telefone: CreateTefoneDto, pessoa: Pessoa) {
+    const telefoneCreated = this.telefoneRepository.create(telefone);
+    telefoneCreated.pessoa = pessoa;
+    return await this.telefoneRepository.save(telefoneCreated);
+  }
 }

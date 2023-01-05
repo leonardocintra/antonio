@@ -16,7 +16,7 @@ export class PessoaService {
     private readonly pessoaRepository: Repository<Pessoa>,
     private readonly enderecoService: EnderecoService,
     private readonly telefoneService: TelefoneService,
-  ) { }
+  ) {}
 
   async findAll(): Promise<Pessoa[]> {
     return await this.pessoaRepository.find();

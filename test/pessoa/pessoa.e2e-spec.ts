@@ -70,6 +70,7 @@ describe('PessoaController (e2e)', () => {
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -94,6 +95,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: null,
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -118,6 +120,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: '',
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -142,6 +145,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: 'invalid',
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -165,6 +169,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -192,6 +197,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -219,6 +225,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -243,6 +250,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -268,6 +276,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -295,6 +304,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -322,6 +332,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -347,6 +358,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -372,6 +384,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -402,6 +415,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -432,6 +446,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -459,6 +474,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.MASCULINO,
       email: faker.internet.email(),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
@@ -487,6 +503,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email('example.fakerjs.dev'),
       enderecos: [],
+      telefones: [],
     };
 
     const pessoa2: CreatePessoaDto = {
@@ -496,6 +513,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email('example.fakerjs.dev'),
       enderecos: [],
+      telefones: [],
     };
 
     const response1 = await request(app.getHttpServer())
@@ -537,6 +555,7 @@ describe('PessoaController (e2e)', () => {
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email('example.fakerjs.dev'),
       enderecos: [],
+      telefones: [],
     };
 
     const response = await request(app.getHttpServer())
