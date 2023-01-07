@@ -9,9 +9,9 @@ import { CronService } from './cron/cron.service';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  imports: [HttpModule, TypeOrmModule.forFeature([Pessoa]), EnderecoModule, TelefoneModule],
+  imports: [TypeOrmModule.forFeature([Pessoa]), EnderecoModule, TelefoneModule, HttpModule],
   controllers: [PessoaController],
   providers: [PessoaService, CronService],
   exports: [PessoaService],
 })
-export class PessoaModule { }
+export class PessoaModule {}

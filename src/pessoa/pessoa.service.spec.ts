@@ -15,21 +15,28 @@ import {
 } from '../../test/mocks/pessoaDtoMock';
 import { EnderecoService } from '../endereco/endereco.service';
 import { Endereco } from '../endereco/entity/endereco.entity';
+import { TelefoneService } from '../telefone/telefone.service';
+import { Telefone } from '../telefone/entity/telefone.entity';
 
 describe('PessoaService', () => {
   let pessoaService: PessoaService;
   let enderecoService: EnderecoService;
+  let telefoneService: TelefoneService;
   let pessoaRepository: Repository<Pessoa>;
 
   const GET_REPOSITORY_TOKEN_PESSOA = getRepositoryToken(Pessoa);
-  const GET_REPOSITORY_TOKEN_ENDERECO = getRepositoryToken(Endereco);
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
+        TelefoneService,
+        {
+          provide: getRepositoryToken(Telefone),
+          useValue: {},
+        },
         EnderecoService,
         {
-          provide: GET_REPOSITORY_TOKEN_ENDERECO,
+          provide: getRepositoryToken(Endereco),
           useValue: {
             find: jest.fn(),
             findOneByOrFail: jest.fn(),
@@ -58,6 +65,7 @@ describe('PessoaService', () => {
 
     pessoaService = module.get<PessoaService>(PessoaService);
     enderecoService = module.get<EnderecoService>(EnderecoService);
+    telefoneService = module.get<TelefoneService>(TelefoneService);
     pessoaRepository = module.get<Repository<Pessoa>>(
       GET_REPOSITORY_TOKEN_PESSOA,
     );
@@ -67,6 +75,7 @@ describe('PessoaService', () => {
     expect(pessoaService).toBeDefined();
     expect(enderecoService).toBeDefined();
     expect(pessoaRepository).toBeDefined();
+    expect(telefoneService).toBeDefined();
   });
 
   describe('findAll pessoas', () => {

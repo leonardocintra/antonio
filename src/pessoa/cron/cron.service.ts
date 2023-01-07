@@ -2,19 +2,16 @@ import { faker } from '@faker-js/faker';
 import { HttpService } from '@nestjs/axios';
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { AxiosError } from 'axios';
-import { catchError, firstValueFrom, map } from 'rxjs';
 import { Util } from '../../../test/utils';
 import { CreatePessoaDto } from '../dto/createPessoaDto';
 import { Pessoa } from '../entity/pessoa.entity';
 import { SexoEnum } from '../enum/sexoEnum';
-import { PessoaService } from '../pessoa.service';
 
 const BASE_URL = 'http://localhost:3000/api/v1/pessoa';
 const HEADERS = {
   headers: {
     Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZmJiZWFhYi1mYjFjLTRlM2ItYmRhNC0yYTQzMTU0NTA5ZGYiLCJlbWFpbCI6Imxlb25hcmRvLm5jaW50cmFAb3V0bG9vay5jb20iLCJpYXQiOjE2NzI5NTEzODQsImV4cCI6MTY3Mjk1NjM4NH0.bBlJ1ckL56nroLxv310NfjxBmd43Y3Bz-7XOqWx-Ys0',
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZmJiZWFhYi1mYjFjLTRlM2ItYmRhNC0yYTQzMTU0NTA5ZGYiLCJlbWFpbCI6Imxlb25hcmRvLm5jaW50cmFAb3V0bG9vay5jb20iLCJpYXQiOjE2NzMwMzU3MTUsImV4cCI6MTY3MzIwODUxNX0.6c7tg9a7xAAREbpfvzDpt09izghiWvEjaGvPTD1_Em4',
   },
 };
 
@@ -22,17 +19,16 @@ const HEADERS = {
 export class CronService {
   private logger = new Logger(CronService.name);
 
-  constructor(
-    private readonly httpService: HttpService,
-    private readonly pessoaService: PessoaService) { }
+  constructor(private readonly httpService: HttpService) {}
 
-  async deletePessoaTeste() {
-  }
-
-  @Cron(CronExpression.EVERY_MINUTE, { name: 'Gerando pessoas em testes' })
+  @Cron(CronExpression.EVERY_10_MINUTES, { name: 'Gerando pessoas em testes' })
   async createPessoaTeste() {
     const pessoa = this.getPessoaMock();
-    const response = await this.httpService.axiosRef.post<Pessoa>(BASE_URL, pessoa, HEADERS);
+    const response = await this.httpService.axiosRef.post<Pessoa>(
+      BASE_URL,
+      pessoa,
+      HEADERS,
+    );
     if (response.status !== HttpStatus.CREATED) {
       this.logger.error(response);
     }
@@ -42,7 +38,10 @@ export class CronService {
   }
 
   private async deletePessoa(pessoaId: string) {
-    const response = await this.httpService.axiosRef.delete(BASE_URL + `/${pessoaId}`, HEADERS);
+    const response = await this.httpService.axiosRef.delete(
+      BASE_URL + `/${pessoaId}`,
+      HEADERS,
+    );
     if (response.status === HttpStatus.NO_CONTENT) {
       this.logger.log('DELETE OK: ' + pessoaId);
     } else {

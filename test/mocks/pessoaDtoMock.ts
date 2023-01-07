@@ -32,7 +32,7 @@ export const createPessoaEnderecoTelefoneDtoMock: CreatePessoaDto = {
   email: faker.internet.email(),
   enderecos: [
     {
-      bairro: faker.address.streetName(),
+      bairro: faker.address.street(),
       cep: faker.address.zipCode('########'),
       cidade: faker.address.cityName(),
       uf: faker.address.stateAbbr(),
@@ -42,7 +42,7 @@ export const createPessoaEnderecoTelefoneDtoMock: CreatePessoaDto = {
       numero: faker.address.buildingNumber(),
     },
     {
-      bairro: faker.address.streetName(),
+      bairro: faker.address.street(),
       cep: faker.address.zipCode('########'),
       cidade: faker.address.cityName(),
       uf: faker.address.stateAbbr(),
