@@ -9,6 +9,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -18,13 +19,15 @@ import { Pessoa } from './entity/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { IndexPessoaSwagger } from './swagger/index-pessoa.swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UsersService } from '../users/users.service';
 
 @Controller('api/v1/pessoa')
 @UseGuards(JwtAuthGuard)
 @ApiTags('pessoa')
 export class PessoaController {
   constructor(
-    private readonly pessoaService: PessoaService
+    private readonly pessoaService: PessoaService,
+    private readonly userService: UsersService,
   ) {}
 
   @Get()
@@ -63,8 +66,16 @@ export class PessoaController {
   @ApiOperation({ summary: 'Cadastrar uma pessoa' })
   @ApiResponse({ status: 201, description: 'Pessoa cadastrada com sucesso' })
   @ApiResponse({ status: 400, description: 'Dados inválidos no cadastro' })
-  async createPessoa(@Body() body: CreatePessoaDto) {
+  async createPessoa(
+    @Req() req,
+    @Body() body: CreatePessoaDto,
+  ): Promise<Pessoa> {
     try {
+      const user = await this.userService.findById(req.user.id);
+
+      body.usuarioInsert = user;
+      body.usuarioUpdate = user;
+
       return await this.pessoaService.create(body);
     } catch (error) {
       if (error instanceof QueryFailedError) {

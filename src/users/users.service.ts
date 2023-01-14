@@ -16,6 +16,14 @@ export class UsersService {
     return await this.userRepository.save(this.userRepository.create(user));
   }
 
+  async findById(id: string): Promise<User> {
+    try {
+      return this.userRepository.findOneByOrFail({ id });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
   async findOneByUsernameOrFail(username: string): Promise<User> {
     try {
       return this.userRepository.findOneByOrFail({ username });

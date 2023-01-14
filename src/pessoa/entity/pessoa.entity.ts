@@ -7,10 +7,17 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  BeforeInsert,
+  OneToOne,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Endereco } from '../../endereco/entity/endereco.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Telefone } from '../../telefone/entity/telefone.entity';
+import { hashSync } from 'bcrypt';
+import { User } from '../../users/entity/user.entity';
 
 @Entity()
 export class Pessoa {
@@ -29,6 +36,7 @@ export class Pessoa {
   @Column({
     unique: true,
     length: 14,
+    nullable: false,
   })
   @ApiProperty()
   cpfCnpj: string;
@@ -57,6 +65,14 @@ export class Pessoa {
   @ApiProperty()
   telefones: Telefone[];
 
+  @ManyToOne(() => User)
+  @JoinColumn()
+  usuarioInsert: User;
+
+  @ManyToOne(() => User)
+  @JoinColumn()
+  usuarioUpdate: User;
+
   @CreateDateColumn({ name: 'created_at' })
   @ApiProperty()
   createdAt: string;
@@ -64,6 +80,13 @@ export class Pessoa {
   @UpdateDateColumn({ name: 'updated_at' })
   @ApiProperty()
   updateddAt: string;
+
+  @BeforeInsert()
+  criptografarDados() {
+    const salts = 10;
+    this.nome = hashSync(this.nome, salts);
+    this.sobrenome = hashSync(this.sobrenome, salts);
+  }
 
   constructor(pessoa?: Partial<Pessoa>) {
     this.id = pessoa?.id;
@@ -73,7 +96,10 @@ export class Pessoa {
     this.sexo = pessoa?.sexo;
     this.email = pessoa?.email;
     this.ativo = pessoa?.ativo;
+    this.usuarioInsert = pessoa?.usuarioInsert;
+    this.usuarioUpdate = pessoa?.usuarioUpdate;
     this.enderecos = pessoa?.enderecos;
+    this.telefones = pessoa?.telefones;
     this.createdAt = pessoa?.createdAt;
     this.updateddAt = pessoa?.updateddAt;
   }
