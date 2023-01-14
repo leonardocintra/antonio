@@ -1,14 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { createPessoaDtoMock } from '../../test/mocks/pessoaDtoMock';
 import { pessoaEntityListMock } from '../../test/mocks/pessoaEntityMock';
-import { EnderecoService } from '../endereco/endereco.service';
 import { PessoaController } from './pessoa.controller';
 import { PessoaService } from './pessoa.service';
 
 describe('PessoaController', () => {
   let pessoaController: PessoaController;
   let pessoaService: PessoaService;
-  let enderecoService: EnderecoService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,23 +20,17 @@ describe('PessoaController', () => {
             deleteByUuid: jest.fn(),
             create: jest.fn().mockResolvedValue(pessoaEntityListMock[1]),
           },
-        },
-        {
-          provide: EnderecoService,
-          useValue: {},
-        },
+        }
       ],
     }).compile();
 
     pessoaController = module.get<PessoaController>(PessoaController);
     pessoaService = module.get<PessoaService>(PessoaService);
-    enderecoService = module.get<EnderecoService>(EnderecoService);
   });
 
   it('should be defined', () => {
     expect(pessoaController).toBeDefined();
     expect(pessoaService).toBeDefined();
-    expect(enderecoService).toBeDefined();
   });
 
   describe('getPessoas', () => {

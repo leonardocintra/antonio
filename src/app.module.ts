@@ -12,11 +12,9 @@ import { User } from './users/entity/user.entity';
 import { TelefoneModule } from './telefone/telefone.module';
 import { Telefone } from './telefone/entity/telefone.entity';
 import { PessoaEnderecoModule } from './pessoa-endereco/pessoa-endereco.module';
-import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
-    ScheduleModule.forRoot(),
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

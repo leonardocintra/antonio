@@ -13,7 +13,7 @@ Não precisem mais criar tabela de clientes, empresas, endereço, telefones, etc
 
 ```bash
 $ npm install
-$ docker run --name catarina-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=catarina-pwd -d mysql
+$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
 ```
 
 ## Running the app
