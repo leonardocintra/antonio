@@ -20,7 +20,7 @@ describe('PessoaController', () => {
             deleteByUuid: jest.fn(),
             create: jest.fn().mockResolvedValue(pessoaEntityListMock[1]),
           },
-        }
+        },
       ],
     }).compile();
 
@@ -55,7 +55,7 @@ describe('PessoaController', () => {
   describe('createPessoa', () => {
     it('deve cadastrar uma pessoa com sucesso', async () => {
       const body = createPessoaDtoMock;
-      const result = await pessoaController.createPessoa(body);
+      const result = await pessoaController.createPessoa(null, body);
       // assert
       expect(result).toEqual(pessoaEntityListMock[1]);
       expect(pessoaService.create).toHaveBeenCalledTimes(1);
@@ -67,7 +67,7 @@ describe('PessoaController', () => {
       const body = createPessoaDtoMock;
       jest.spyOn(pessoaService, 'create').mockRejectedValueOnce(new Error());
 
-      expect(pessoaController.createPessoa(body)).rejects.toThrowError();
+      expect(pessoaController.createPessoa(null, body)).rejects.toThrowError();
     });
   });
 });

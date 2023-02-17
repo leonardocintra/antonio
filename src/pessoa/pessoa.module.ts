@@ -8,7 +8,12 @@ import { TelefoneModule } from '../telefone/telefone.module';
 import { UsersModule } from '../users/users.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pessoa]), EnderecoModule, TelefoneModule, UsersModule],
+  imports: [
+    TypeOrmModule.forFeature([Pessoa]),
+    EnderecoModule,
+    TelefoneModule,
+    UsersModule,
+  ],
   controllers: [PessoaController],
   providers: [PessoaService],
   exports: [PessoaService],

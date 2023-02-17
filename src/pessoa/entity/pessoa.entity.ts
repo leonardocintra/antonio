@@ -8,9 +8,7 @@ import {
   UpdateDateColumn,
   OneToMany,
   BeforeInsert,
-  OneToOne,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
 } from 'typeorm';
 import { Endereco } from '../../endereco/entity/endereco.entity';
