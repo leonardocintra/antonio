@@ -96,6 +96,8 @@ describe('PessoaController (e2e)', () => {
       email: null,
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -121,6 +123,8 @@ describe('PessoaController (e2e)', () => {
       email: '',
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -146,6 +150,8 @@ describe('PessoaController (e2e)', () => {
       email: 'invalid',
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -198,6 +204,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email(),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -226,6 +234,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email(),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -251,6 +261,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email(),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -305,6 +317,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email(),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -333,6 +347,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email(),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -351,14 +367,15 @@ describe('PessoaController (e2e)', () => {
     const token = await fazerLogin();
 
     const pessoa: CreatePessoaDto = {
-      sobrenome:
-        'aaaaaaaaaaaaaaadddddddddddd kkkkkkkkkkkkkkkkkkkkkkk dddddddddddd oooooooooooooooo oooooooooooooooo ppppppppppppp ccccccccc',
+      sobrenome: 'aaaaaaaaaaaaaaadddddddddddd kkkkkkkkkkkkkkkkkkkkkkk dddddddddddd oooooooooooooooo oooooooooooooooo ppppppppppppp ccccccccc',
       nome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -416,6 +433,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email(),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -447,6 +466,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email(),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -475,6 +496,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email(),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -504,6 +527,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email('example.fakerjs.dev'),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const pessoa2: CreatePessoaDto = {
@@ -514,6 +539,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email('example.fakerjs.dev'),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response1 = await request(app.getHttpServer())
@@ -560,6 +587,8 @@ describe('PessoaController (e2e)', () => {
       email: emailUnico,
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const pessoa2: CreatePessoaDto = {
@@ -570,6 +599,8 @@ describe('PessoaController (e2e)', () => {
       email: emailUnico,
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response1 = await request(app.getHttpServer())
@@ -614,6 +645,8 @@ describe('PessoaController (e2e)', () => {
       email: faker.internet.email('example.fakerjs.dev'),
       enderecos: [],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())
@@ -667,6 +700,8 @@ describe('PessoaController (e2e)', () => {
         },
       ],
       telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined
     };
 
     const response = await request(app.getHttpServer())

@@ -22,6 +22,8 @@ export const createPessoaDtoMock: CreatePessoaDto = {
   email: faker.internet.email(),
   enderecos: [],
   telefones: [],
+  usuarioInsert: undefined,
+  usuarioUpdate: undefined
 };
 
 export const createPessoaEnderecoTelefoneDtoMock: CreatePessoaDto = {
@@ -59,4 +61,6 @@ export const createPessoaEnderecoTelefoneDtoMock: CreatePessoaDto = {
       tipo: 'mobile',
     },
   ],
+  usuarioInsert: undefined,
+  usuarioUpdate: undefined
 };

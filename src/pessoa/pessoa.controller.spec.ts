@@ -1,12 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { createPessoaDtoMock } from '../../test/mocks/pessoaDtoMock';
 import { pessoaEntityListMock } from '../../test/mocks/pessoaEntityMock';
+import { UsersService } from '../users/users.service';
 import { PessoaController } from './pessoa.controller';
 import { PessoaService } from './pessoa.service';
 
 describe('PessoaController', () => {
   let pessoaController: PessoaController;
   let pessoaService: PessoaService;
+  let userService: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -20,6 +22,10 @@ describe('PessoaController', () => {
             deleteByUuid: jest.fn(),
             create: jest.fn().mockResolvedValue(pessoaEntityListMock[1]),
           },
+        },
+        {
+          provide: UsersService,
+          useValue: {},
         },
       ],
     }).compile();
