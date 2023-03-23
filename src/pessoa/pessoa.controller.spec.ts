@@ -25,18 +25,22 @@ describe('PessoaController', () => {
         },
         {
           provide: UsersService,
-          useValue: {},
+          useValue: {
+            findById: jest.fn(),
+          },
         },
       ],
     }).compile();
 
     pessoaController = module.get<PessoaController>(PessoaController);
     pessoaService = module.get<PessoaService>(PessoaService);
+    userService = module.get<UsersService>(UsersService);
   });
 
   it('should be defined', () => {
     expect(pessoaController).toBeDefined();
     expect(pessoaService).toBeDefined();
+    expect(userService).toBeDefined();
   });
 
   describe('getPessoas', () => {
@@ -60,8 +64,13 @@ describe('PessoaController', () => {
 
   describe('createPessoa', () => {
     it('deve cadastrar uma pessoa com sucesso', async () => {
+      let requestMock = {
+        user: {
+          id: 'afasdfasd',
+        },
+      };
       const body = createPessoaDtoMock;
-      const result = await pessoaController.createPessoa(null, body);
+      const result = await pessoaController.createPessoa(requestMock, body);
       // assert
       expect(result).toEqual(pessoaEntityListMock[1]);
       expect(pessoaService.create).toHaveBeenCalledTimes(1);
