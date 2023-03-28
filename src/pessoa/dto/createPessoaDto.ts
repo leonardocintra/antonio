@@ -11,7 +11,7 @@ import {
 } from 'class-validator';
 import { CreateEnderecoDto } from '../../endereco/dto/createEnderecoDto';
 import { CreateTefoneDto } from '../../telefone/dto/createTelefoneDto';
-import { User } from '../../users/entity/user.entity';
+import { Usuario } from '../../usuarios/entities/usuario.entity';
 import { SexoEnum } from '../enum/sexoEnum';
 
 export class CreatePessoaDto {
@@ -40,9 +40,9 @@ export class CreatePessoaDto {
   @ApiProperty()
   email: string;
 
-  usuarioInsert: User;
+  usuarioInsert: Usuario;
 
-  usuarioUpdate: User;
+  usuarioUpdate: Usuario;
 
   @ValidateNested()
   @Type(() => CreateEnderecoDto)

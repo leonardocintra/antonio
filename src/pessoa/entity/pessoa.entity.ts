@@ -15,7 +15,7 @@ import { Endereco } from '../../endereco/entity/endereco.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Telefone } from '../../telefone/entity/telefone.entity';
 import { hashSync } from 'bcrypt';
-import { User } from '../../users/entity/user.entity';
+import { Usuario } from '../../usuarios/entities/usuario.entity';
 
 @Entity()
 export class Pessoa {
@@ -63,13 +63,13 @@ export class Pessoa {
   @ApiProperty()
   telefones: Telefone[];
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => Usuario)
   @JoinColumn()
-  usuarioInsert: User;
+  usuarioInsert: Usuario;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => Usuario)
   @JoinColumn()
-  usuarioUpdate: User;
+  usuarioUpdate: Usuario;
 
   @CreateDateColumn({ name: 'created_at' })
   @ApiProperty()

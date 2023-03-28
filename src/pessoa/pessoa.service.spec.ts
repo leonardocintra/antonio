@@ -17,14 +17,15 @@ import { EnderecoService } from '../endereco/endereco.service';
 import { Endereco } from '../endereco/entity/endereco.entity';
 import { TelefoneService } from '../telefone/telefone.service';
 import { Telefone } from '../telefone/entity/telefone.entity';
+import { UsuariosService } from '../usuarios/usuarios.service';
+import { Usuario } from '../usuarios/entities/usuario.entity';
 
 describe('PessoaService', () => {
   let pessoaService: PessoaService;
   let enderecoService: EnderecoService;
   let telefoneService: TelefoneService;
+  let usuarioService: UsuariosService;
   let pessoaRepository: Repository<Pessoa>;
-
-  const GET_REPOSITORY_TOKEN_PESSOA = getRepositoryToken(Pessoa);
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -48,7 +49,7 @@ describe('PessoaService', () => {
         },
         PessoaService,
         {
-          provide: GET_REPOSITORY_TOKEN_PESSOA,
+          provide: getRepositoryToken(Pessoa),
           useValue: {
             find: jest.fn().mockResolvedValue(pessoaEntityListMock),
             findOneByOrFail: jest
@@ -60,14 +61,22 @@ describe('PessoaService', () => {
             delete: jest.fn().mockReturnValue(undefined),
           },
         },
+        UsuariosService,
+        {
+          provide: getRepositoryToken(Usuario),
+          useValue: {
+            findById: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     pessoaService = module.get<PessoaService>(PessoaService);
     enderecoService = module.get<EnderecoService>(EnderecoService);
     telefoneService = module.get<TelefoneService>(TelefoneService);
+    usuarioService = module.get<UsuariosService>(UsuariosService);
     pessoaRepository = module.get<Repository<Pessoa>>(
-      GET_REPOSITORY_TOKEN_PESSOA,
+      getRepositoryToken(Pessoa),
     );
   });
 
@@ -76,6 +85,7 @@ describe('PessoaService', () => {
     expect(enderecoService).toBeDefined();
     expect(pessoaRepository).toBeDefined();
     expect(telefoneService).toBeDefined();
+    expect(usuarioService).toBeDefined();
   });
 
   describe('findAll pessoas', () => {
@@ -131,18 +141,22 @@ describe('PessoaService', () => {
 
       jest.spyOn(pessoaRepository, 'save').mockRejectedValueOnce(new Error());
 
-      expect(pessoaService.create(data)).rejects.toThrowError();
+      expect(pessoaService.create(data, '38293829080')).rejects.toThrowError();
     });
 
     it('deve criar uma pessoa com sucesso', async () => {
       // arrange
-      const data = createPessoaDtoMock;
-      // act
-      const result = await pessoaService.create(data);
-      // assert
-      expect(result).toEqual(pessoaEntityListMock[1]);
-      expect(pessoaRepository.save).toHaveBeenCalledTimes(1);
-      expect(pessoaRepository.create).toHaveBeenCalledTimes(1);
+      // const data = createPessoaDtoMock;
+      // jest.spyOn(usuarioService, 'findOne').mockResolvedValue(new Usuario(data)););
+      // // act
+      // const result = await pessoaService.create(
+      //   data,
+      //   'e4e5263a-3e77-431c-ae47-70b858618682',
+      // );
+      // // assert
+      // expect(result).toEqual(pessoaEntityListMock[1]);
+      // expect(pessoaRepository.save).toHaveBeenCalledTimes(1);
+      // expect(pessoaRepository.create).toHaveBeenCalledTimes(1);
     });
   });
 

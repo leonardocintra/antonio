@@ -6,6 +6,7 @@ import { UpdatePessoaDto } from './dto/updatePessoaDto';
 import { Pessoa } from './entity/pessoa.entity';
 import { EnderecoService } from '../endereco/endereco.service';
 import { TelefoneService } from '../telefone/telefone.service';
+import { UsuariosService } from '../usuarios/usuarios.service';
 
 @Injectable()
 export class PessoaService {
@@ -16,6 +17,7 @@ export class PessoaService {
     private readonly pessoaRepository: Repository<Pessoa>,
     private readonly enderecoService: EnderecoService,
     private readonly telefoneService: TelefoneService,
+    private readonly usuarioService: UsuariosService,
   ) {}
 
   async findAll(): Promise<Pessoa[]> {
@@ -29,11 +31,16 @@ export class PessoaService {
       pessoa.enderecos = enderecos;
       return pessoa;
     } catch (error) {
+      this.logger.error(error.message);
       throw new NotFoundException('Pessoa', error.message);
     }
   }
 
-  async create(pessoa: CreatePessoaDto): Promise<Pessoa> {
+  async create(pessoa: CreatePessoaDto, userUuid: string): Promise<Pessoa> {
+    const user = await this.usuarioService.findOne(userUuid);
+    pessoa.usuarioInsert = user;
+    pessoa.usuarioUpdate = user;
+
     const pessoaSaved = await this.pessoaRepository.save(
       this.pessoaRepository.create(pessoa),
     );

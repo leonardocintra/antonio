@@ -5,14 +5,14 @@ import { Pessoa } from './entity/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { EnderecoModule } from '../endereco/endereco.module';
 import { TelefoneModule } from '../telefone/telefone.module';
-import { UsersModule } from '../users/users.module';
+import { UsuariosModule } from '../usuarios/usuarios.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Pessoa]),
     EnderecoModule,
     TelefoneModule,
-    UsersModule,
+    UsuariosModule,
   ],
   controllers: [PessoaController],
   providers: [PessoaService],

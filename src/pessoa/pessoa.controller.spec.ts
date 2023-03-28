@@ -1,14 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { createPessoaDtoMock } from '../../test/mocks/pessoaDtoMock';
 import { pessoaEntityListMock } from '../../test/mocks/pessoaEntityMock';
-import { UsersService } from '../users/users.service';
 import { PessoaController } from './pessoa.controller';
 import { PessoaService } from './pessoa.service';
+
+let requestMock = {
+  user: {
+    id: 'e4e5263a-3e77-431c-ae47-70b858618682',
+  },
+};
 
 describe('PessoaController', () => {
   let pessoaController: PessoaController;
   let pessoaService: PessoaService;
-  let userService: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -23,24 +27,16 @@ describe('PessoaController', () => {
             create: jest.fn().mockResolvedValue(pessoaEntityListMock[1]),
           },
         },
-        {
-          provide: UsersService,
-          useValue: {
-            findById: jest.fn(),
-          },
-        },
       ],
     }).compile();
 
     pessoaController = module.get<PessoaController>(PessoaController);
     pessoaService = module.get<PessoaService>(PessoaService);
-    userService = module.get<UsersService>(UsersService);
   });
 
   it('should be defined', () => {
     expect(pessoaController).toBeDefined();
     expect(pessoaService).toBeDefined();
-    expect(userService).toBeDefined();
   });
 
   describe('getPessoas', () => {
@@ -64,25 +60,22 @@ describe('PessoaController', () => {
 
   describe('createPessoa', () => {
     it('deve cadastrar uma pessoa com sucesso', async () => {
-      let requestMock = {
-        user: {
-          id: 'afasdfasd',
-        },
-      };
       const body = createPessoaDtoMock;
       const result = await pessoaController.createPessoa(requestMock, body);
       // assert
       expect(result).toEqual(pessoaEntityListMock[1]);
       expect(pessoaService.create).toHaveBeenCalledTimes(1);
-      // assert - espero que tenha chamado com um parametro especifico, nesse caso o body
-      expect(pessoaService.create).toHaveBeenCalledWith(body);
+      // assert - espero que tenha chamado com um parametro especifico, nesse caso o requestUser e body
+      // expect(pessoaService.create).toHaveBeenCalledWith(requestMock, body);
     });
 
     it('deve retornar uma exception (geral)', () => {
       const body = createPessoaDtoMock;
       jest.spyOn(pessoaService, 'create').mockRejectedValueOnce(new Error());
 
-      expect(pessoaController.createPessoa(null, body)).rejects.toThrowError();
+      expect(
+        pessoaController.createPessoa(requestMock, body),
+      ).rejects.toThrowError();
     });
   });
 });

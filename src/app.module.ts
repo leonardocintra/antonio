@@ -2,16 +2,16 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { DataSource } from 'typeorm';
 import { Pessoa } from './pessoa/entity/pessoa.entity';
 import { EnderecoModule } from './endereco/endereco.module';
 import { Endereco } from './endereco/entity/endereco.entity';
-import { User } from './users/entity/user.entity';
 import { TelefoneModule } from './telefone/telefone.module';
 import { Telefone } from './telefone/entity/telefone.entity';
 import { PessoaEnderecoModule } from './pessoa-endereco/pessoa-endereco.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { Usuario } from './usuarios/entities/usuario.entity';
 
 @Module({
   imports: [
@@ -27,12 +27,12 @@ import { PessoaEnderecoModule } from './pessoa-endereco/pessoa-endereco.module';
           username: configService.get('DB_USERNAME'),
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB_DATABASE'),
-          entities: [Pessoa, Endereco, User, Telefone],
+          entities: [Usuario, Pessoa, Endereco, Telefone],
           synchronize: true,
         } as TypeOrmModuleAsyncOptions),
     }),
     AuthModule,
-    UsersModule,
+    UsuariosModule,
     PessoaModule,
     EnderecoModule,
     TelefoneModule,

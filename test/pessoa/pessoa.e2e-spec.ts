@@ -97,7 +97,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -124,7 +124,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -151,7 +151,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -205,7 +205,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -235,7 +235,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -262,7 +262,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -318,7 +318,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -348,7 +348,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -367,7 +367,8 @@ describe('PessoaController (e2e)', () => {
     const token = await fazerLogin();
 
     const pessoa: CreatePessoaDto = {
-      sobrenome: 'aaaaaaaaaaaaaaadddddddddddd kkkkkkkkkkkkkkkkkkkkkkk dddddddddddd oooooooooooooooo oooooooooooooooo ppppppppppppp ccccccccc',
+      sobrenome:
+        'aaaaaaaaaaaaaaadddddddddddd kkkkkkkkkkkkkkkkkkkkkkk dddddddddddd oooooooooooooooo oooooooooooooooo ppppppppppppp ccccccccc',
       nome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
@@ -375,7 +376,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -434,7 +435,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -467,7 +468,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -497,7 +498,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -528,7 +529,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const pessoa2: CreatePessoaDto = {
@@ -540,7 +541,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response1 = await request(app.getHttpServer())
@@ -588,7 +589,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const pessoa2: CreatePessoaDto = {
@@ -600,7 +601,7 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response1 = await request(app.getHttpServer())
@@ -646,8 +647,9 @@ describe('PessoaController (e2e)', () => {
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
+
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
@@ -668,7 +670,7 @@ describe('PessoaController (e2e)', () => {
     expect(response.body.enderecos).toHaveLength(0);
   });
 
-  it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa sem telefone', async () => {
+  it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa com endereco mas sem telefone', async () => {
     const token = await fazerLogin();
 
     const pessoa: CreatePessoaDto = {
@@ -676,7 +678,7 @@ describe('PessoaController (e2e)', () => {
       sobrenome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
-      email: faker.internet.email('example.fakerjs.dev'),
+      email: faker.internet.email(),
       enderecos: [
         {
           bairro: faker.animal.bird(),
@@ -701,7 +703,7 @@ describe('PessoaController (e2e)', () => {
       ],
       telefones: [],
       usuarioInsert: undefined,
-      usuarioUpdate: undefined
+      usuarioUpdate: undefined,
     };
 
     const response = await request(app.getHttpServer())
@@ -709,6 +711,7 @@ describe('PessoaController (e2e)', () => {
       .set('Authorization', 'Bearer ' + token)
       .send(pessoa);
 
+    console.log(response.body);
     expect(response.status).toEqual(HttpStatus.CREATED);
     expect(response.body).toBeDefined();
     expect(response.body.id).toMatch(
@@ -720,6 +723,6 @@ describe('PessoaController (e2e)', () => {
     expect(response.body.sexo).not.toBeNull();
     expect(response.body.ativo).not.toBeNull();
     expect(response.body.email).not.toBeNull();
-    expect(response.body.enderecos).toHaveLength(0);
+    expect(response.body.enderecos).toHaveLength(2);
   });
 });

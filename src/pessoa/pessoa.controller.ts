@@ -19,16 +19,12 @@ import { Pessoa } from './entity/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { IndexPessoaSwagger } from './swagger/index-pessoa.swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { UsersService } from '../users/users.service';
 
 @Controller('api/v1/pessoa')
 @UseGuards(JwtAuthGuard)
 @ApiTags('pessoa')
 export class PessoaController {
-  constructor(
-    private readonly pessoaService: PessoaService,
-    private readonly userService: UsersService,
-  ) {}
+  constructor(private readonly pessoaService: PessoaService) {}
 
   @Get()
   @ApiOperation({ summary: 'Listar todas as pessoas cadastradas' })
@@ -71,12 +67,8 @@ export class PessoaController {
     @Body() body: CreatePessoaDto,
   ): Promise<Pessoa> {
     try {
-      const user = await this.userService.findById(req.user.id);
-
-      body.usuarioInsert = user;
-      body.usuarioUpdate = user;
-
-      return await this.pessoaService.create(body);
+      const userUuid = req.user.id;
+      return await this.pessoaService.create(body, userUuid);
     } catch (error) {
       if (error instanceof QueryFailedError) {
         throw new HttpException(

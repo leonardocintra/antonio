@@ -1,17 +1,17 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  BeforeInsert,
-} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { hashSync } from 'bcrypt';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity({ name: 'users' })
-export class User {
+@Entity()
+export class Usuario {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty()
   id: string;
@@ -51,7 +51,7 @@ export class User {
     this.password = hashSync(this.password, 10);
   }
 
-  constructor(user?: Partial<User>) {
+  constructor(user?: Partial<Usuario>) {
     this.id = user?.id;
     this.username = user?.username;
     this.password = user?.password;
