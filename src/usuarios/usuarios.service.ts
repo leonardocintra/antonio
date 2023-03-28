@@ -12,29 +12,34 @@ export class UsuariosService {
     private readonly usuarioRepository: Repository<Usuario>,
   ) {}
 
-  async create(createUsuarioDto: CreateUsuarioDto) {
-    return await this.usuarioRepository.save(
-      this.usuarioRepository.create(createUsuarioDto),
-    );
+  async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
+    const novoUsuario = this.usuarioRepository.create(createUsuarioDto);
+    return await this.usuarioRepository.save(novoUsuario);
   }
 
-  async findAll() {
+  async findAll(): Promise<Usuario[]> {
     return await this.usuarioRepository.find();
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Usuario> {
     return await this.usuarioRepository.findOneByOrFail({ id });
   }
 
-  async findOneByUsername(username: string) {
+  async findOneByUsername(username: string): Promise<Usuario> {
     return await this.usuarioRepository.findOneByOrFail({ username });
   }
 
-  update(id: string, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
+  async update(
+    id: string,
+    updateUsuarioDto: UpdateUsuarioDto,
+  ): Promise<Usuario> {
+    const usuario = await this.findOne(id);
+    return await this.usuarioRepository.save(
+      this.usuarioRepository.merge(usuario, updateUsuarioDto),
+    );
   }
 
-  remove(uuid: string) {
-    return `This action removes a #${uuid} usuario`;
+  async remove(uuid: string): Promise<void> {
+    await this.usuarioRepository.delete(uuid);
   }
 }

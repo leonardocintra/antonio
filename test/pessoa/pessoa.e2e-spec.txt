@@ -1,15 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../../src/app.module';
 import { CreatePessoaDto } from '../../src/pessoa/dto/createPessoaDto';
 import { faker } from '@faker-js/faker';
 import { Util } from '../utils';
 import { SexoEnum } from '../../src/pessoa/enum/sexoEnum';
+import { PessoaModule } from '../../src/pessoa/pessoa.module';
+import { Pessoa } from '../../src/pessoa/entity/pessoa.entity';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Endereco } from '../../src/endereco/entity/endereco.entity';
+import { Telefone } from '../../src/telefone/entity/telefone.entity';
+import { Usuario } from '../../src/usuarios/entities/usuario.entity';
 
 describe('PessoaController (e2e)', () => {
   let app: INestApplication;
   const BASE_PATH = '/api/v1/pessoa';
+
+  const pessoaMockRepository = {};
+  const enderecoMockRepository = {};
+  const telefoneMockRepository = {};
+  const usuarioMockRepository = {};
 
   async function fazerLogin() {
     // TODO: precisa criar o usuario primeiro
@@ -24,8 +34,17 @@ describe('PessoaController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+      imports: [PessoaModule],
+    })
+      .overrideProvider(getRepositoryToken(Pessoa))
+      .useValue(pessoaMockRepository)
+      .overrideProvider(getRepositoryToken(Endereco))
+      .useValue(enderecoMockRepository)
+      .overrideProvider(getRepositoryToken(Telefone))
+      .useValue(telefoneMockRepository)
+      .overrideProvider(getRepositoryToken(Usuario))
+      .useValue(usuarioMockRepository)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(
@@ -649,7 +668,6 @@ describe('PessoaController (e2e)', () => {
       usuarioInsert: undefined,
       usuarioUpdate: undefined,
     };
-
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)

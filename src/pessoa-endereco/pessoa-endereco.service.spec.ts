@@ -6,15 +6,15 @@ import { Pessoa } from '../pessoa/entity/pessoa.entity';
 import { PessoaService } from '../pessoa/pessoa.service';
 import { Telefone } from '../telefone/entity/telefone.entity';
 import { TelefoneService } from '../telefone/telefone.service';
-import { User } from '../users/entity/user.entity';
-import { UsersService } from '../users/users.service';
+import { Usuario } from '../usuarios/entities/usuario.entity';
+import { UsuariosService } from '../usuarios/usuarios.service';
 import { PessoaEnderecoService } from './pessoa-endereco.service';
 
 describe('PessoaEnderecoService', () => {
   let pessoaEnderecoService: PessoaEnderecoService;
   let pessoaService: PessoaService;
   let enderecoService: EnderecoService;
-  let usersService: UsersService;
+  let usuarioService: UsuariosService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -35,9 +35,9 @@ describe('PessoaEnderecoService', () => {
           provide: getRepositoryToken(Telefone),
           useValue: {},
         },
-        UsersService,
+        UsuariosService,
         {
-          provide: getRepositoryToken(User),
+          provide: getRepositoryToken(Usuario),
           useValue: {},
         },
       ],
@@ -48,13 +48,13 @@ describe('PessoaEnderecoService', () => {
     );
     enderecoService = module.get<EnderecoService>(EnderecoService);
     pessoaService = module.get<PessoaService>(PessoaService);
-    usersService = module.get<UsersService>(UsersService);
+    usuarioService = module.get<UsuariosService>(UsuariosService);
   });
 
   it('should be defined', () => {
     expect(pessoaEnderecoService).toBeDefined();
     expect(enderecoService).toBeDefined();
     expect(pessoaService).toBeDefined();
-    expect(usersService).toBeDefined();
+    expect(usuarioService).toBeDefined();
   });
 });

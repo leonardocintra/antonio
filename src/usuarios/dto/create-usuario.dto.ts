@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, Matches, MaxLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MaxLength,
+} from 'class-validator';
 import { MessagesHelper } from '../../helpers/messages.helper';
 import { RegExHelper } from '../../helpers/regex.helper';
 
@@ -7,6 +13,7 @@ export class CreateUsuarioDto {
   @MaxLength(100)
   @IsNotEmpty()
   @ApiProperty()
+  @IsString()
   username: string;
 
   @MaxLength(100)

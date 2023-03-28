@@ -6,18 +6,38 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { QueryFailedError } from 'typeorm';
 
-@Controller('usuarios')
+@Controller('api/v1/usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
   @Post()
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuariosService.create(createUsuarioDto);
+    try {
+      return this.usuariosService.create(createUsuarioDto);
+    } catch (err) {
+      if (err instanceof QueryFailedError) {
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            error: err.message,
+          },
+          HttpStatus.BAD_REQUEST,
+          {
+            cause: err,
+          },
+        );
+      } else {
+        throw err;
+      }
+    }
   }
 
   @Get()
@@ -25,21 +45,18 @@ export class UsuariosController {
     return this.usuariosService.findAll();
   }
 
-  @Get(':uuid')
-  findOne(@Param('uuid') uuid: string) {
-    return this.usuariosService.findOne(uuid);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.usuariosService.findOne(id);
   }
 
-  @Patch(':uuid')
-  update(
-    @Param('uuid') uuid: string,
-    @Body() updateUsuarioDto: UpdateUsuarioDto,
-  ) {
-    return this.usuariosService.update(uuid, updateUsuarioDto);
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
+    return this.usuariosService.update(id, updateUsuarioDto);
   }
 
-  @Delete(':uuid')
-  remove(@Param('uuid') uuid: string) {
-    return this.usuariosService.remove(uuid);
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.usuariosService.remove(id);
   }
 }
