@@ -4,7 +4,7 @@ import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { DataSource } from 'typeorm';
-import { Pessoa } from './pessoa/entity/pessoa.entity';
+import { Pessoa } from './pessoa/entities/pessoa.entity';
 import { EnderecoModule } from './endereco/endereco.module';
 import { Endereco } from './endereco/entity/endereco.entity';
 import { TelefoneModule } from './telefone/telefone.module';

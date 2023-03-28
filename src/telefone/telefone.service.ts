@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Pessoa } from '../pessoa/entity/pessoa.entity';
+import { Pessoa } from '../pessoa/entities/pessoa.entity';
 import { CreateTefoneDto } from './dto/createTelefoneDto';
 import { Telefone } from './entity/telefone.entity';
 

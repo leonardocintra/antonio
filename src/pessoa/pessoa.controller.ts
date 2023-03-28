@@ -15,7 +15,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QueryFailedError } from 'typeorm';
 import { CreatePessoaDto } from './dto/createPessoaDto';
-import { Pessoa } from './entity/pessoa.entity';
+import { Pessoa } from './entities/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { IndexPessoaSwagger } from './swagger/index-pessoa.swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';

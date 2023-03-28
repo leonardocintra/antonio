@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePessoaDto } from './dto/createPessoaDto';
 import { UpdatePessoaDto } from './dto/updatePessoaDto';
-import { Pessoa } from './entity/pessoa.entity';
+import { Pessoa } from './entities/pessoa.entity';
 import { EnderecoService } from '../endereco/endereco.service';
 import { TelefoneService } from '../telefone/telefone.service';
 import { UsuariosService } from '../usuarios/usuarios.service';
