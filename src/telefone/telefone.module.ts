@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TelefoneService } from './telefone.service';
 import { TelefoneController } from './telefone.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Telefone } from './entity/telefone.entity';
+import { Telefone } from './entities/telefone.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Telefone])],

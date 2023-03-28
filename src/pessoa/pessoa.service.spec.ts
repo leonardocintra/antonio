@@ -14,9 +14,9 @@ import {
   updatePessoaDtoMock,
 } from '../../test/mocks/pessoaDtoMock';
 import { EnderecoService } from '../endereco/endereco.service';
-import { Endereco } from '../endereco/entity/endereco.entity';
+import { Endereco } from '../endereco/entities/endereco.entity';
 import { TelefoneService } from '../telefone/telefone.service';
-import { Telefone } from '../telefone/entity/telefone.entity';
+import { Telefone } from '../telefone/entities/telefone.entity';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { Usuario } from '../usuarios/entities/usuario.entity';
 

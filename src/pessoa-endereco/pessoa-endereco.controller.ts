@@ -10,7 +10,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateEnderecoDto } from '../endereco/dto/createEnderecoDto';
-import { Endereco } from '../endereco/entity/endereco.entity';
+import { Endereco } from '../endereco/entities/endereco.entity';
 import { PessoaEnderecoService } from './pessoa-endereco.service';
 
 @Controller('api/v1/endereco/pessoa')

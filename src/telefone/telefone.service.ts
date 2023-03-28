@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pessoa } from '../pessoa/entities/pessoa.entity';
 import { CreateTefoneDto } from './dto/createTelefoneDto';
-import { Telefone } from './entity/telefone.entity';
+import { Telefone } from './entities/telefone.entity';
 
 @Injectable()
 export class TelefoneService {

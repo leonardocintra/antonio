@@ -11,9 +11,9 @@ import {
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
-import { Endereco } from '../../endereco/entity/endereco.entity';
+import { Endereco } from '../../endereco/entities/endereco.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Telefone } from '../../telefone/entity/telefone.entity';
+import { Telefone } from '../../telefone/entities/telefone.entity';
 import { hashSync } from 'bcrypt';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
 

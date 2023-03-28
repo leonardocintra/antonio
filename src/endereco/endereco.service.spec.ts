@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Endereco } from './entity/endereco.entity';
+import { Endereco } from './entities/endereco.entity';
 import { EnderecoService } from './endereco.service';
 
 describe('EnderecoService', () => {

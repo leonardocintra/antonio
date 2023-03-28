@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEnderecoDto } from '../endereco/dto/createEnderecoDto';
 import { EnderecoService } from '../endereco/endereco.service';
-import { Endereco } from '../endereco/entity/endereco.entity';
+import { Endereco } from '../endereco/entities/endereco.entity';
 import { Pessoa } from '../pessoa/entities/pessoa.entity';
 import { PessoaService } from '../pessoa/pessoa.service';
 

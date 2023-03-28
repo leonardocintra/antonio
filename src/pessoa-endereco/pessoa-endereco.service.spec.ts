@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { EnderecoService } from '../endereco/endereco.service';
-import { Endereco } from '../endereco/entity/endereco.entity';
+import { Endereco } from '../endereco/entities/endereco.entity';
 import { Pessoa } from '../pessoa/entities/pessoa.entity';
 import { PessoaService } from '../pessoa/pessoa.service';
-import { Telefone } from '../telefone/entity/telefone.entity';
+import { Telefone } from '../telefone/entities/telefone.entity';
 import { TelefoneService } from '../telefone/telefone.service';
 import { Usuario } from '../usuarios/entities/usuario.entity';
 import { UsuariosService } from '../usuarios/usuarios.service';
