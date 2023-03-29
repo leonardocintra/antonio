@@ -207,7 +207,7 @@ describe('PessoaService', () => {
     it('deve dar exception quando ocorrer um erro ao salvar', async () => {
       jest.spyOn(pessoaRepository, 'delete').mockRejectedValueOnce(new Error());
 
-      expect(pessoaService.deleteByUuid('32')).rejects.toThrowError();
+      expect(pessoaService.delete('32')).rejects.toThrowError();
     });
 
     it('deve dar not found exception quando pessoa nao existe', async () => {
@@ -215,14 +215,14 @@ describe('PessoaService', () => {
         .spyOn(pessoaRepository, 'findOneByOrFail')
         .mockRejectedValueOnce(new Error());
 
-      expect(pessoaService.deleteByUuid('32')).rejects.toThrowError(
+      expect(pessoaService.delete('32')).rejects.toThrowError(
         NotFoundException,
       );
     });
 
     it('deve deletar uma pessoa com sucesso', async () => {
       // act
-      const result = await pessoaService.deleteByUuid('2323');
+      const result = await pessoaService.delete('2323');
 
       // assert
       expect(result).toBeUndefined();

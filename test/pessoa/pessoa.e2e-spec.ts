@@ -13,17 +13,11 @@ import { Telefone } from '../../src/telefone/entities/telefone.entity';
 import { Usuario } from '../../src/usuarios/entities/usuario.entity';
 import { pessoaEntityListMock } from '../mocks/pessoaEntityMock';
 import { JwtAuthGuard } from '../../src/auth/jwt-auth.guard';
+import { AppModule } from '../../src/app.module';
 
 describe('PessoaController (e2e)', () => {
   let app: INestApplication;
   const BASE_PATH = '/api/v1/pessoa';
-
-  const pessoaMockRepository = {
-    find: jest.fn().mockResolvedValue(pessoaEntityListMock),
-  };
-  const enderecoMockRepository = {};
-  const telefoneMockRepository = {};
-  const usuarioMockRepository = {};
 
   async function fazerLogin() {
     // TODO: precisa criar o usuario primeiro
@@ -38,19 +32,8 @@ describe('PessoaController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [PessoaModule],
-    })
-      .overrideProvider(getRepositoryToken(Pessoa))
-      .useValue(pessoaMockRepository)
-      .overrideProvider(getRepositoryToken(Endereco))
-      .useValue(enderecoMockRepository)
-      .overrideProvider(getRepositoryToken(Telefone))
-      .useValue(telefoneMockRepository)
-      .overrideProvider(getRepositoryToken(Usuario))
-      .useValue(usuarioMockRepository)
-      .overrideGuard(JwtAuthGuard)
-      .useValue({ canActivate: jest.fn(() => true) })
-      .compile();
+      imports: [AppModule],
+    }).compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(
@@ -63,106 +46,101 @@ describe('PessoaController (e2e)', () => {
     await app.close();
   });
 
-  // it('/api/v1/pessoa (GET - 401) - Unauthorized', async () => {
-  //   return request(app.getHttpServer())
-  //     .get(`${BASE_PATH}`)
-  //     .expect(401, {
-  //       nome: 'errado',
-  //     });
-  // });
+  it('/api/v1/pessoa (GET - 401) - Unauthorized', async () => {
+    return request(app.getHttpServer()).get(`${BASE_PATH}`).expect(401, {
+      statusCode: 401,
+      message: 'Unauthorized',
+    });
+  });
 
   it('/api/v1/pessoa (GET - 404) - Pessoa não encontrada by UUID', async () => {
     const token = await fazerLogin();
-
-    const response = await request(app.getHttpServer())
-      .get(BASE_PATH + '/0c39b3eb-f17f-4b55-888a-2286a74a1b59')
-      .set('Authorization', 'Bearer ' + token);
-    expect(response.status).toEqual(HttpStatus.NOT_FOUND);
-    expect(response.body).toBeDefined();
-    expect(response.body.statusCode).toEqual(404);
-    expect(response.body.message).toEqual('Pessoa');
-    expect(response.body.error).toEqual(
-      'Could not find any entity of type "Pessoa" matching: {\n    "id": "0c39b3eb-f17f-4b55-888a-2286a74a1b59"\n}',
-    );
+    const url = `${BASE_PATH}/09b58991-538e-4410-824f-054bf8009d55`;
+    return request(app.getHttpServer())
+      .get(url)
+      .set('Authorization', 'Bearer ' + token)
+      .expect(HttpStatus.NOT_FOUND, {
+        statusCode: 404,
+        message: 'Pessoa',
+        error:
+          'Could not find any entity of type "Pessoa" matching: {\n    "id": "09b58991-538e-4410-824f-054bf8009d55"\n}',
+      });
   });
 
-  // it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email not send', async () => {
-  //   const token = await fazerLogin();
+  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email not send', async () => {
+    const token = await fazerLogin();
 
-  //   const pessoa = {
-  //     nome: faker.name.firstName('female'),
-  //     sobrenome: faker.name.lastName(),
-  //     cpfCnpj: Util.getRandomCPF(),
-  //     sexo: SexoEnum.FEMININO,
-  //     enderecos: [],
-  //     telefones: [],
-  //   };
+    const pessoa = {
+      nome: faker.name.firstName('female'),
+      sobrenome: faker.name.lastName(),
+      cpfCnpj: Util.getRandomCPF(),
+      sexo: SexoEnum.FEMININO,
+      enderecos: [],
+      telefones: [],
+    };
 
-  //   const response = await request(app.getHttpServer())
-  //     .post(BASE_PATH)
-  //     .set('Authorization', 'Bearer ' + token)
-  //     .send(pessoa);
+    return request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + token)
+      .send(pessoa)
+      .expect(HttpStatus.BAD_REQUEST, {
+        statusCode: 400,
+        message: ['email must be an email'],
+        error: 'Bad Request',
+      });
+  });
 
-  //   expect(response.body).toBeDefined();
-  //   expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-  //   expect(response.body.statusCode).toEqual(400);
-  //   expect(response.body.message).toHaveLength(1);
-  //   expect(response.body.message[0]).toEqual('email must be an email');
-  // });
+  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email null', async () => {
+    const token = await fazerLogin();
 
-  // it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email null', async () => {
-  //   const token = await fazerLogin();
+    const pessoa: CreatePessoaDto = {
+      nome: faker.name.firstName('female'),
+      sobrenome: faker.name.lastName(),
+      cpfCnpj: Util.getRandomCPF(),
+      sexo: SexoEnum.FEMININO,
+      email: null,
+      enderecos: [],
+      telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined,
+    };
 
-  //   const pessoa: CreatePessoaDto = {
-  //     nome: faker.name.firstName('female'),
-  //     sobrenome: faker.name.lastName(),
-  //     cpfCnpj: Util.getRandomCPF(),
-  //     sexo: SexoEnum.FEMININO,
-  //     email: null,
-  //     enderecos: [],
-  //     telefones: [],
-  //     usuarioInsert: undefined,
-  //     usuarioUpdate: undefined,
-  //   };
+    return request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + token)
+      .send(pessoa)
+      .expect(HttpStatus.BAD_REQUEST, {
+        statusCode: 400,
+        message: ['email must be an email'],
+        error: 'Bad Request',
+      });
+  });
 
-  //   const response = await request(app.getHttpServer())
-  //     .post(BASE_PATH)
-  //     .set('Authorization', 'Bearer ' + token)
-  //     .send(pessoa);
+  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email empty', async () => {
+    const token = await fazerLogin();
 
-  //   expect(response.body).toBeDefined();
-  //   expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-  //   expect(response.body.statusCode).toEqual(400);
-  //   expect(response.body.message).toHaveLength(1);
-  //   expect(response.body.message[0]).toEqual('email must be an email');
-  // });
+    const pessoa: CreatePessoaDto = {
+      nome: faker.name.firstName('female'),
+      sobrenome: faker.name.lastName(),
+      cpfCnpj: Util.getRandomCPF(),
+      sexo: SexoEnum.FEMININO,
+      email: '',
+      enderecos: [],
+      telefones: [],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined,
+    };
 
-  // it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email empty', async () => {
-  //   const token = await fazerLogin();
-
-  //   const pessoa: CreatePessoaDto = {
-  //     nome: faker.name.firstName('female'),
-  //     sobrenome: faker.name.lastName(),
-  //     cpfCnpj: Util.getRandomCPF(),
-  //     sexo: SexoEnum.FEMININO,
-  //     email: '',
-  //     enderecos: [],
-  //     telefones: [],
-  //     usuarioInsert: undefined,
-  //     usuarioUpdate: undefined,
-  //   };
-
-  //   const response = await request(app.getHttpServer())
-  //     .post(BASE_PATH)
-  //     .set('Authorization', 'Bearer ' + token)
-  //     .send(pessoa);
-
-  //   expect(response.body).toBeDefined();
-  //   expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-  //   expect(response.body.statusCode).toEqual(400);
-  //   expect(response.body.message).toHaveLength(1);
-  //   expect(response.body.message[0]).toEqual('email must be an email');
-  // });
+    return request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + token)
+      .send(pessoa)
+      .expect(HttpStatus.BAD_REQUEST, {
+        statusCode: 400,
+        message: ['email must be an email'],
+        error: 'Bad Request',
+      });
+  });
 
   // it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email invalid', async () => {
   //   const token = await fazerLogin();

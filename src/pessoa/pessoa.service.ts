@@ -67,7 +67,7 @@ export class PessoaService {
     return await this.pessoaRepository.save(pessoa);
   }
 
-  async deleteByUuid(id: string) {
+  async delete(id: string) {
     await this.findByUuid(id);
     await this.pessoaRepository.delete(id);
   }
