@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   HttpCode,
-  HttpException,
   HttpStatus,
   Param,
   ParseUUIDPipe,
@@ -19,6 +18,7 @@ import { Pessoa } from './entities/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { IndexPessoaSwagger } from './swagger/index-pessoa.swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CatarinaException } from '../helpers/http.exception';
 
 @Controller('api/v1/pessoa')
 @UseGuards(JwtAuthGuard)
@@ -71,16 +71,7 @@ export class PessoaController {
       return await this.pessoaService.create(body, userUuid);
     } catch (error) {
       if (error instanceof QueryFailedError) {
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
-          {
-            cause: error,
-          },
-        );
+        CatarinaException.DuplicateEntryException(error);
       } else {
         throw error;
       }

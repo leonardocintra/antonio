@@ -6,34 +6,24 @@ import {
   Patch,
   Param,
   Delete,
-  HttpException,
-  HttpStatus,
 } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { QueryFailedError } from 'typeorm';
+import { EntityNotFoundError, QueryFailedError } from 'typeorm';
+import { CatarinaException } from '../helpers/http.exception';
 
 @Controller('api/v1/usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
   @Post()
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
+  async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     try {
-      return this.usuariosService.create(createUsuarioDto);
+      return await this.usuariosService.create(createUsuarioDto);
     } catch (err) {
       if (err instanceof QueryFailedError) {
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            error: err.message,
-          },
-          HttpStatus.BAD_REQUEST,
-          {
-            cause: err,
-          },
-        );
+        CatarinaException.DuplicateEntryException(err);
       } else {
         throw err;
       }
@@ -48,6 +38,19 @@ export class UsuariosController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usuariosService.findOne(id);
+  }
+
+  @Get('/username/:username')
+  async findOneByUsername(@Param('username') username: string) {
+    try {
+      return await this.usuariosService.findOneByUsername(username);
+    } catch (err) {
+      if (err instanceof EntityNotFoundError) {
+        CatarinaException.EntityNotFoundException('username', err)
+      } else {
+        throw err;
+      }
+    }
   }
 
   @Patch(':id')
