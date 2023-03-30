@@ -31,7 +31,6 @@ export class PessoaService {
       pessoa.enderecos = enderecos;
       return pessoa;
     } catch (error) {
-      this.logger.error(error.message);
       throw new NotFoundException('Pessoa', error.message);
     }
   }
@@ -57,6 +56,9 @@ export class PessoaService {
         pessoaSaved.telefones.push(telefoneSaved);
       });
     }
+    this.logger.log(
+      `Pessoa created successfully - ${pessoaSaved.nome} - ${pessoaSaved.sobrenome}`,
+    );
     return pessoaSaved;
   }
 

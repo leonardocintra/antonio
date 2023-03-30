@@ -5,7 +5,7 @@ function DuplicateEntryException(err: QueryFailedError) {
   throw new HttpException(
     {
       status: HttpStatus.BAD_REQUEST,
-      error: `Field already exists ${err.message}`,
+      error: `Field already exists. ${err.message}`,
       errorMessageDetail: err,
     },
     HttpStatus.BAD_REQUEST,
