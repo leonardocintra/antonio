@@ -44,21 +44,17 @@ export class PessoaService {
       this.pessoaRepository.create(pessoa),
     );
     if (pessoa.enderecos) {
-      pessoa.enderecos.map(async (e) => {
-        const enderecoSaved = await this.enderecoService.create(e, pessoaSaved);
-        pessoaSaved.enderecos.push(enderecoSaved);
+      pessoa.enderecos.map((e) => {
+        this.enderecoService.create(e, pessoaSaved);
       });
     }
 
     if (pessoa.telefones) {
-      pessoa.telefones.map(async (t) => {
-        const telefoneSaved = await this.telefoneService.create(t, pessoaSaved);
-        pessoaSaved.telefones.push(telefoneSaved);
+      pessoa.telefones.map((t) => {
+        this.telefoneService.create(t, pessoaSaved);
       });
     }
-    this.logger.log(
-      `Pessoa created successfully - ${pessoaSaved.nome} - ${pessoaSaved.sobrenome}`,
-    );
+    this.logger.log(`Pessoa created successfully - ${pessoaSaved.id}`);
     return pessoaSaved;
   }
 

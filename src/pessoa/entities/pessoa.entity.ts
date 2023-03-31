@@ -57,10 +57,12 @@ export class Pessoa {
     cascade: ['remove'],
   })
   @ApiProperty()
+  @JoinColumn()
   enderecos: Endereco[];
 
   @OneToMany(() => Telefone, (telefone) => telefone.pessoa)
   @ApiProperty()
+  @JoinColumn()
   telefones: Telefone[];
 
   @ManyToOne(() => Usuario)

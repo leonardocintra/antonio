@@ -10,38 +10,9 @@ import { AppModule } from '../../src/app.module';
 describe('PessoaController (e2e)', () => {
   let app: INestApplication;
   const BASE_PATH = '/api/v1/pessoa';
-
-  async function fazerLogin() {
-    const username = 'usuarioTeste';
-    const password = '#usuARIO2023#';
-
-    const responseUsuario = await request(app.getHttpServer()).get(
-      `/api/v1/usuarios/username/${username}`,
-    );
-
-    if (responseUsuario.status === HttpStatus.NOT_FOUND) {
-      // cria novo usuario
-      try {
-        await request(app.getHttpServer())
-          .post('/api/v1/usuarios')
-          .send({
-            username: `${username}`,
-            password: `${password}`,
-            email: 'usuarioTeste@outlook.com',
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    const loginResponse = await request(app.getHttpServer())
-      .post('/api/auth/login')
-      .send({ username, password })
-      .expect(201);
-
-    const token = loginResponse.body.token;
-    return token;
-  }
+  const username = 'usuarioTeste';
+  const password = '#usuARIO2023#';
+  let jwtToken = '';
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -59,6 +30,35 @@ describe('PessoaController (e2e)', () => {
     await app.close();
   });
 
+  it('/api/auth/login (GET/POST) - login ou new user', async () => {
+    const responseUsuario = await request(app.getHttpServer()).get(
+      `/api/v1/usuarios/username/${username}`,
+    );
+
+    if (responseUsuario.status === HttpStatus.NOT_FOUND) {
+      // cria novo usuario
+      try {
+        await request(app.getHttpServer())
+          .post('/api/v1/usuarios')
+          .send({
+            username: `${username}`,
+            password: `${password}`,
+            email: 'usuarioTeste@outlook.com',
+          })
+          .expect(201);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    const loginResponse = await request(app.getHttpServer())
+      .post('/api/auth/login')
+      .send({ username, password })
+      .expect(201);
+
+    jwtToken = loginResponse.body.token;
+  });
+
   it('/api/v1/pessoa (GET - 401) - Unauthorized', async () => {
     return request(app.getHttpServer()).get(`${BASE_PATH}`).expect(401, {
       statusCode: 401,
@@ -67,11 +67,10 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (GET - 404) - Pessoa não encontrada by UUID', async () => {
-    const token = await fazerLogin();
     const url = `${BASE_PATH}/09b58991-538e-4410-824f-054bf8009d55`;
     return request(app.getHttpServer())
       .get(url)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .expect(HttpStatus.NOT_FOUND, {
         statusCode: 404,
         message: 'Pessoa',
@@ -81,8 +80,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email not send', async () => {
-    const token = await fazerLogin();
-
     const pessoa = {
       nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
@@ -94,7 +91,7 @@ describe('PessoaController (e2e)', () => {
 
     return request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa)
       .expect(HttpStatus.BAD_REQUEST, {
         statusCode: 400,
@@ -104,8 +101,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email null', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
@@ -120,7 +115,7 @@ describe('PessoaController (e2e)', () => {
 
     return request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa)
       .expect(HttpStatus.BAD_REQUEST, {
         statusCode: 400,
@@ -130,8 +125,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email empty', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
@@ -146,7 +139,7 @@ describe('PessoaController (e2e)', () => {
 
     return request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa)
       .expect(HttpStatus.BAD_REQUEST, {
         statusCode: 400,
@@ -156,8 +149,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email invalid', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
@@ -172,7 +163,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -183,8 +174,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome not send', async () => {
-    const token = await fazerLogin();
-
     const pessoa = {
       sobrenome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
@@ -196,7 +185,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -210,8 +199,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome null', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       nome: null,
       sobrenome: faker.name.lastName(),
@@ -226,7 +213,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -240,8 +227,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome empty', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       nome: '',
       sobrenome: faker.name.lastName(),
@@ -256,7 +241,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -267,8 +252,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome mais que 100 caracteres', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       nome: 'aaaaaaaaaaaaaaadddddddddddd kkkkkkkkkkkkkkkkkkkkkkk dddddddddddd oooooooooooooooo oooooooooooooooo ppppppppppppp ccccccccc',
       sobrenome: faker.name.lastName(),
@@ -283,7 +266,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -296,8 +279,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome not send', async () => {
-    const token = await fazerLogin();
-
     const pessoa = {
       nome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
@@ -309,7 +290,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -323,8 +304,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome null', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       sobrenome: null,
       nome: faker.name.lastName(),
@@ -339,7 +318,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -353,8 +332,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome empty', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       sobrenome: '',
       nome: faker.name.lastName(),
@@ -369,7 +346,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -380,8 +357,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome mais que 100 caracteres', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       sobrenome:
         'aaaaaaaaaaaaaaadddddddddddd kkkkkkkkkkkkkkkkkkkkkkk dddddddddddd oooooooooooooooo oooooooooooooooo ppppppppppppp ccccccccc',
@@ -397,7 +372,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -410,8 +385,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ not send', async () => {
-    const token = await fazerLogin();
-
     const pessoa = {
       sobrenome: faker.name.lastName(),
       nome: faker.name.firstName(),
@@ -423,7 +396,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -440,8 +413,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ null', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       sobrenome: faker.name.lastName(),
       nome: faker.name.firstName(),
@@ -456,7 +427,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -473,8 +444,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ empty', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       sobrenome: faker.name.lastName(),
       nome: faker.name.firstName(),
@@ -489,7 +458,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -502,9 +471,7 @@ describe('PessoaController (e2e)', () => {
     expect(response.body.message[1]).toEqual('cpfCnpj should not be empty');
   });
 
-  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ mais que 100 caracteres', async () => {
-    const token = await fazerLogin();
-
+  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ mais que 14 caracteres', async () => {
     const pessoa: CreatePessoaDto = {
       nome: faker.name.firstName(),
       sobrenome: faker.name.lastName(),
@@ -519,7 +486,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.body).toBeDefined();
@@ -532,8 +499,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ duplicado', async () => {
-    const token = await fazerLogin();
-
     const cpfDuplicado = Util.getRandomCPF();
 
     const pessoa1: CreatePessoaDto = {
@@ -562,7 +527,7 @@ describe('PessoaController (e2e)', () => {
 
     const response1 = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa1);
 
     expect(response1.status).toEqual(HttpStatus.CREATED);
@@ -580,7 +545,7 @@ describe('PessoaController (e2e)', () => {
 
     const response2 = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa2);
 
     expect(response2.status).toEqual(HttpStatus.BAD_REQUEST);
@@ -593,8 +558,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email duplicado', async () => {
-    const token = await fazerLogin();
-
     const emailUnico = faker.internet.email('example.fakerjs.dev');
 
     const pessoa1: CreatePessoaDto = {
@@ -623,7 +586,7 @@ describe('PessoaController (e2e)', () => {
 
     const response1 = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa1);
 
     expect(response1.status).toEqual(HttpStatus.CREATED);
@@ -641,7 +604,7 @@ describe('PessoaController (e2e)', () => {
 
     const response2 = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa2);
 
     expect(response2.status).toEqual(HttpStatus.BAD_REQUEST);
@@ -654,8 +617,6 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa sem endereço e telefone', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
@@ -670,7 +631,7 @@ describe('PessoaController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + token)
+      .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa);
 
     expect(response.status).toEqual(HttpStatus.CREATED);
@@ -685,11 +646,10 @@ describe('PessoaController (e2e)', () => {
     expect(response.body.ativo).not.toBeNull();
     expect(response.body.email).not.toBeNull();
     expect(response.body.enderecos).toHaveLength(0);
+    expect(response.body.telefones).toHaveLength(0);
   });
 
   it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa com endereco mas sem telefone', async () => {
-    const token = await fazerLogin();
-
     const pessoa: CreatePessoaDto = {
       nome: faker.name.firstName('female'),
       sobrenome: faker.name.lastName(),
@@ -725,22 +685,22 @@ describe('PessoaController (e2e)', () => {
 
     // AQUI ESTA DANDO ERRO DE Error: Pool is closed.
 
-    // const response = await request(app.getHttpServer())
-    //   .post(BASE_PATH)
-    //   .set('Authorization', 'Bearer ' + token)
-    //   .send(pessoa)
+    const response = await request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + jwtToken)
+      .send(pessoa);
 
-    // expect(response.status).toEqual(HttpStatus.CREATED);
-    // expect(response.body).toBeDefined();
-    // expect(response.body.id).toMatch(
-    //   /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
-    // );
-    // expect(response.body.nome).not.toBeNull();
-    // expect(response.body.sobrenome).not.toBeNull();
-    // expect(response.body.cpfCnpj).not.toBeNull();
-    // expect(response.body.sexo).not.toBeNull();
-    // expect(response.body.ativo).not.toBeNull();
-    // expect(response.body.email).not.toBeNull();
-    // expect(response.body.enderecos).toHaveLength(2);
+    expect(response.status).toEqual(HttpStatus.CREATED);
+    expect(response.body).toBeDefined();
+    expect(response.body.id).toMatch(
+      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
+    );
+    expect(response.body.nome).not.toBeNull();
+    expect(response.body.sobrenome).not.toBeNull();
+    expect(response.body.cpfCnpj).not.toBeNull();
+    expect(response.body.sexo).not.toBeNull();
+    expect(response.body.ativo).not.toBeNull();
+    expect(response.body.email).not.toBeNull();
+    expect(response.body.enderecos).toHaveLength(2);
   });
 });
