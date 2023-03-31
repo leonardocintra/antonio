@@ -11,7 +11,7 @@ async function bootstrap() {
     .setDescription(
       'Catarina API é um controle de cadastro de pessoas e seus dados',
     )
-    .setVersion('0.0.1')
+    .setVersion('0.0.2')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
@@ -20,6 +20,6 @@ async function bootstrap() {
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
   );
   app.enableCors();
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
