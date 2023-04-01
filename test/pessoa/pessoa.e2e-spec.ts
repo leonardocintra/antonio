@@ -558,7 +558,7 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email duplicado', async () => {
-    const emailUnico = faker.internet.email('example.fakerjs.dev');
+    const emailUnico = faker.internet.email();
 
     const pessoa1: CreatePessoaDto = {
       nome: faker.name.firstName('female'),
@@ -622,7 +622,7 @@ describe('PessoaController (e2e)', () => {
       sobrenome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
-      email: faker.internet.email('example.fakerjs.dev'),
+      email: faker.internet.email(),
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
@@ -683,7 +683,130 @@ describe('PessoaController (e2e)', () => {
       usuarioUpdate: undefined,
     };
 
-    // AQUI ESTA DANDO ERRO DE Error: Pool is closed.
+    const response = await request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + jwtToken)
+      .send(pessoa);
+
+    expect(response.status).toEqual(HttpStatus.CREATED);
+    expect(response.body).toBeDefined();
+    expect(response.body.id).toMatch(
+      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
+    );
+    expect(response.body.nome).not.toBeNull();
+    expect(response.body.sobrenome).not.toBeNull();
+    expect(response.body.cpfCnpj).not.toBeNull();
+    expect(response.body.sexo).not.toBeNull();
+    expect(response.body.ativo).not.toBeNull();
+    expect(response.body.email).not.toBeNull();
+    expect(response.body.enderecos).toHaveLength(2);
+    expect(response.body.enderecos[0].bairro).not.toBeNull();
+    expect(response.body.enderecos[0].cep).not.toBeNull();
+    expect(response.body.enderecos[0].cidade).not.toBeNull();
+    expect(response.body.enderecos[0].uf).not.toBeNull();
+    expect(response.body.enderecos[0].complemento).not.toBeNull();
+    expect(response.body.enderecos[0].referencia).not.toBeNull();
+    expect(response.body.enderecos[0].endereco).not.toBeNull();
+    expect(response.body.enderecos[0].numero).not.toBeNull();
+    expect(response.body.enderecos[1].bairro).not.toBeNull();
+    expect(response.body.enderecos[1].cep).not.toBeNull();
+    expect(response.body.enderecos[1].cidade).not.toBeNull();
+    expect(response.body.enderecos[1].uf).not.toBeNull();
+    expect(response.body.enderecos[1].complemento).not.toBeNull();
+    expect(response.body.enderecos[1].referencia).not.toBeNull();
+    expect(response.body.enderecos[1].endereco).not.toBeNull();
+    expect(response.body.enderecos[1].numero).not.toBeNull();
+    expect(response.body.telefones).toHaveLength(0);
+  });
+
+  it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa com telefone mas sem endereco', async () => {
+    const pessoa: CreatePessoaDto = {
+      nome: faker.name.firstName('female'),
+      sobrenome: faker.name.lastName(),
+      cpfCnpj: Util.getRandomCPF(),
+      sexo: SexoEnum.FEMININO,
+      email: faker.internet.email(),
+      enderecos: [],
+      telefones: [
+        {
+          area: '35',
+          numero: faker.phone.number('########'),
+          tipo: 'mobile',
+        },
+        {
+          area: '16',
+          numero: faker.phone.number('########'),
+          tipo: 'comercial',
+        },
+      ],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined,
+    };
+
+    const response = await request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + jwtToken)
+      .send(pessoa);
+
+    expect(response.status).toEqual(HttpStatus.CREATED);
+    expect(response.body).toBeDefined();
+    expect(response.body.id).toMatch(
+      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
+    );
+    expect(response.body.nome).not.toBeNull();
+    expect(response.body.sobrenome).not.toBeNull();
+    expect(response.body.cpfCnpj).not.toBeNull();
+    expect(response.body.sexo).not.toBeNull();
+    expect(response.body.ativo).not.toBeNull();
+    expect(response.body.email).not.toBeNull();
+    expect(response.body.enderecos).toHaveLength(0);
+    expect(response.body.telefones).toHaveLength(2);
+  });
+
+  it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa com telefone e endereco', async () => {
+    const pessoa: CreatePessoaDto = {
+      nome: faker.name.firstName('female'),
+      sobrenome: faker.name.lastName(),
+      cpfCnpj: Util.getRandomCPF(),
+      sexo: SexoEnum.FEMININO,
+      email: faker.internet.email(),
+      enderecos: [
+        {
+          bairro: faker.animal.bird(),
+          cep: faker.address.zipCode('########'),
+          cidade: faker.address.cityName(),
+          uf: faker.address.countryCode(),
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.crocodilia(),
+          endereco: faker.address.street(),
+          numero: faker.address.zipCode('####'),
+        },
+        {
+          bairro: faker.animal.bird(),
+          cep: faker.address.zipCode('########'),
+          cidade: faker.address.cityName(),
+          uf: faker.address.countryCode(),
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.fish(),
+          endereco: faker.address.street(),
+          numero: faker.address.zipCode('####'),
+        },
+      ],
+      telefones: [
+        {
+          area: '35',
+          numero: faker.phone.number('########'),
+          tipo: 'mobile',
+        },
+        {
+          area: '16',
+          numero: faker.phone.number('########'),
+          tipo: 'comercial',
+        },
+      ],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined,
+    };
 
     const response = await request(app.getHttpServer())
       .post(BASE_PATH)
@@ -702,5 +825,6 @@ describe('PessoaController (e2e)', () => {
     expect(response.body.ativo).not.toBeNull();
     expect(response.body.email).not.toBeNull();
     expect(response.body.enderecos).toHaveLength(2);
+    expect(response.body.telefones).toHaveLength(2);
   });
 });
