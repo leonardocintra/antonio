@@ -2,6 +2,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 
 function DuplicateEntryException(err: QueryFailedError) {
+  // TODO: especificar qual é o campo que esta duplicado.
   throw new HttpException(
     {
       status: HttpStatus.BAD_REQUEST,

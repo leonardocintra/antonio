@@ -1,6 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityNotFoundError, Repository } from 'typeorm';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from './entities/usuario.entity';
@@ -15,8 +15,9 @@ export class UsuariosService {
   ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
-    const novoUsuario = this.usuarioRepository.create(createUsuarioDto);
-    return await this.usuarioRepository.save(novoUsuario);
+    return await this.usuarioRepository.save(
+      this.usuarioRepository.create(createUsuarioDto),
+    );
   }
 
   async findAll(): Promise<Usuario[]> {
@@ -24,11 +25,11 @@ export class UsuariosService {
   }
 
   async findOne(id: string): Promise<Usuario> {
-    return await this.usuarioRepository.findOneByOrFail({ id });
+    return await this.findByParam({ id });
   }
 
   async findOneByUsername(username: string): Promise<Usuario> {
-    return await this.usuarioRepository.findOneByOrFail({ username });
+    return await this.findByParam({ username });
   }
 
   async update(
@@ -43,5 +44,13 @@ export class UsuariosService {
 
   async remove(uuid: string): Promise<void> {
     await this.usuarioRepository.delete(uuid);
+  }
+
+  private async findByParam(where: {}): Promise<Usuario> {
+    try {
+      return await this.usuarioRepository.findOneByOrFail(where);
+    } catch (error) {
+      throw new NotFoundException('Usuario não encontrado.', error.message);
+    }
   }
 }

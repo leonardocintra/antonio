@@ -53,14 +53,20 @@ export class Pessoa {
   @ApiProperty()
   ativo: boolean;
 
-  @OneToMany(() => Endereco, (endereco) => endereco.pessoa, {
-    cascade: ['remove'],
+  @OneToMany(() => Endereco, (endereco: Endereco) => endereco.pessoa, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   @ApiProperty()
   @JoinColumn()
   enderecos: Endereco[];
 
-  @OneToMany(() => Telefone, (telefone) => telefone.pessoa)
+  @OneToMany(() => Telefone, (telefone: Telefone) => telefone.pessoa, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @ApiProperty()
   @JoinColumn()
   telefones: Telefone[];

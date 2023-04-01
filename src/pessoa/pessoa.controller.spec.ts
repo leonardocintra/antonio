@@ -66,7 +66,7 @@ describe('PessoaController', () => {
       expect(result).toEqual(pessoaEntityListMock[1]);
       expect(pessoaService.create).toHaveBeenCalledTimes(1);
       // assert - espero que tenha chamado com um parametro especifico, nesse caso o requestUser e body
-      // expect(pessoaService.create).toHaveBeenCalledWith(requestMock, body);
+      //expect(pessoaService.create).toHaveBeenCalledWith(requestMock, body);
     });
 
     it('deve retornar uma exception (geral)', () => {

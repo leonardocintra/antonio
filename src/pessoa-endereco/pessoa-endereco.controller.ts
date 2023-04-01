@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CreateEnderecoDto } from '../endereco/dto/createEnderecoDto';
+import { CreateEnderecoDto } from '../endereco/dto/create-endereco.dto';
 import { Endereco } from '../endereco/entities/endereco.entity';
 import { PessoaEnderecoService } from './pessoa-endereco.service';
 

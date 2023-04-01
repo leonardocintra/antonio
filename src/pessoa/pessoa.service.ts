@@ -43,17 +43,6 @@ export class PessoaService {
     const pessoaSaved = await this.pessoaRepository.save(
       this.pessoaRepository.create(pessoa),
     );
-    if (pessoa.enderecos) {
-      pessoa.enderecos.map((e) => {
-        this.enderecoService.create(e, pessoaSaved);
-      });
-    }
-
-    if (pessoa.telefones) {
-      pessoa.telefones.map((t) => {
-        this.telefoneService.create(t, pessoaSaved);
-      });
-    }
     this.logger.log(`Pessoa created successfully - ${pessoaSaved.id}`);
     return pessoaSaved;
   }

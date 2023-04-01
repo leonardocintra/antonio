@@ -44,10 +44,8 @@ export class Telefone {
   @ApiProperty()
   updateddAt: string;
 
-  @ManyToOne(() => Pessoa, (pessoa) => pessoa.telefones, {
+  @ManyToOne(() => Pessoa, (pessoa: Pessoa) => pessoa.telefones, {
     nullable: false,
-    cascade: ['remove'],
-    onDelete: 'CASCADE',
   })
   pessoa: Pessoa;
 

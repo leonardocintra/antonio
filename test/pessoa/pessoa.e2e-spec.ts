@@ -673,7 +673,7 @@ describe('PessoaController (e2e)', () => {
           cidade: faker.address.cityName(),
           uf: faker.address.countryCode(),
           complemento: faker.animal.fish(),
-          referencia: faker.animal.crocodilia(),
+          referencia: faker.animal.fish(),
           endereco: faker.address.street(),
           numero: faker.address.zipCode('####'),
         },

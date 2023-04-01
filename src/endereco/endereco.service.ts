@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Endereco } from './entities/endereco.entity';
 import { Pessoa } from '../pessoa/entities/pessoa.entity';
-import { CreateEnderecoDto } from './dto/createEnderecoDto';
+import { CreateEnderecoDto } from './dto/create-endereco.dto';
 
 @Injectable()
 export class EnderecoService {

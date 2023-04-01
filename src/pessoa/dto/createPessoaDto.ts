@@ -9,7 +9,7 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
-import { CreateEnderecoDto } from '../../endereco/dto/createEnderecoDto';
+import { CreateEnderecoDto } from '../../endereco/dto/create-endereco.dto';
 import { CreateTefoneDto } from '../../telefone/dto/createTelefoneDto';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
 import { SexoEnum } from '../enum/sexoEnum';

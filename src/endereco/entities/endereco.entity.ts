@@ -42,9 +42,8 @@ export class Endereco {
   @Column({ default: true })
   ativo: boolean;
 
-  @ManyToOne(() => Pessoa, (pessoa) => pessoa.enderecos, {
+  @ManyToOne(() => Pessoa, (pessoa: Pessoa) => pessoa.enderecos, {
     nullable: false,
-    onDelete: 'CASCADE',
   })
   @JoinColumn()
   pessoa: Pessoa;
