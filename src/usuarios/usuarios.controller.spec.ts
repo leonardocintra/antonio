@@ -10,7 +10,7 @@ describe('UsuariosController', () => {
   const mockUsuarioService = {
     create: jest.fn((dto) => {
       return {
-        id: '123',
+        id: 'aaa123',
         ...dto,
       };
     }),
@@ -50,8 +50,18 @@ describe('UsuariosController', () => {
       email: 'upchh@example.com',
     };
 
-    expect(controller.create(dto)).toEqual({
-      id: '123',
+    const result = await controller.create(dto);
+    expect(result).toBeDefined();
+    expect(result.username).toBeDefined();
+    expect(result.password).toBeDefined();
+    expect(result.email).toBeDefined();
+    expect(result.id).toBeDefined();
+    expect(result.id).toEqual('aaa123');
+    expect(result.username).toEqual('leonardo');
+    expect(result.password).toEqual('123456');
+    expect(result.email).toEqual('upchh@example.com');
+    expect(result).toEqual({
+      id: 'aaa123',
       username: 'leonardo',
       password: '123456',
       email: 'upchh@example.com',
