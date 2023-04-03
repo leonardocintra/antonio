@@ -4,13 +4,14 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsNumberString,
   IsOptional,
   MaxLength,
   MinLength,
   ValidateNested,
 } from 'class-validator';
 import { CreateEnderecoDto } from '../../endereco/dto/create-endereco.dto';
-import { CreateTefoneDto } from '../../telefone/dto/createTelefoneDto';
+import { CreateTefoneDto } from '../../telefone/dto/create-telefone.dto';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
 import { SexoEnum } from '../enum/sexoEnum';
 
@@ -29,6 +30,7 @@ export class CreatePessoaDto {
   @MaxLength(14)
   @MinLength(11)
   @ApiProperty()
+  @IsNumberString()
   cpfCnpj: string;
 
   @IsOptional()

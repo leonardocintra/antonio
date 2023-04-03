@@ -1,5 +1,5 @@
-import { CreatePessoaDto } from '../../src/pessoa/dto/createPessoaDto';
-import { UpdatePessoaDto } from '../../src/pessoa/dto/updatePessoaDto';
+import { CreatePessoaDto } from '../../src/pessoa/dto/create-pessoa.dto';
+import { UpdatePessoaDto } from '../../src/pessoa/dto/update-pessoa.dto';
 import { SexoEnum } from '../../src/pessoa/enum/sexoEnum';
 import { faker } from '@faker-js/faker';
 import { Util } from '../utils';

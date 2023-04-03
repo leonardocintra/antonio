@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QueryFailedError } from 'typeorm';
-import { CreatePessoaDto } from './dto/createPessoaDto';
+import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { Pessoa } from './entities/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { IndexPessoaSwagger } from './swagger/index-pessoa.swagger';

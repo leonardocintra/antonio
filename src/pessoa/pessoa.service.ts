@@ -1,8 +1,8 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreatePessoaDto } from './dto/createPessoaDto';
-import { UpdatePessoaDto } from './dto/updatePessoaDto';
+import { CreatePessoaDto } from './dto/create-pessoa.dto';
+import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { Pessoa } from './entities/pessoa.entity';
 import { EnderecoService } from '../endereco/endereco.service';
 import { TelefoneService } from '../telefone/telefone.service';

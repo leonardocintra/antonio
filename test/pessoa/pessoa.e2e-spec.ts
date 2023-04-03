@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { CreatePessoaDto } from '../../src/pessoa/dto/createPessoaDto';
+import { CreatePessoaDto } from '../../src/pessoa/dto/create-pessoa.dto';
 import { faker } from '@faker-js/faker';
 import { Util } from '../utils';
 import { SexoEnum } from '../../src/pessoa/enum/sexoEnum';
@@ -402,14 +402,15 @@ describe('PessoaController (e2e)', () => {
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
     expect(response.body.statusCode).toEqual(400);
-    expect(response.body.message).toHaveLength(3);
-    expect(response.body.message[0]).toEqual(
+    expect(response.body.message).toHaveLength(4);
+    expect(response.body.message[0]).toEqual('cpfCnpj must be a number string');
+    expect(response.body.message[1]).toEqual(
       'cpfCnpj must be longer than or equal to 11 characters',
     );
-    expect(response.body.message[1]).toEqual(
+    expect(response.body.message[2]).toEqual(
       'cpfCnpj must be shorter than or equal to 14 characters',
     );
-    expect(response.body.message[2]).toEqual('cpfCnpj should not be empty');
+    expect(response.body.message[3]).toEqual('cpfCnpj should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ null', async () => {
@@ -433,14 +434,15 @@ describe('PessoaController (e2e)', () => {
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
     expect(response.body.statusCode).toEqual(400);
-    expect(response.body.message).toHaveLength(3);
-    expect(response.body.message[0]).toEqual(
+    expect(response.body.message).toHaveLength(4);
+    expect(response.body.message[0]).toEqual('cpfCnpj must be a number string');
+    expect(response.body.message[1]).toEqual(
       'cpfCnpj must be longer than or equal to 11 characters',
     );
-    expect(response.body.message[1]).toEqual(
+    expect(response.body.message[2]).toEqual(
       'cpfCnpj must be shorter than or equal to 14 characters',
     );
-    expect(response.body.message[2]).toEqual('cpfCnpj should not be empty');
+    expect(response.body.message[3]).toEqual('cpfCnpj should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ empty', async () => {
@@ -464,18 +466,19 @@ describe('PessoaController (e2e)', () => {
     expect(response.body).toBeDefined();
     expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
     expect(response.body.statusCode).toEqual(400);
-    expect(response.body.message).toHaveLength(2);
-    expect(response.body.message[0]).toEqual(
+    expect(response.body.message).toHaveLength(3);
+    expect(response.body.message[0]).toEqual('cpfCnpj must be a number string');
+    expect(response.body.message[1]).toEqual(
       'cpfCnpj must be longer than or equal to 11 characters',
     );
-    expect(response.body.message[1]).toEqual('cpfCnpj should not be empty');
+    expect(response.body.message[2]).toEqual('cpfCnpj should not be empty');
   });
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ mais que 14 caracteres', async () => {
     const pessoa: CreatePessoaDto = {
       nome: faker.name.firstName(),
       sobrenome: faker.name.lastName(),
-      cpfCnpj: 'Util.getRandomCPF()33333333333333333333333',
+      cpfCnpj: '38293829829839289829382938',
       sexo: SexoEnum.MASCULINO,
       email: faker.internet.email(),
       enderecos: [],

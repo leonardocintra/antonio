@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pessoa } from './entities/pessoa.entity';
 import { PessoaService } from './pessoa.service';
-import { UpdatePessoaDto } from './dto/updatePessoaDto';
+import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import {
   pessoaEntityListMock,
   pessoaEntityMockUpdated,
