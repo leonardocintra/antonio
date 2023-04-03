@@ -263,5 +263,40 @@ describe('PessoaController (e2e)', () => {
         'telefones.0.area must be shorter than or equal to 2 characters',
       );
     });
+
+    it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo area com letras', async () => {
+      const dto = {
+        nome: faker.name.firstName('female'),
+        sobrenome: faker.name.lastName(),
+        cpfCnpj: Util.getRandomCPF(),
+        sexo: SexoEnum.FEMININO,
+        email: faker.internet.email(),
+        enderecos: [],
+        telefones: [
+          {
+            area: 'vinte',
+            numero: faker.phone.number('########'),
+            tipo: 'mobile',
+          },
+        ],
+        usuarioInsert: undefined,
+        usuarioUpdate: undefined,
+      };
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(dto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(2);
+      expect(response.body.message[0]).toEqual(
+        'telefones.0.area must be a number string',
+      );
+      expect(response.body.message[1]).toEqual(
+        'telefones.0.area must be shorter than or equal to 2 characters',
+      );
+    });
   });
 });
