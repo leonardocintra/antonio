@@ -7,7 +7,7 @@ import { Util } from '../utils';
 import { SexoEnum } from '../../src/pessoa/enum/sexoEnum';
 import { AppModule } from '../../src/app.module';
 
-describe('PessoaController (e2e)', () => {
+describe('PessoaController - Telefone (e2e)', () => {
   let app: INestApplication;
   const BASE_PATH = '/api/v1/pessoa';
   const username = 'usuarioTeste';
@@ -78,7 +78,7 @@ describe('PessoaController (e2e)', () => {
     });
   });
 
-  describe('Cadastro de pessoas com telefone', () => {
+  describe('Campo TIPO do telefone', () => {
     it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo tipo com string vazia', async () => {
       pessoaDto.telefones = [
         {
@@ -185,7 +185,9 @@ describe('PessoaController (e2e)', () => {
         'telefones.0.area should not be empty',
       );
     });
+  });
 
+  describe('Campo AREA do telefone', () => {
     it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo area nao informado', async () => {
       const dto = {
         nome: faker.name.firstName('female'),
@@ -299,4 +301,119 @@ describe('PessoaController (e2e)', () => {
       );
     });
   });
+
+  describe('Campo NUMERO do telefone', () => {
+    it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo numero nao informado', async () => {
+      const dto = {
+        nome: faker.name.firstName('female'),
+        sobrenome: faker.name.lastName(),
+        cpfCnpj: Util.getRandomCPF(),
+        sexo: SexoEnum.FEMININO,
+        email: faker.internet.email(),
+        enderecos: [],
+        telefones: [
+          {
+            area: '23',
+            tipo: 'mobile',
+          },
+        ],
+        usuarioInsert: undefined,
+        usuarioUpdate: undefined,
+      };
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(dto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(4);
+      expect(response.body.message[0]).toEqual(
+        'telefones.0.numero must be a number string',
+      );
+      expect(response.body.message[1]).toEqual(
+        'telefones.0.numero must be longer than or equal to 7 characters',
+      );
+      expect(response.body.message[2]).toEqual(
+        'telefones.0.numero must be shorter than or equal to 9 characters',
+      );
+      expect(response.body.message[3]).toEqual(
+        'telefones.0.numero should not be empty',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo numero com numero', async () => {
+      const dto = {
+        nome: faker.name.firstName('female'),
+        sobrenome: faker.name.lastName(),
+        cpfCnpj: Util.getRandomCPF(),
+        sexo: SexoEnum.FEMININO,
+        email: faker.internet.email(),
+        enderecos: [],
+        telefones: [
+          {
+            area: '12',
+            numero: 32432423,
+            tipo: 'mobile',
+          },
+        ],
+        usuarioInsert: undefined,
+        usuarioUpdate: undefined,
+      };
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(dto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(3);
+      expect(response.body.message[0]).toEqual(
+        'telefones.0.numero must be a number string',
+      );
+      expect(response.body.message[1]).toEqual(
+        'telefones.0.numero must be longer than or equal to 7 characters',
+      );
+      expect(response.body.message[2]).toEqual(
+        'telefones.0.numero must be shorter than or equal to 9 characters',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo numero com letras', async () => {
+      const dto = {
+        nome: faker.name.firstName('female'),
+        sobrenome: faker.name.lastName(),
+        cpfCnpj: Util.getRandomCPF(),
+        sexo: SexoEnum.FEMININO,
+        email: faker.internet.email(),
+        enderecos: [],
+        telefones: [
+          {
+            area: '20',
+            numero: 'zerovinteeum',
+            tipo: 'mobile',
+          },
+        ],
+        usuarioInsert: undefined,
+        usuarioUpdate: undefined,
+      };
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(dto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(2);
+      expect(response.body.message[0]).toEqual(
+        'telefones.0.numero must be a number string',
+      );
+      expect(response.body.message[1]).toEqual(
+        'telefones.0.numero must be shorter than or equal to 9 characters',
+      );
+    });
+  })
 });

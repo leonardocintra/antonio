@@ -509,7 +509,7 @@ describe('PessoaController (e2e)', () => {
       sobrenome: faker.name.lastName(),
       cpfCnpj: cpfDuplicado,
       sexo: SexoEnum.FEMININO,
-      email: faker.internet.email('example.fakerjs.dev'),
+      email: faker.internet.email(),
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
@@ -517,11 +517,11 @@ describe('PessoaController (e2e)', () => {
     };
 
     const pessoa2: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
+      nome: faker.name.firstName('male'),
       sobrenome: faker.name.lastName(),
       cpfCnpj: cpfDuplicado,
       sexo: SexoEnum.FEMININO,
-      email: faker.internet.email('example.fakerjs.dev'),
+      email: faker.internet.email(),
       enderecos: [],
       telefones: [],
       usuarioInsert: undefined,
