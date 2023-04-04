@@ -129,10 +129,52 @@ describe('PessoaController - Endereço (e2e)', () => {
       expect(response.body).toBeDefined();
       expect(response.body.statusCode).toEqual(400);
       expect(response.body.message).toHaveLength(3);
-      expect(response.body.message[0]).toEqual(
+      expect(response.body.message[1]).toEqual(
         'enderecos.0.bairro must be a string',
       );
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.bairro must be shorter than or equal to 100 characters',
+      );
+      expect(response.body.message[2]).toEqual(
+        'enderecos.0.bairro should not be empty',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo bairro não informado', async () => {
+      const dto = {
+        nome: faker.name.firstName('female'),
+        sobrenome: faker.name.lastName(),
+        cpfCnpj: Util.getRandomCPF(),
+        sexo: SexoEnum.FEMININO,
+        email: faker.internet.email(),
+        enderecos: [
+          {
+            cep: faker.address.zipCode('########'),
+            cidade: faker.address.cityName(),
+            uf: faker.address.countryCode(),
+            complemento: faker.animal.fish(),
+            referencia: faker.animal.crocodilia(),
+            endereco: faker.address.street(),
+            numero: faker.address.zipCode('####'),
+          },
+        ],
+        telefones: [],
+        usuarioInsert: undefined,
+        usuarioUpdate: undefined,
+      };
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(dto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(3);
       expect(response.body.message[1]).toEqual(
+        'enderecos.0.bairro must be a string',
+      );
+      expect(response.body.message[0]).toEqual(
         'enderecos.0.bairro must be shorter than or equal to 100 characters',
       );
       expect(response.body.message[2]).toEqual(
@@ -202,11 +244,228 @@ describe('PessoaController - Endereço (e2e)', () => {
       expect(response.body).toBeDefined();
       expect(response.body.statusCode).toEqual(400);
       expect(response.body.message).toHaveLength(2);
-      expect(response.body.message[0]).toEqual(
+      expect(response.body.message[1]).toEqual(
         'enderecos.0.bairro must be a string',
       );
-      expect(response.body.message[1]).toEqual(
+      expect(response.body.message[0]).toEqual(
         'enderecos.0.bairro must be shorter than or equal to 100 characters',
+      );
+    });
+  });
+
+  describe('Campo CEP do endereco', () => {
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep com string vazia', async () => {
+      pessoaDto.enderecos = [
+        {
+          bairro: faker.address.streetName(),
+          cep: '',
+          cidade: faker.address.cityName(),
+          uf: faker.address.countryCode(),
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.crocodilia(),
+          endereco: faker.address.street(),
+          numero: faker.address.zipCode('####'),
+        },
+      ];
+
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(pessoaDto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(3);
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.cep must be longer than or equal to 8 characters',
+      );
+      expect(response.body.message[1]).toEqual(
+        'enderecos.0.cep must be a number string',
+      );
+      expect(response.body.message[2]).toEqual(
+        'enderecos.0.cep should not be empty',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep null', async () => {
+      pessoaDto.enderecos = [
+        {
+          bairro: faker.address.street(),
+          cep: null,
+          cidade: faker.address.cityName(),
+          uf: faker.address.countryCode(),
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.crocodilia(),
+          endereco: faker.address.street(),
+          numero: faker.address.zipCode('####'),
+        },
+      ];
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(pessoaDto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(4);
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.cep must be longer than or equal to 8 characters',
+      );
+      expect(response.body.message[1]).toEqual(
+        'enderecos.0.cep must be shorter than or equal to 8 characters',
+      );
+      expect(response.body.message[2]).toEqual(
+        'enderecos.0.cep must be a number string',
+      );
+      expect(response.body.message[3]).toEqual(
+        'enderecos.0.cep should not be empty',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep não informado', async () => {
+      const dto = {
+        nome: faker.name.firstName('female'),
+        sobrenome: faker.name.lastName(),
+        cpfCnpj: Util.getRandomCPF(),
+        sexo: SexoEnum.FEMININO,
+        email: faker.internet.email(),
+        enderecos: [
+          {
+            bairro: faker.address.street(),
+            cidade: faker.address.cityName(),
+            uf: faker.address.countryCode(),
+            complemento: faker.animal.fish(),
+            referencia: faker.animal.crocodilia(),
+            endereco: faker.address.street(),
+            numero: faker.address.zipCode('####'),
+          },
+        ],
+        telefones: [],
+        usuarioInsert: undefined,
+        usuarioUpdate: undefined,
+      };
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(dto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(4);
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.cep must be longer than or equal to 8 characters',
+      );
+      expect(response.body.message[1]).toEqual(
+        'enderecos.0.cep must be shorter than or equal to 8 characters',
+      );
+      expect(response.body.message[2]).toEqual(
+        'enderecos.0.cep must be a number string',
+      );
+      expect(response.body.message[3]).toEqual(
+        'enderecos.0.cep should not be empty',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep menor que 8 caracteres', async () => {
+      pessoaDto.enderecos = [
+        {
+          cep: faker.address.zipCode('####'),
+          cidade: faker.address.cityName(),
+          uf: faker.address.countryCode(),
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.crocodilia(),
+          endereco: faker.address.street(),
+          bairro: faker.address.street(),
+          numero: faker.address.zipCode('####'),
+        },
+      ];
+
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(pessoaDto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(1);
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.cep must be longer than or equal to 8 characters',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep maior que 8 caracteres', async () => {
+      pessoaDto.enderecos = [
+        {
+          cep: faker.address.zipCode('##########'),
+          cidade: faker.address.cityName(),
+          uf: faker.address.countryCode(),
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.crocodilia(),
+          endereco: faker.address.street(),
+          bairro: faker.address.street(),
+          numero: faker.address.zipCode('####'),
+        },
+      ];
+
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(pessoaDto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(1);
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.cep must be shorter than or equal to 8 characters',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep numerico', async () => {
+      const dto = {
+        nome: faker.name.firstName('female'),
+        sobrenome: faker.name.lastName(),
+        cpfCnpj: Util.getRandomCPF(),
+        sexo: SexoEnum.FEMININO,
+        email: faker.internet.email(),
+        enderecos: [
+          {
+            cep: 123456,
+            cidade: faker.address.cityName(),
+            uf: faker.address.countryCode(),
+            complemento: faker.animal.fish(),
+            referencia: faker.animal.crocodilia(),
+            endereco: faker.address.street(),
+            bairro: faker.address.street(),
+            numero: faker.address.zipCode('####'),
+          },
+        ],
+        telefones: [],
+        usuarioInsert: undefined,
+        usuarioUpdate: undefined,
+      };
+
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(dto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(3);
+      expect(response.body.message[1]).toEqual(
+        'enderecos.0.cep must be shorter than or equal to 8 characters',
+      );
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.cep must be longer than or equal to 8 characters',
+      );
+      expect(response.body.message[2]).toEqual(
+        'enderecos.0.cep must be a number string',
       );
     });
   });

@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsNumberString, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateEnderecoDto {
   @IsNotEmpty()
+  @IsNumberString()
   @MaxLength(8)
   @MinLength(8)
   @ApiProperty()
@@ -19,9 +20,9 @@ export class CreateEnderecoDto {
   numero: string;
 
   @IsNotEmpty()
+  @IsString()
   @MaxLength(100)
   @ApiProperty()
-  @IsString()
   bairro: string;
 
   @IsNotEmpty()
