@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumberString, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumberString,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
+import { EstadosBrasileiros } from '../enum/estadosBrasileiros.enum';
 
 export class CreateEnderecoDto {
   @IsNotEmpty()
@@ -33,6 +41,7 @@ export class CreateEnderecoDto {
 
   @IsNotEmpty()
   @IsString()
+  @IsEnum(EstadosBrasileiros)
   @MaxLength(2)
   @MinLength(2)
   @ApiProperty()

@@ -85,7 +85,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           bairro: '',
           cep: faker.address.zipCode('########'),
           cidade: faker.address.cityName(),
-          uf: faker.address.countryCode(),
+          uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
           endereco: faker.address.street(),
@@ -113,7 +113,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           bairro: null,
           cep: faker.address.zipCode('########'),
           cidade: faker.address.cityName(),
-          uf: faker.address.countryCode(),
+          uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
           endereco: faker.address.street(),
@@ -151,7 +151,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           {
             cep: faker.address.zipCode('########'),
             cidade: faker.address.cityName(),
-            uf: faker.address.countryCode(),
+            uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
             endereco: faker.address.street(),
@@ -189,7 +189,7 @@ describe('PessoaController - Endereço (e2e)', () => {
             'aaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbb ccccccccccccccccc dddddddddddddddd eeeeeeeeeeeeeeee ddddddddddddddd fffffffffffffff ggggggggggg',
           cep: faker.address.zipCode('########'),
           cidade: faker.address.cityName(),
-          uf: faker.address.countryCode(),
+          uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
           endereco: faker.address.street(),
@@ -223,7 +223,7 @@ describe('PessoaController - Endereço (e2e)', () => {
             bairro: 10000,
             cep: faker.address.zipCode('########'),
             cidade: faker.address.cityName(),
-            uf: faker.address.countryCode(),
+            uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
             endereco: faker.address.street(),
@@ -260,7 +260,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           bairro: faker.address.streetName(),
           cep: '',
           cidade: faker.address.cityName(),
-          uf: faker.address.countryCode(),
+          uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
           endereco: faker.address.street(),
@@ -294,7 +294,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           bairro: faker.address.street(),
           cep: null,
           cidade: faker.address.cityName(),
-          uf: faker.address.countryCode(),
+          uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
           endereco: faker.address.street(),
@@ -335,7 +335,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           {
             bairro: faker.address.street(),
             cidade: faker.address.cityName(),
-            uf: faker.address.countryCode(),
+            uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
             endereco: faker.address.street(),
@@ -374,7 +374,7 @@ describe('PessoaController - Endereço (e2e)', () => {
         {
           cep: faker.address.zipCode('####'),
           cidade: faker.address.cityName(),
-          uf: faker.address.countryCode(),
+          uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
           endereco: faker.address.street(),
@@ -402,7 +402,7 @@ describe('PessoaController - Endereço (e2e)', () => {
         {
           cep: faker.address.zipCode('##########'),
           cidade: faker.address.cityName(),
-          uf: faker.address.countryCode(),
+          uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
           endereco: faker.address.street(),
@@ -436,7 +436,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           {
             cep: 123456,
             cidade: faker.address.cityName(),
-            uf: faker.address.countryCode(),
+            uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
             endereco: faker.address.street(),
@@ -477,7 +477,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           bairro: faker.address.streetName(),
           cep: faker.address.zipCode('########'),
           cidade: '',
-          uf: faker.address.countryCode(),
+          uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
           endereco: faker.address.street(),
@@ -505,7 +505,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           bairro: faker.address.street(),
           cep: faker.address.zipCode('########'),
           cidade: null,
-          uf: faker.address.countryCode(),
+          uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
           endereco: faker.address.street(),
@@ -543,7 +543,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           {
             cep: faker.address.zipCode('########'),
             bairro: faker.address.street(),
-            uf: faker.address.countryCode(),
+            uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
             endereco: faker.address.street(),
@@ -579,7 +579,7 @@ describe('PessoaController - Endereço (e2e)', () => {
         {
           cep: faker.address.zipCode('########'),
           cidade: 'faker.address.cityName() aaaaaaaaaaaaaaaaa  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          uf: faker.address.countryCode(),
+          uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
           endereco: faker.address.street(),
@@ -613,7 +613,7 @@ describe('PessoaController - Endereço (e2e)', () => {
           {
             cep: faker.address.zipCode('########'),
             cidade: 1231231,
-            uf: faker.address.countryCode(),
+            uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
             endereco: faker.address.street(),
@@ -642,5 +642,9 @@ describe('PessoaController - Endereço (e2e)', () => {
         'enderecos.0.cidade must be shorter than or equal to 100 characters',
       );
     });
+  });
+
+  describe('Campo UF do endereco', () => {
+    // TODO: this should
   });
 });
