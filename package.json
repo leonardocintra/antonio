@@ -1,7 +1,7 @@
 {
   "name": "catarina",
-  "version": "0.0.1",
-  "description": "API gerencimento de dados pessoais",
+  "version": "0.0.2",
+  "description": "API gerencimento de dados pessoais - LGPD",
   "author": "Leonardo Nascimento Cintra",
   "private": true,
   "license": "UNLICENSED",

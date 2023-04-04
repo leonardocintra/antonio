@@ -1,5 +1,5 @@
 # Catarina API
-API de dados pessoais
+API de dados pessoais criptografados (LGPD)
 - Dados pessoas
 - Dados endereco
 - Dados telefone
@@ -7,7 +7,11 @@ API de dados pessoais
 
 ## Description
 
-Não precisem mais criar tabela de clientes, empresas, endereço, telefones, etc em seus sitemas. Use o Catarina-API
+Não precisem mais criar tabela de clientes, empresas, endereço, telefones, etc em seus sitemas. 
+
+E também não precisem preocupar com os dados e a lei LGPD. Use o Catarina-API
+
+No seu sistema/banco de dados salve apenas um campo que ache necessario (Ex: id, email, cpf ou CNPJ)
 
 ## Installation
 
@@ -52,7 +56,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## Stay in touch
 
 - Author - Leonardo Cintra
-- Website - [https://www.likeestampa.com.br](https://www.likeestampa.com.br)
+- API Backend - https://catarina-production.up.railway.app/api
 - Twitter - [@leonardoncintra](https://twitter.com/leonardoncintra)
 
 ## License
