@@ -26,22 +26,22 @@ export class CreateEnderecoDto {
   bairro: string;
 
   @IsNotEmpty()
+  @IsString()
   @MaxLength(100)
   @ApiProperty()
   cidade: string;
 
   @IsNotEmpty()
+  @IsString()
   @MaxLength(2)
   @MinLength(2)
   @ApiProperty()
   uf: string;
 
-  @IsNotEmpty()
   @MaxLength(100)
   @ApiProperty()
   referencia: string;
 
-  @IsNotEmpty()
   @MaxLength(50)
   @ApiProperty()
   complemento: string;
