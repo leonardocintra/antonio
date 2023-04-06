@@ -22,9 +22,9 @@ describe('PessoaController', () => {
           provide: PessoaService,
           useValue: {
             findAll: jest.fn().mockResolvedValue(pessoaEntityListMock),
-            findByUuid: jest.fn(),
-            deleteByUuid: jest.fn(),
+            findByUuid: jest.fn().mockResolvedValue(pessoaEntityListMock[1]),
             create: jest.fn().mockResolvedValue(pessoaEntityListMock[1]),
+            delete: jest.fn(),
           },
         },
       ],
@@ -56,6 +56,18 @@ describe('PessoaController', () => {
       // assert
       expect(pessoaController.getPessoas()).rejects.toThrowError();
     });
+
+    it('deve retornar uma pessoa by id', async () => {
+      const result = await pessoaController.getById(
+        '2d2a5822-5424-4030-9ab7-3a70a52d0843',
+      );
+      expect(typeof result).toEqual('object');
+      expect(result).toEqual(pessoaEntityListMock[1]);
+      expect(pessoaService.findByUuid).toHaveBeenCalledTimes(1);
+      expect(result.id).toEqual('2d2a5822-5424-4030-9ab7-3a70a52d0843');
+      expect(result.nome).toEqual('Juliana');
+      expect(result.sobrenome).toEqual('Cintra');
+    });
   });
 
   describe('createPessoa', () => {
@@ -66,7 +78,10 @@ describe('PessoaController', () => {
       expect(result).toEqual(pessoaEntityListMock[1]);
       expect(pessoaService.create).toHaveBeenCalledTimes(1);
       // assert - espero que tenha chamado com um parametro especifico, nesse caso o requestUser e body
-      //expect(pessoaService.create).toHaveBeenCalledWith(requestMock, body);
+      expect(pessoaService.create).toHaveBeenCalledWith(
+        body,
+        requestMock.user.id,
+      );
     });
 
     it('deve retornar uma exception (geral)', () => {
@@ -76,6 +91,20 @@ describe('PessoaController', () => {
       expect(
         pessoaController.createPessoa(requestMock, body),
       ).rejects.toThrowError();
+    });
+  });
+
+  describe('deletePessoa', () => {
+    it('deve deletar uma pessoa com sucesso', async () => {
+      const mockPessoaId = pessoaEntityListMock[1].id;
+      const deleteSpy = jest
+        .spyOn(pessoaService, 'delete')
+        .mockResolvedValue(undefined);
+
+      await pessoaController.delete(mockPessoaId);
+      expect(deleteSpy).toHaveBeenCalledWith(mockPessoaId);
+      expect(pessoaService.delete).toHaveBeenCalledWith(mockPessoaId);
+      expect(pessoaService.delete).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -54,7 +54,7 @@ export class PessoaService {
     return await this.pessoaRepository.save(pessoa);
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<void> {
     await this.findByUuid(id);
     await this.pessoaRepository.delete(id);
   }

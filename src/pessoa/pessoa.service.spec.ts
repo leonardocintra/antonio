@@ -146,17 +146,19 @@ describe('PessoaService', () => {
 
     it('deve criar uma pessoa com sucesso', async () => {
       // arrange
-      // const data = createPessoaDtoMock;
-      // jest.spyOn(usuarioService, 'findOne').mockResolvedValue(new Usuario(data)););
-      // // act
-      // const result = await pessoaService.create(
-      //   data,
-      //   'e4e5263a-3e77-431c-ae47-70b858618682',
-      // );
-      // // assert
-      // expect(result).toEqual(pessoaEntityListMock[1]);
-      // expect(pessoaRepository.save).toHaveBeenCalledTimes(1);
-      // expect(pessoaRepository.create).toHaveBeenCalledTimes(1);
+      const data = createPessoaDtoMock;
+      jest
+        .spyOn(usuarioService, 'findOne')
+        .mockResolvedValue(new Usuario(data));
+      // act
+      const result = await pessoaService.create(
+        data,
+        'e4e5263a-3e77-431c-ae47-70b858618682',
+      );
+      // assert
+      expect(result).toEqual(pessoaEntityListMock[1]);
+      expect(pessoaRepository.save).toHaveBeenCalledTimes(1);
+      expect(pessoaRepository.create).toHaveBeenCalledTimes(1);
     });
   });
 

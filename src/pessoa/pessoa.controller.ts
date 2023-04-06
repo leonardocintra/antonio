@@ -54,7 +54,7 @@ export class PessoaController {
   @ApiOperation({ summary: 'Deletar uma pessoa especifica' })
   @ApiResponse({ status: 204, description: 'Pessoa deletada com sucesso' })
   @ApiResponse({ status: 404, description: 'Pessoa não encontrada' })
-  async delete(@Param('id', new ParseUUIDPipe()) id: string) {
+  async delete(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
     await this.pessoaService.delete(id);
   }
 
