@@ -42,43 +42,45 @@ describe('PessoaController - Endereço (e2e)', () => {
     await app.close();
   });
 
-  it('/api/auth/login (GET/POST) - login ou new user', async () => {
-    const responseUsuario = await request(app.getHttpServer()).get(
-      `/api/v1/usuarios/username/${username}`,
-    );
+  describe('Cadastro de pessoa - LOGIN/AUTH', () => {
+    it('/api/auth/login (GET/POST) - login ou new user', async () => {
+      const responseUsuario = await request(app.getHttpServer()).get(
+        `/api/v1/usuarios/username/${username}`,
+      );
 
-    if (responseUsuario.status === HttpStatus.NOT_FOUND) {
-      // cria novo usuario
-      try {
-        await request(app.getHttpServer())
-          .post('/api/v1/usuarios')
-          .send({
-            username: `${username}`,
-            password: `${password}`,
-            email: 'usuarioTeste@outlook.com',
-          })
-          .expect(201);
-      } catch (error) {
-        console.log(error);
+      if (responseUsuario.status === HttpStatus.NOT_FOUND) {
+        // cria novo usuario
+        try {
+          await request(app.getHttpServer())
+            .post('/api/v1/usuarios')
+            .send({
+              username: `${username}`,
+              password: `${password}`,
+              email: 'usuarioTeste@outlook.com',
+            })
+            .expect(201);
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
 
-    const loginResponse = await request(app.getHttpServer())
-      .post('/api/auth/login')
-      .send({ username, password })
-      .expect(201);
+      const loginResponse = await request(app.getHttpServer())
+        .post('/api/auth/login')
+        .send({ username, password })
+        .expect(201);
 
-    jwtToken = loginResponse.body.token;
-  });
+      jwtToken = loginResponse.body.token;
+    });
 
-  it('/api/v1/pessoa (GET - 401) - Unauthorized', async () => {
-    return request(app.getHttpServer()).get(`${BASE_PATH}`).expect(401, {
-      statusCode: 401,
-      message: 'Unauthorized',
+    it('/api/v1/pessoa (GET - 401) - Unauthorized', async () => {
+      return request(app.getHttpServer()).get(`${BASE_PATH}`).expect(401, {
+        statusCode: 401,
+        message: 'Unauthorized',
+      });
     });
   });
 
-  describe('Campo BAIRRO do endereco', () => {
+  describe('Cadastro de pessoa - Campo BAIRRO do endereco', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo bairro com string vazia', async () => {
       pessoaDto.enderecos = [
         {
@@ -253,11 +255,11 @@ describe('PessoaController - Endereço (e2e)', () => {
     });
   });
 
-  describe('Campo CEP do endereco', () => {
+  describe('Cadastro de pessoa - Campo CEP do endereco', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep com string vazia', async () => {
       pessoaDto.enderecos = [
         {
-          bairro: faker.address.streetName(),
+          bairro: faker.address.street(),
           cep: '',
           cidade: faker.address.cityName(),
           uf: 'MG',
@@ -470,11 +472,11 @@ describe('PessoaController - Endereço (e2e)', () => {
     });
   });
 
-  describe('Campo CIDADE do endereco', () => {
+  describe('Cadastro de pessoa - Campo CIDADE do endereco', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cidade com string vazia', async () => {
       pessoaDto.enderecos = [
         {
-          bairro: faker.address.streetName(),
+          bairro: faker.address.street(),
           cep: faker.address.zipCode('########'),
           cidade: '',
           uf: 'MG',
@@ -578,7 +580,8 @@ describe('PessoaController - Endereço (e2e)', () => {
       pessoaDto.enderecos = [
         {
           cep: faker.address.zipCode('########'),
-          cidade: 'faker.address.cityName() aaaaaaaaaaaaaaaaa  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          cidade:
+            'faker.address.cityName() aaaaaaaaaaaaaaaaa  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
@@ -644,7 +647,242 @@ describe('PessoaController - Endereço (e2e)', () => {
     });
   });
 
-  describe('Campo UF do endereco', () => {
-    // TODO: this should
+  describe('Cadastro de pessoa - Campo UF do endereco', () => {
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf com string vazia', async () => {
+      pessoaDto.enderecos = [
+        {
+          bairro: faker.address.street(),
+          cep: faker.address.zipCode('########'),
+          cidade: faker.address.city(),
+          uf: '',
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.crocodilia(),
+          endereco: faker.address.street(),
+          numero: faker.address.zipCode('####'),
+        },
+      ];
+
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(pessoaDto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(3);
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.uf must be longer than or equal to 2 characters',
+      );
+      expect(response.body.message[1]).toEqual(
+        'enderecos.0.uf must be one of the following values: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO',
+      );
+      expect(response.body.message[2]).toEqual(
+        'enderecos.0.uf should not be empty',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf null', async () => {
+      pessoaDto.enderecos = [
+        {
+          bairro: faker.address.street(),
+          cep: faker.address.zipCode('########'),
+          cidade: faker.address.city(),
+          uf: null,
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.crocodilia(),
+          endereco: faker.address.street(),
+          numero: faker.address.zipCode('####'),
+        },
+      ];
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(pessoaDto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(5);
+      expect(response.body.message[1]).toEqual(
+        'enderecos.0.uf must be shorter than or equal to 2 characters',
+      );
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.uf must be longer than or equal to 2 characters',
+      );
+      expect(response.body.message[2]).toEqual(
+        'enderecos.0.uf must be one of the following values: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO',
+      );
+      expect(response.body.message[3]).toEqual(
+        'enderecos.0.uf must be a string',
+      );
+      expect(response.body.message[4]).toEqual(
+        'enderecos.0.uf should not be empty',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf não informado', async () => {
+      const dto = {
+        nome: faker.name.firstName('female'),
+        sobrenome: faker.name.lastName(),
+        cpfCnpj: Util.getRandomCPF(),
+        sexo: SexoEnum.FEMININO,
+        email: faker.internet.email(),
+        enderecos: [
+          {
+            cidade: faker.address.city(),
+            cep: faker.address.zipCode('########'),
+            bairro: faker.address.street(),
+            complemento: faker.animal.fish(),
+            referencia: faker.animal.crocodilia(),
+            endereco: faker.address.street(),
+            numero: faker.address.zipCode('####'),
+          },
+        ],
+        telefones: [],
+        usuarioInsert: undefined,
+        usuarioUpdate: undefined,
+      };
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(dto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(5);
+      expect(response.body.message[1]).toEqual(
+        'enderecos.0.uf must be shorter than or equal to 2 characters',
+      );
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.uf must be longer than or equal to 2 characters',
+      );
+      expect(response.body.message[2]).toEqual(
+        'enderecos.0.uf must be one of the following values: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO',
+      );
+      expect(response.body.message[3]).toEqual(
+        'enderecos.0.uf must be a string',
+      );
+      expect(response.body.message[4]).toEqual(
+        'enderecos.0.uf should not be empty',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf maior que 2 caracteres', async () => {
+      pessoaDto.enderecos = [
+        {
+          cep: faker.address.zipCode('########'),
+          cidade: faker.address.city(),
+          uf: 'MGG',
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.crocodilia(),
+          endereco: faker.address.street(),
+          bairro: faker.address.street(),
+          numero: faker.address.zipCode('####'),
+        },
+      ];
+
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(pessoaDto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(2);
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.uf must be shorter than or equal to 2 characters',
+      );
+      expect(response.body.message[1]).toEqual(
+        'enderecos.0.uf must be one of the following values: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf numerico', async () => {
+      const dto = {
+        nome: faker.name.firstName('female'),
+        sobrenome: faker.name.lastName(),
+        cpfCnpj: Util.getRandomCPF(),
+        sexo: SexoEnum.FEMININO,
+        email: faker.internet.email(),
+        enderecos: [
+          {
+            cep: faker.address.zipCode('########'),
+            cidade: faker.address.city(),
+            uf: 23,
+            complemento: faker.animal.fish(),
+            referencia: faker.animal.crocodilia(),
+            endereco: faker.address.street(),
+            bairro: faker.address.street(),
+            numero: faker.address.zipCode('####'),
+          },
+        ],
+        telefones: [],
+        usuarioInsert: undefined,
+        usuarioUpdate: undefined,
+      };
+
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(dto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(4);
+      expect(response.body.message[1]).toEqual(
+        'enderecos.0.uf must be shorter than or equal to 2 characters',
+      );
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.uf must be longer than or equal to 2 characters',
+      );
+      expect(response.body.message[2]).toEqual(
+        'enderecos.0.uf must be one of the following values: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO',
+      );
+      expect(response.body.message[3]).toEqual(
+        'enderecos.0.uf must be a string',
+      );
+    });
+
+    it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf invalido', async () => {
+      const dto = {
+        nome: faker.name.firstName('female'),
+        sobrenome: faker.name.lastName(),
+        cpfCnpj: Util.getRandomCPF(),
+        sexo: SexoEnum.FEMININO,
+        email: faker.internet.email(),
+        enderecos: [
+          {
+            cep: faker.address.zipCode('########'),
+            cidade: faker.address.city(),
+            uf: 'NY',
+            complemento: faker.animal.fish(),
+            referencia: faker.animal.crocodilia(),
+            endereco: faker.address.street(),
+            bairro: faker.address.street(),
+            numero: faker.address.zipCode('####'),
+          },
+        ],
+        telefones: [],
+        usuarioInsert: undefined,
+        usuarioUpdate: undefined,
+      };
+
+      const response = await request(app.getHttpServer())
+        .post(BASE_PATH)
+        .set('Authorization', 'Bearer ' + jwtToken)
+        .send(dto);
+
+      expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+      expect(response.body).toBeDefined();
+      expect(response.body.statusCode).toEqual(400);
+      expect(response.body.message).toHaveLength(1);
+      expect(response.body.message[0]).toEqual(
+        'enderecos.0.uf must be one of the following values: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO',
+      );
+    });
   });
 });
