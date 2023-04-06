@@ -4,14 +4,17 @@ API de dados pessoais criptografados (LGPD)
 - Dados endereco
 - Dados telefone
 
+![santa-Caterina-e-il-Dialogo](https://user-images.githubusercontent.com/5832193/230446119-01e5e763-3e6e-4223-8c13-b9629fa7e9f7.jpg)
 
-## Description
 
-Não precisem mais criar tabela de clientes, empresas, endereço, telefones, etc em seus sitemas. 
+## Descrição
 
-E também não precisem preocupar com os dados e a lei LGPD. Use o Catarina-API
+Liberte-se da complexidade do gerenciamento de cadastros e dados pessoais em seus sistemas. 
 
-No seu sistema/banco de dados salve apenas um campo que ache necessario (Ex: id, email, cpf ou CNPJ)
+### Conheca o Catarina API - nosso sistema backend:
+ - Atende aos requisitos da lei LGPD
+ - Oferece uma solução segura e eficiente para que você possa se concentrar no desenvolvimento do seu negócio.
+ - Salve apenas um campo que ache necessario (Ex: id, email, cpf ou CNPJ) no seu banco de dados.
 
 ## Installation
 
