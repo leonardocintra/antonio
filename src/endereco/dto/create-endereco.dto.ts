@@ -23,6 +23,7 @@ export class CreateEnderecoDto {
   endereco: string;
 
   @IsNotEmpty()
+  @IsString()
   @MaxLength(10)
   @ApiProperty()
   numero: string;

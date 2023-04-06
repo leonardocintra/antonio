@@ -13,6 +13,7 @@ describe('PessoaController (e2e)', () => {
   const username = 'usuarioTeste';
   const password = '#usuARIO2023#';
   let jwtToken = '';
+  const pessoaIdInexistente = '09b58991-538e-4410-824f-054bf8009d55';
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -67,15 +68,14 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (GET - 404) - Pessoa não encontrada by UUID', async () => {
-    const url = `${BASE_PATH}/09b58991-538e-4410-824f-054bf8009d55`;
+    const url = `${BASE_PATH}/${pessoaIdInexistente}`;
     return request(app.getHttpServer())
       .get(url)
       .set('Authorization', 'Bearer ' + jwtToken)
       .expect(HttpStatus.NOT_FOUND, {
         statusCode: 404,
         message: 'Pessoa',
-        error:
-          'Could not find any entity of type "Pessoa" matching: {\n    "id": "09b58991-538e-4410-824f-054bf8009d55"\n}',
+        error: `Could not find any entity of type "Pessoa" matching: {\n    "id": "${pessoaIdInexistente}"\n}`,
       });
   });
 
@@ -792,7 +792,7 @@ describe('PessoaController (e2e)', () => {
           complemento: faker.animal.fish(),
           referencia: faker.animal.fish(),
           endereco: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          numero: 'sem numero',
         },
       ],
       telefones: [
@@ -829,5 +829,89 @@ describe('PessoaController (e2e)', () => {
     expect(response.body.email).not.toBeNull();
     expect(response.body.enderecos).toHaveLength(2);
     expect(response.body.telefones).toHaveLength(2);
+  });
+
+  it('/api/v1/pessoa (POST - 204) - Deletar uma pessoa', async () => {
+    const pessoa: CreatePessoaDto = {
+      nome: faker.name.firstName('female'),
+      sobrenome: faker.name.lastName(),
+      cpfCnpj: Util.getRandomCPF(),
+      sexo: SexoEnum.FEMININO,
+      email: faker.internet.email(),
+      enderecos: [
+        {
+          bairro: faker.animal.bird(),
+          cep: faker.address.zipCode('########'),
+          cidade: faker.address.cityName(),
+          uf: 'RR',
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.crocodilia(),
+          endereco: faker.address.street(),
+          numero: faker.address.zipCode('####'),
+        },
+        {
+          bairro: faker.animal.bird(),
+          cep: faker.address.zipCode('########'),
+          cidade: faker.address.cityName(),
+          uf: 'AM',
+          complemento: faker.animal.fish(),
+          referencia: faker.animal.fish(),
+          endereco: faker.address.street(),
+          numero: 'sem numero',
+        },
+      ],
+      telefones: [
+        {
+          area: '35',
+          numero: faker.phone.number('########'),
+          tipo: 'mobile',
+        },
+        {
+          area: '16',
+          numero: faker.phone.number('########'),
+          tipo: 'comercial',
+        },
+      ],
+      usuarioInsert: undefined,
+      usuarioUpdate: undefined,
+    };
+
+    const response = await request(app.getHttpServer())
+      .post(BASE_PATH)
+      .set('Authorization', 'Bearer ' + jwtToken)
+      .send(pessoa);
+
+    expect(response.status).toEqual(HttpStatus.CREATED);
+    expect(response.body).toBeDefined();
+    expect(response.body.id).toMatch(
+      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
+    );
+    expect(response.body.id).not.toBeNull();
+    expect(response.body.nome).not.toBeNull();
+    expect(response.body.sobrenome).not.toBeNull();
+    expect(response.body.cpfCnpj).not.toBeNull();
+    expect(response.body.sexo).not.toBeNull();
+    expect(response.body.ativo).not.toBeNull();
+    expect(response.body.email).not.toBeNull();
+    expect(response.body.enderecos).toHaveLength(2);
+    expect(response.body.telefones).toHaveLength(2);
+
+    const pessoaid = response.body.id;
+    const responseDelete = await request(app.getHttpServer())
+      .delete(`${BASE_PATH}/${pessoaid}`)
+      .set('Authorization', 'Bearer ' + jwtToken);
+
+    expect(responseDelete.status).toEqual(HttpStatus.NO_CONTENT);
+  });
+
+  it('/api/v1/pessoa (POST - 404) - Deletar uma pessoa inexistente', async () => {
+    const responseDelete = await request(app.getHttpServer())
+      .delete(`${BASE_PATH}/${pessoaIdInexistente}`)
+      .set('Authorization', 'Bearer ' + jwtToken)
+      .expect(HttpStatus.NOT_FOUND, {
+        statusCode: 404,
+        message: 'Pessoa',
+        error: `Could not find any entity of type "Pessoa" matching: {\n    "id": "${pessoaIdInexistente}"\n}`,
+      });
   });
 });
