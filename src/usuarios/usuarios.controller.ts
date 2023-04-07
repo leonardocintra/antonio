@@ -26,7 +26,7 @@ export class UsuariosController {
       return await this.usuariosService.create(createUsuarioDto);
     } catch (err) {
       if (err instanceof QueryFailedError) {
-        CatarinaException.DuplicateEntryException(err);
+        CatarinaException.QueryFailedErrorException(err);
       } else {
         throw err;
       }

@@ -71,7 +71,7 @@ export class PessoaController {
       return await this.pessoaService.create(body, userUuid);
     } catch (error) {
       if (error instanceof QueryFailedError) {
-        CatarinaException.DuplicateEntryException(error);
+        CatarinaException.QueryFailedErrorException(error);
       } else {
         throw error;
       }

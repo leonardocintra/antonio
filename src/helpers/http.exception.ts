@@ -38,6 +38,6 @@ function EntityNotFoundException(entity: string, err: EntityNotFoundError) {
 }
 
 export const CatarinaException = {
-  DuplicateEntryException: QueryFailedErrorException,
+  QueryFailedErrorException,
   EntityNotFoundException,
 };
