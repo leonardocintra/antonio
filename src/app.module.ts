@@ -9,7 +9,6 @@ import { EnderecoModule } from './endereco/endereco.module';
 import { Endereco } from './endereco/entities/endereco.entity';
 import { TelefoneModule } from './telefone/telefone.module';
 import { Telefone } from './telefone/entities/telefone.entity';
-import { PessoaEnderecoModule } from './pessoa-endereco/pessoa-endereco.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { Usuario } from './usuarios/entities/usuario.entity';
 
@@ -36,7 +35,6 @@ import { Usuario } from './usuarios/entities/usuario.entity';
     PessoaModule,
     EnderecoModule,
     TelefoneModule,
-    PessoaEnderecoModule,
   ],
   controllers: [],
   providers: [],
