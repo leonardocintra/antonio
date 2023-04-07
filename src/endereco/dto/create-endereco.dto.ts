@@ -3,11 +3,13 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumberString,
+  IsOptional,
   IsString,
   MaxLength,
   MinLength,
 } from 'class-validator';
 import { EstadosBrasileiros } from '../enum/estadosBrasileiros.enum';
+import { IsNull } from 'typeorm';
 
 export class CreateEnderecoDto {
   @IsNotEmpty()
@@ -18,6 +20,7 @@ export class CreateEnderecoDto {
   cep: string;
 
   @IsNotEmpty()
+  @IsString()
   @MaxLength(100)
   @ApiProperty()
   endereco: string;
@@ -48,10 +51,14 @@ export class CreateEnderecoDto {
   @ApiProperty()
   uf: string;
 
+  @IsOptional()
+  @IsString()
   @MaxLength(100)
   @ApiProperty()
   referencia: string;
 
+  @IsOptional()
+  @IsString()
   @MaxLength(50)
   @ApiProperty()
   complemento: string;

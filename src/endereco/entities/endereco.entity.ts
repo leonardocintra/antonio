@@ -33,10 +33,10 @@ export class Endereco {
   @Column({ length: 2 })
   uf: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: true })
   referencia: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: true })
   complemento: string;
 
   @Column({ default: true })
