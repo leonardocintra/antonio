@@ -1,16 +1,29 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 
-function DuplicateEntryException(err: QueryFailedError) {
-  // TODO: especificar qual é o campo que esta duplicado.
-  throw new HttpException(
-    {
-      status: HttpStatus.BAD_REQUEST,
-      error: `Field already exists. ${err.message}`,
-      errorMessageDetail: err,
-    },
-    HttpStatus.BAD_REQUEST,
-  );
+const DUPLICATE_ENTRY_ERROR = 1062;
+
+function QueryFailedErrorException(err: QueryFailedError) {
+  if (err.driverError.errno === DUPLICATE_ENTRY_ERROR) {
+    // TODO: especificar qual é o campo que esta duplicado.
+    throw new HttpException(
+      {
+        status: HttpStatus.BAD_REQUEST,
+        error: `Field already exists. ${err.message}`,
+        errorMessageDetail: err,
+      },
+      HttpStatus.BAD_REQUEST,
+    );
+  } else {
+    throw new HttpException(
+      {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: err.message,
+        errorMessageDetail: err,
+      },
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
+  }
 }
 
 function EntityNotFoundException(entity: string, err: EntityNotFoundError) {
@@ -25,6 +38,6 @@ function EntityNotFoundException(entity: string, err: EntityNotFoundError) {
 }
 
 export const CatarinaException = {
-  DuplicateEntryException,
+  DuplicateEntryException: QueryFailedErrorException,
   EntityNotFoundException,
 };
