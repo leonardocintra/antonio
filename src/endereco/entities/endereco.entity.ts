@@ -51,6 +51,9 @@ export class Endereco {
   @Column({ nullable: true })
   validado_em: Date;
 
+  @Column({ nullable: true })
+  campo_invalido: string;
+
   @ManyToOne(() => Pessoa, (pessoa: Pessoa) => pessoa.enderecos, {
     nullable: false,
     onDelete: 'CASCADE',

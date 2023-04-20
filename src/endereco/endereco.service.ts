@@ -45,8 +45,14 @@ export class EnderecoService {
   }
 
   async validate({ id }: { id: string }): Promise<void> {
-    const validarViaEnderecoViaCep = process.env.VALIDAR_ENDERECO_VIA_CEP === "true" ? true : false;
+    const validarViaEnderecoViaCep =
+      process.env.VALIDAR_ENDERECO_VIA_CEP === 'true' ? true : false;
+
     if (!validarViaEnderecoViaCep) {
+      await this.updateInvalidField(
+        id,
+        `ViaCEP: VALIDACAO DESLIGADA - ${new Date()}`,
+      );
       return;
     }
 
@@ -55,19 +61,34 @@ export class EnderecoService {
 
     // TODO: viacep esta retornando "erro" em vez de 404 quando nao encontra um CEP
     if (!viacep.cep) {
+      await this.updateInvalidField(
+        id,
+        `ViaCEP: CEP não encontrado - ${endereco.cep}`,
+      );
       return;
     }
 
     if (viacep.uf !== endereco.uf) {
+      await this.updateInvalidField(id, `ViaCEP: UF diferente  - ${viacep.uf}`);
       return;
     }
 
-    if (compareTwoStrings(viacep.localidade, endereco.cidade) < 0.7) return;
+    if (compareTwoStrings(viacep.localidade, endereco.cidade) < 0.8) {
+      await this.updateInvalidField(
+        id,
+        `ViaCEP: endereço diferente. API: ${viacep.localidade}`,
+      );
+      return;
+    }
 
     if (
       viacep.bairro !== '' &&
       compareTwoStrings(viacep.bairro, endereco.bairro) < 0.7
     ) {
+      await this.updateInvalidField(
+        id,
+        `ViaCEP: bairro diferente. API: ${viacep.bairro}`,
+      );
       return;
     }
 
@@ -75,6 +96,13 @@ export class EnderecoService {
       ibge: parseInt(viacep.ibge, 10),
       validado: true,
       validado_em: new Date(),
+      campo_invalido: null,
+    });
+  }
+
+  private async updateInvalidField(id: string, invalidField: string) {
+    await this.enderecoRepository.update(id, {
+      campo_invalido: invalidField,
     });
   }
 }

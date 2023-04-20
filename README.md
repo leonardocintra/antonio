@@ -4,6 +4,10 @@ API de dados pessoais criptografados (LGPD)
 - Dados endereco
 - Dados telefone
 
+
+## Validações
+- Valida se o email esta correto consultando a api do ViaCEP
+
 ![santa-Caterina-e-il-Dialogo](https://user-images.githubusercontent.com/5832193/230446119-01e5e763-3e6e-4223-8c13-b9629fa7e9f7.jpg)
 
 
@@ -21,6 +25,8 @@ Liberte-se da complexidade do gerenciamento de cadastros e dados pessoais em seu
 ```bash
 $ npm install
 $ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
+$ docker run -d --name=grafana -p 3333:3333 grafana/grafana
+
 ```
 
 ## Running the app
