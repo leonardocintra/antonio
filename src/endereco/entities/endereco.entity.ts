@@ -42,6 +42,15 @@ export class Endereco {
   @Column({ default: true })
   ativo: boolean;
 
+  @Column({ default: 0 })
+  ibge: number;
+
+  @Column({ default: false })
+  validado: boolean;
+
+  @Column({ nullable: true })
+  validado_em: Date;
+
   @ManyToOne(() => Pessoa, (pessoa: Pessoa) => pessoa.enderecos, {
     nullable: false,
     onDelete: 'CASCADE',
@@ -50,13 +59,13 @@ export class Endereco {
   pessoa: Pessoa;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: string;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updateddAt: string;
+  updatedAt: Date;
 
   @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt: string;
+  deletedAt: Date;
 
   constructor(endereco?: Partial<Endereco>) {
     this.id = endereco?.id;
@@ -69,7 +78,7 @@ export class Endereco {
     this.referencia = endereco?.referencia;
     this.complemento = endereco?.complemento;
     this.createdAt = endereco?.createdAt;
-    this.updateddAt = endereco?.updateddAt;
+    this.updatedAt = endereco?.updatedAt;
     this.deletedAt = endereco?.deletedAt;
   }
 }

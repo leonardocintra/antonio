@@ -9,7 +9,6 @@ import {
   MinLength,
 } from 'class-validator';
 import { EstadosBrasileiros } from '../enum/estadosBrasileiros.enum';
-import { IsNull } from 'typeorm';
 
 export class CreateEnderecoDto {
   @IsNotEmpty()

@@ -27,7 +27,7 @@ export class PessoaService {
   async findByUuid(uuid: string): Promise<Pessoa> {
     try {
       const pessoa = await this.pessoaRepository.findOneByOrFail({ id: uuid });
-      const enderecos = await this.enderecoService.findByPessoa(pessoa);
+      const enderecos = await this.enderecoService.findByPessoa({ pessoa });
       pessoa.enderecos = enderecos;
       return pessoa;
     } catch (error) {
@@ -43,6 +43,11 @@ export class PessoaService {
     const pessoaSaved = await this.pessoaRepository.save(
       this.pessoaRepository.create(pessoa),
     );
+
+    pessoaSaved.enderecos.map((e) => {
+      this.enderecoService.validate({ id: e.id });
+    });
+
     this.logger.log(`Pessoa created successfully - ${pessoaSaved.id}`);
     return pessoaSaved;
   }

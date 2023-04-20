@@ -9,6 +9,6 @@ export class EnderecoController {
 
   @Get(':id')
   async getEnderecoById(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.enderecoService.findByUuid(id);
+    return this.enderecoService.findByUuid({ uuid: id });
   }
 }
