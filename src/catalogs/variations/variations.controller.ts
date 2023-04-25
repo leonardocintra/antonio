@@ -3,7 +3,7 @@ import { VariationsService } from './variations.service';
 import { CreateVariationDto } from './dto/create-variation.dto';
 import { UpdateVariationDto } from './dto/update-variation.dto';
 
-@Controller('variations')
+@Controller('api/v1/catalogs/variations')
 export class VariationsController {
   constructor(private readonly variationsService: VariationsService) {}
 
