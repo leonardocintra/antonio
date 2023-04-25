@@ -5,12 +5,10 @@ import { AuthModule } from './auth/auth.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { DataSource } from 'typeorm';
 import { Pessoa } from './pessoa/entities/pessoa.entity';
-import { EnderecoModule } from './endereco/endereco.module';
-import { Endereco } from './endereco/entities/endereco.entity';
-import { TelefoneModule } from './telefone/telefone.module';
-import { Telefone } from './telefone/entities/telefone.entity';
+import { Endereco } from './pessoa/endereco/entities/endereco.entity';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { Usuario } from './usuarios/entities/usuario.entity';
+import { Telefone } from './pessoa/telefone/entities/telefone.entity';
 
 @Module({
   imports: [
@@ -33,8 +31,6 @@ import { Usuario } from './usuarios/entities/usuario.entity';
     AuthModule,
     UsuariosModule,
     PessoaModule,
-    EnderecoModule,
-    TelefoneModule,
   ],
   controllers: [],
   providers: [],

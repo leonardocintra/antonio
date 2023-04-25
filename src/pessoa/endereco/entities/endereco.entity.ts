@@ -8,7 +8,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Pessoa } from '../../pessoa/entities/pessoa.entity';
+import { Pessoa } from '../../entities/pessoa.entity';
 
 @Entity()
 export class Endereco {

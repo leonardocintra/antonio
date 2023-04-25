@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { TelefoneTipo } from '../enum/telefoneTipoEnum';
-import { Pessoa } from '../../pessoa/entities/pessoa.entity';
+import { Pessoa } from '../../entities/pessoa.entity';
 
 @Entity()
 export class Telefone {

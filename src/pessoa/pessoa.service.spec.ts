@@ -13,12 +13,12 @@ import {
   createPessoaDtoMock,
   updatePessoaDtoMock,
 } from '../../test/mocks/pessoaDtoMock';
-import { EnderecoService } from '../endereco/endereco.service';
-import { Endereco } from '../endereco/entities/endereco.entity';
-import { TelefoneService } from '../telefone/telefone.service';
-import { Telefone } from '../telefone/entities/telefone.entity';
+import { EnderecoService } from './endereco/endereco.service';
+import { Endereco } from './endereco/entities/endereco.entity';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { Usuario } from '../usuarios/entities/usuario.entity';
+import { Telefone } from './telefone/entities/telefone.entity';
+import { TelefoneService } from './telefone/telefone.service';
 
 describe('PessoaService', () => {
   let pessoaService: PessoaService;

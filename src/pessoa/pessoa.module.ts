@@ -3,9 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PessoaController } from './pessoa.controller';
 import { Pessoa } from './entities/pessoa.entity';
 import { PessoaService } from './pessoa.service';
-import { EnderecoModule } from '../endereco/endereco.module';
-import { TelefoneModule } from '../telefone/telefone.module';
 import { UsuariosModule } from '../usuarios/usuarios.module';
+import { EnderecoModule } from './endereco/endereco.module';
+import { TelefoneModule } from './telefone/telefone.module';
 
 @Module({
   imports: [
