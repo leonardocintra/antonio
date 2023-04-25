@@ -1,8 +1,16 @@
 # Catarina API
+## ERPzinho
+
+
+### Pessoas / Clientes / Empresas
 API de dados pessoais criptografados (LGPD)
 - Dados pessoas
 - Dados endereco
 - Dados telefone
+
+### Produtos / SKU / Catalogo
+- Dados de produtos
+
 
 
 ## Validações

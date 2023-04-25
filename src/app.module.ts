@@ -9,6 +9,7 @@ import { Endereco } from './pessoa/endereco/entities/endereco.entity';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { Usuario } from './usuarios/entities/usuario.entity';
 import { Telefone } from './pessoa/telefone/entities/telefone.entity';
+import { CatalogsModule } from './catalogs/catalogs.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { Telefone } from './pessoa/telefone/entities/telefone.entity';
     AuthModule,
     UsuariosModule,
     PessoaModule,
+    CatalogsModule,
   ],
   controllers: [],
   providers: [],
