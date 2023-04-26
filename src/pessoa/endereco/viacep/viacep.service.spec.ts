@@ -1,18 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ViacepService } from './viacep.service';
+import { HttpModule } from '@nestjs/axios';
 
 describe('ViacepService', () => {
-  let service: ViacepService;
+  let viaCepService: ViacepService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ViacepService],
+      imports: [HttpModule],
+      providers: [ViacepService, ],
     }).compile();
 
-    service = module.get<ViacepService>(ViacepService);
+    viaCepService = module.get<ViacepService>(ViacepService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(viaCepService).toBeDefined();
   });
 });

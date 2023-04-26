@@ -19,16 +19,20 @@ import { UsuariosService } from '../usuarios/usuarios.service';
 import { Usuario } from '../usuarios/entities/usuario.entity';
 import { Telefone } from './telefone/entities/telefone.entity';
 import { TelefoneService } from './telefone/telefone.service';
+import { HttpModule } from '@nestjs/axios';
+import { ViacepService } from './endereco/viacep/viacep.service';
 
 describe('PessoaService', () => {
   let pessoaService: PessoaService;
   let enderecoService: EnderecoService;
+  let viaCepService: ViacepService;
   let telefoneService: TelefoneService;
   let usuarioService: UsuariosService;
   let pessoaRepository: Repository<Pessoa>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [HttpModule],
       providers: [
         TelefoneService,
         {
@@ -47,6 +51,7 @@ describe('PessoaService', () => {
             delete: jest.fn(),
           },
         },
+        ViacepService,
         PessoaService,
         {
           provide: getRepositoryToken(Pessoa),

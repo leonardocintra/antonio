@@ -3,18 +3,27 @@ import { CategoriesController } from './categories.controller';
 import { CategoriesService } from './categories.service';
 
 describe('CategoriesController', () => {
-  let controller: CategoriesController;
+  let categoriesController: CategoriesController;
+  let categoriesService: CategoriesService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [CategoriesController],
-      providers: [CategoriesService],
+      providers: [
+        {
+          provide: CategoriesService,
+          useValue: {},
+        },
+      ],
     }).compile();
 
-    controller = module.get<CategoriesController>(CategoriesController);
+    categoriesController =
+      module.get<CategoriesController>(CategoriesController);
+    categoriesService = module.get<CategoriesService>(CategoriesService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(categoriesController).toBeDefined();
+    expect(categoriesService).toBeDefined();
   });
 });

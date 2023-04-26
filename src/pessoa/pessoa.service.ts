@@ -44,9 +44,12 @@ export class PessoaService {
       this.pessoaRepository.create(pessoa),
     );
 
-    pessoaSaved.enderecos.map((e) => {
-      this.enderecoService.validate({ id: e.id });
-    });
+    // TODO: postar na fila rabbitMQ e depois outro processo valida
+    if (pessoaSaved.enderecos) {
+      pessoaSaved.enderecos.map((e) => {
+        this.enderecoService.validate({ id: e.id });
+      });
+    }
 
     this.logger.log(`Pessoa created successfully - ${pessoaSaved.id}`);
     return pessoaSaved;
