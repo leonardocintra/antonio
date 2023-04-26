@@ -10,6 +10,10 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { Usuario } from './usuarios/entities/usuario.entity';
 import { Telefone } from './pessoa/telefone/entities/telefone.entity';
 import { CatalogsModule } from './catalogs/catalogs.module';
+import { Category } from './catalogs/categories/entities/category.entity';
+import { Product } from './catalogs/products/entities/product.entity';
+import { Variation } from './catalogs/variations/entities/variation.entity';
+import { VariationsValue } from './catalogs/variations/variations-values/entities/variations-value.entity';
 
 @Module({
   imports: [
@@ -25,7 +29,16 @@ import { CatalogsModule } from './catalogs/catalogs.module';
           username: configService.get('DB_USERNAME'),
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB_DATABASE'),
-          entities: [Usuario, Pessoa, Endereco, Telefone],
+          entities: [
+            Usuario,
+            Pessoa,
+            Endereco,
+            Telefone,
+            Category,
+            Product,
+            Variation,
+            VariationsValue,
+          ],
           synchronize: true,
         } as TypeOrmModuleAsyncOptions),
     }),

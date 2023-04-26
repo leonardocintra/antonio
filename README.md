@@ -10,11 +10,15 @@ API de dados pessoais criptografados (LGPD)
 
 ### Produtos / SKU / Catalogo
 - Dados de produtos
+- Categorias
+- SKU
+- Variações (P, M, G, GG, ect)
+- Controle de estoque
 
 
 
 ## Validações
-- Valida se o email esta correto consultando a api do ViaCEP
+- Valida se o endereço/CEP esta correto consultando a api do ViaCEP
 
 ![santa-Caterina-e-il-Dialogo](https://user-images.githubusercontent.com/5832193/230446119-01e5e763-3e6e-4223-8c13-b9629fa7e9f7.jpg)
 
