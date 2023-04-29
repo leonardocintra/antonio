@@ -23,7 +23,7 @@ export const createPessoaDtoMock: CreatePessoaDto = {
   enderecos: [],
   telefones: [],
   usuarioInsert: undefined,
-  usuarioUpdate: undefined
+  usuarioUpdate: undefined,
 };
 
 export const createPessoaEnderecoTelefoneDtoMock: CreatePessoaDto = {
@@ -62,5 +62,5 @@ export const createPessoaEnderecoTelefoneDtoMock: CreatePessoaDto = {
     },
   ],
   usuarioInsert: undefined,
-  usuarioUpdate: undefined
+  usuarioUpdate: undefined,
 };

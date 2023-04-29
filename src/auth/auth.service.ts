@@ -23,7 +23,7 @@ export class AuthService {
   async validateUser(username: string, password: string): Promise<any> {
     let user: Usuario;
     try {
-      user = await this.usuarioService.findOneByUsername(username)
+      user = await this.usuarioService.findOneByUsername(username);
     } catch {
       return null;
     }

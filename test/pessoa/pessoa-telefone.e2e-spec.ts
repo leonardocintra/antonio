@@ -415,5 +415,5 @@ describe('PessoaController - Telefone (e2e)', () => {
         'telefones.0.numero must be shorter than or equal to 9 characters',
       );
     });
-  })
+  });
 });

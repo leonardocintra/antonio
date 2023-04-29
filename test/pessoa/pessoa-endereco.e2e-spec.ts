@@ -939,7 +939,7 @@ describe('PessoaController - Endereço (e2e)', () => {
       expect(response.body.message).toHaveLength(3);
       expect(response.body.message[0]).toEqual(
         'enderecos.0.numero must be shorter than or equal to 10 characters',
-      )
+      );
       expect(response.body.message[1]).toEqual(
         'enderecos.0.numero must be a string',
       );

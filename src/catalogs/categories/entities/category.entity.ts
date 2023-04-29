@@ -1,6 +1,14 @@
-import { BeforeInsert, Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Product } from "../../products/entities/product.entity";
-import slugify from "slugify";
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Product } from '../../products/entities/product.entity';
+import slugify from 'slugify';
 
 @Entity()
 export class Category {
@@ -10,13 +18,13 @@ export class Category {
   @Column({ default: true })
   active: boolean;
 
-  @Column({ length: 50, nullable: false, unique: true })
+  @Column({ length: 50, nullable: false })
   name: string;
 
-  @Column({ length: 150, nullable: false })
+  @Column({ length: 150, nullable: true })
   description: string;
 
-  @Column({ length: 150, nullable: false, unique: true })
+  @Column({ length: 150, nullable: false, unique: false })
   slug: string;
 
   @Column({ nullable: true })

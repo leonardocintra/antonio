@@ -4,7 +4,7 @@ import { pessoaEntityListMock } from '../../test/mocks/pessoaEntityMock';
 import { PessoaController } from './pessoa.controller';
 import { PessoaService } from './pessoa.service';
 
-let requestMock = {
+const requestMock = {
   user: {
     id: 'e4e5263a-3e77-431c-ae47-70b858618682',
   },

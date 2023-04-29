@@ -905,7 +905,7 @@ describe('PessoaController (e2e)', () => {
   });
 
   it('/api/v1/pessoa (POST - 404) - Deletar uma pessoa inexistente', async () => {
-    const responseDelete = await request(app.getHttpServer())
+    await request(app.getHttpServer())
       .delete(`${BASE_PATH}/${pessoaIdInexistente}`)
       .set('Authorization', 'Bearer ' + jwtToken)
       .expect(HttpStatus.NOT_FOUND, {

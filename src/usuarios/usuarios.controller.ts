@@ -52,7 +52,7 @@ export class UsuariosController {
       return await this.usuariosService.findOneByUsername(username);
     } catch (err) {
       if (err instanceof EntityNotFoundError) {
-        CatarinaException.EntityNotFoundException('username', err)
+        CatarinaException.EntityNotFoundException('username', err);
       } else {
         throw err;
       }

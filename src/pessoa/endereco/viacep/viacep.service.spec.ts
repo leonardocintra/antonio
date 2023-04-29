@@ -8,7 +8,7 @@ describe('ViacepService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [HttpModule],
-      providers: [ViacepService, ],
+      providers: [ViacepService],
     }).compile();
 
     viaCepService = module.get<ViacepService>(ViacepService);
