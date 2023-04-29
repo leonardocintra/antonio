@@ -27,10 +27,6 @@ export class Pessoa {
   @ApiProperty()
   nome: string;
 
-  @Column({ length: 100 })
-  @ApiProperty()
-  sobrenome: string;
-
   @Column({
     unique: true,
     length: 14,
@@ -91,13 +87,11 @@ export class Pessoa {
   criptografarDados() {
     const salts = 10;
     this.nome = hashSync(this.nome, salts);
-    this.sobrenome = hashSync(this.sobrenome, salts);
   }
 
   constructor(pessoa?: Partial<Pessoa>) {
     this.id = pessoa?.id;
     this.nome = pessoa?.nome;
-    this.sobrenome = pessoa?.sobrenome;
     this.cpfCnpj = pessoa?.cpfCnpj;
     this.sexo = pessoa?.sexo;
     this.email = pessoa?.email;

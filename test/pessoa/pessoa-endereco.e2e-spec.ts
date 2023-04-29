@@ -15,8 +15,7 @@ describe('PessoaController - Endereço (e2e)', () => {
   let jwtToken = '';
 
   const pessoaDto: CreatePessoaDto = {
-    nome: faker.name.firstName('female'),
-    sobrenome: faker.name.lastName(),
+    nome: faker.name.fullName(),
     cpfCnpj: Util.getRandomCPF(),
     sexo: SexoEnum.FEMININO,
     email: faker.internet.email(),
@@ -144,8 +143,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo bairro não informado', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -215,8 +213,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo bairro numerico', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -328,8 +325,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep não informado', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -429,8 +425,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep numerico', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -536,8 +531,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cidade não informado', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -607,8 +601,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cidade numerico', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -723,8 +716,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf não informado', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -802,8 +794,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf numerico', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -849,8 +840,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf invalido', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -950,8 +940,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo numero não informado', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -1020,8 +1009,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo numero é numerico', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -1124,8 +1112,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo endereco não informado', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -1195,8 +1182,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo endereco numerico', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -1238,8 +1224,7 @@ describe('PessoaController - Endereço (e2e)', () => {
   describe('Cadastro de pessoa - Campo COMPLEMENTO do endereco', () => {
     it('/api/v1/pessoa (POST - 201) - quando o endereco esta com o campo complento não informado', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -1298,8 +1283,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo complemento numerico', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -1341,8 +1325,7 @@ describe('PessoaController - Endereço (e2e)', () => {
   describe('Cadastro de pessoa - Campo REFERENCIA do endereco', () => {
     it('/api/v1/pessoa (POST - 201) - quando o endereco esta com o campo referencia não informado', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -1401,8 +1384,7 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo referencia numerico', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),

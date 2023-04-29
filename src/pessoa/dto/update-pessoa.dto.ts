@@ -17,10 +17,6 @@ export class UpdatePessoaDto {
   nome: string;
 
   @IsNotEmpty()
-  @MaxLength(100)
-  sobrenome: string;
-
-  @IsNotEmpty()
   @MaxLength(14)
   @MinLength(11)
   cpfCnpj: string;

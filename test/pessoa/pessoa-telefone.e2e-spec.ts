@@ -15,8 +15,7 @@ describe('PessoaController - Telefone (e2e)', () => {
   let jwtToken = '';
 
   const pessoaDto: CreatePessoaDto = {
-    nome: faker.name.firstName('female'),
-    sobrenome: faker.name.lastName(),
+    nome: faker.name.fullName(),
     cpfCnpj: Util.getRandomCPF(),
     sexo: SexoEnum.FEMININO,
     email: faker.internet.email(),
@@ -190,8 +189,7 @@ describe('PessoaController - Telefone (e2e)', () => {
   describe('Campo AREA do telefone', () => {
     it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo area nao informado', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -230,8 +228,7 @@ describe('PessoaController - Telefone (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo area com numero', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -268,8 +265,7 @@ describe('PessoaController - Telefone (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo area com letras', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -305,8 +301,7 @@ describe('PessoaController - Telefone (e2e)', () => {
   describe('Campo NUMERO do telefone', () => {
     it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo numero nao informado', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -345,8 +340,7 @@ describe('PessoaController - Telefone (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo numero com numero', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
@@ -383,8 +377,7 @@ describe('PessoaController - Telefone (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o telefone esta com o campo numero com letras', async () => {
       const dto = {
-        nome: faker.name.firstName('female'),
-        sobrenome: faker.name.lastName(),
+        nome: faker.name.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),

@@ -81,8 +81,7 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email not send', async () => {
     const pessoa = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       enderecos: [],
@@ -102,8 +101,8 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email null', async () => {
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: null,
@@ -126,8 +125,8 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email empty', async () => {
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: '',
@@ -150,8 +149,8 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Email invalid', async () => {
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: 'invalid',
@@ -175,7 +174,6 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome not send', async () => {
     const pessoa = {
-      sobrenome: faker.name.lastName(),
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -201,7 +199,7 @@ describe('PessoaController (e2e)', () => {
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome null', async () => {
     const pessoa: CreatePessoaDto = {
       nome: null,
-      sobrenome: faker.name.lastName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -229,7 +227,7 @@ describe('PessoaController (e2e)', () => {
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome empty', async () => {
     const pessoa: CreatePessoaDto = {
       nome: '',
-      sobrenome: faker.name.lastName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -254,7 +252,7 @@ describe('PessoaController (e2e)', () => {
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Nome mais que 100 caracteres', async () => {
     const pessoa: CreatePessoaDto = {
       nome: 'aaaaaaaaaaaaaaadddddddddddd kkkkkkkkkkkkkkkkkkkkkkk dddddddddddd oooooooooooooooo oooooooooooooooo ppppppppppppp ccccccccc',
-      sobrenome: faker.name.lastName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -278,115 +276,8 @@ describe('PessoaController (e2e)', () => {
     );
   });
 
-  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome not send', async () => {
-    const pessoa = {
-      nome: faker.name.lastName(),
-      cpfCnpj: Util.getRandomCPF(),
-      sexo: SexoEnum.FEMININO,
-      email: faker.internet.email(),
-      enderecos: [],
-      telefones: [],
-    };
-
-    const response = await request(app.getHttpServer())
-      .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + jwtToken)
-      .send(pessoa);
-
-    expect(response.body).toBeDefined();
-    expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400);
-    expect(response.body.message).toHaveLength(2);
-    expect(response.body.message[0]).toEqual(
-      'sobrenome must be shorter than or equal to 100 characters',
-    );
-    expect(response.body.message[1]).toEqual('sobrenome should not be empty');
-  });
-
-  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome null', async () => {
-    const pessoa: CreatePessoaDto = {
-      sobrenome: null,
-      nome: faker.name.lastName(),
-      cpfCnpj: Util.getRandomCPF(),
-      sexo: SexoEnum.FEMININO,
-      email: faker.internet.email(),
-      enderecos: [],
-      telefones: [],
-      usuarioInsert: undefined,
-      usuarioUpdate: undefined,
-    };
-
-    const response = await request(app.getHttpServer())
-      .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + jwtToken)
-      .send(pessoa);
-
-    expect(response.body).toBeDefined();
-    expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400);
-    expect(response.body.message).toHaveLength(2);
-    expect(response.body.message[0]).toEqual(
-      'sobrenome must be shorter than or equal to 100 characters',
-    );
-    expect(response.body.message[1]).toEqual('sobrenome should not be empty');
-  });
-
-  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome empty', async () => {
-    const pessoa: CreatePessoaDto = {
-      sobrenome: '',
-      nome: faker.name.lastName(),
-      cpfCnpj: Util.getRandomCPF(),
-      sexo: SexoEnum.FEMININO,
-      email: faker.internet.email(),
-      enderecos: [],
-      telefones: [],
-      usuarioInsert: undefined,
-      usuarioUpdate: undefined,
-    };
-
-    const response = await request(app.getHttpServer())
-      .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + jwtToken)
-      .send(pessoa);
-
-    expect(response.body).toBeDefined();
-    expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400);
-    expect(response.body.message).toHaveLength(1);
-    expect(response.body.message[0]).toEqual('sobrenome should not be empty');
-  });
-
-  it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - Sobrenome mais que 100 caracteres', async () => {
-    const pessoa: CreatePessoaDto = {
-      sobrenome:
-        'aaaaaaaaaaaaaaadddddddddddd kkkkkkkkkkkkkkkkkkkkkkk dddddddddddd oooooooooooooooo oooooooooooooooo ppppppppppppp ccccccccc',
-      nome: faker.name.lastName(),
-      cpfCnpj: Util.getRandomCPF(),
-      sexo: SexoEnum.FEMININO,
-      email: faker.internet.email(),
-      enderecos: [],
-      telefones: [],
-      usuarioInsert: undefined,
-      usuarioUpdate: undefined,
-    };
-
-    const response = await request(app.getHttpServer())
-      .post(BASE_PATH)
-      .set('Authorization', 'Bearer ' + jwtToken)
-      .send(pessoa);
-
-    expect(response.body).toBeDefined();
-    expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(response.body.statusCode).toEqual(400);
-    expect(response.body.message).toHaveLength(1);
-    expect(response.body.message[0]).toEqual(
-      'sobrenome must be shorter than or equal to 100 characters',
-    );
-  });
-
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ not send', async () => {
     const pessoa = {
-      sobrenome: faker.name.lastName(),
       nome: faker.name.firstName(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -415,7 +306,6 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ null', async () => {
     const pessoa: CreatePessoaDto = {
-      sobrenome: faker.name.lastName(),
       nome: faker.name.firstName(),
       cpfCnpj: null,
       sexo: SexoEnum.FEMININO,
@@ -447,7 +337,6 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ empty', async () => {
     const pessoa: CreatePessoaDto = {
-      sobrenome: faker.name.lastName(),
       nome: faker.name.firstName(),
       cpfCnpj: '',
       sexo: SexoEnum.FEMININO,
@@ -477,7 +366,7 @@ describe('PessoaController (e2e)', () => {
   it('/api/v1/pessoa (POST - 400) - Cadastrar Pessoa - CPF/CNPJ mais que 14 caracteres', async () => {
     const pessoa: CreatePessoaDto = {
       nome: faker.name.firstName(),
-      sobrenome: faker.name.lastName(),
+
       cpfCnpj: '38293829829839289829382938',
       sexo: SexoEnum.MASCULINO,
       email: faker.internet.email(),
@@ -505,8 +394,8 @@ describe('PessoaController (e2e)', () => {
     const cpfDuplicado = Util.getRandomCPF();
 
     const pessoa1: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: cpfDuplicado,
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -518,7 +407,7 @@ describe('PessoaController (e2e)', () => {
 
     const pessoa2: CreatePessoaDto = {
       nome: faker.name.firstName('male'),
-      sobrenome: faker.name.lastName(),
+
       cpfCnpj: cpfDuplicado,
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -539,7 +428,6 @@ describe('PessoaController (e2e)', () => {
       /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
     );
     expect(response1.body.nome).not.toBeNull();
-    expect(response1.body.sobrenome).not.toBeNull();
     expect(response1.body.cpfCnpj).not.toBeNull();
     expect(response1.body.sexo).not.toBeNull();
     expect(response1.body.ativo).not.toBeNull();
@@ -564,8 +452,8 @@ describe('PessoaController (e2e)', () => {
     const emailUnico = faker.internet.email();
 
     const pessoa1: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: emailUnico,
@@ -576,8 +464,8 @@ describe('PessoaController (e2e)', () => {
     };
 
     const pessoa2: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: emailUnico,
@@ -598,7 +486,6 @@ describe('PessoaController (e2e)', () => {
       /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
     );
     expect(response1.body.nome).not.toBeNull();
-    expect(response1.body.sobrenome).not.toBeNull();
     expect(response1.body.cpfCnpj).not.toBeNull();
     expect(response1.body.sexo).not.toBeNull();
     expect(response1.body.ativo).not.toBeNull();
@@ -621,8 +508,8 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa sem endereço e telefone', async () => {
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -643,7 +530,6 @@ describe('PessoaController (e2e)', () => {
       /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
     );
     expect(response.body.nome).not.toBeNull();
-    expect(response.body.sobrenome).not.toBeNull();
     expect(response.body.cpfCnpj).not.toBeNull();
     expect(response.body.sexo).not.toBeNull();
     expect(response.body.ativo).not.toBeNull();
@@ -654,8 +540,8 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa com endereco mas sem telefone', async () => {
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -697,7 +583,6 @@ describe('PessoaController (e2e)', () => {
       /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
     );
     expect(response.body.nome).not.toBeNull();
-    expect(response.body.sobrenome).not.toBeNull();
     expect(response.body.cpfCnpj).not.toBeNull();
     expect(response.body.sexo).not.toBeNull();
     expect(response.body.ativo).not.toBeNull();
@@ -724,8 +609,8 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa com telefone mas sem endereco', async () => {
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -757,7 +642,6 @@ describe('PessoaController (e2e)', () => {
       /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
     );
     expect(response.body.nome).not.toBeNull();
-    expect(response.body.sobrenome).not.toBeNull();
     expect(response.body.cpfCnpj).not.toBeNull();
     expect(response.body.sexo).not.toBeNull();
     expect(response.body.ativo).not.toBeNull();
@@ -768,8 +652,8 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 201) - Cadastrar Pessoa com telefone e endereco', async () => {
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -822,7 +706,6 @@ describe('PessoaController (e2e)', () => {
       /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
     );
     expect(response.body.nome).not.toBeNull();
-    expect(response.body.sobrenome).not.toBeNull();
     expect(response.body.cpfCnpj).not.toBeNull();
     expect(response.body.sexo).not.toBeNull();
     expect(response.body.ativo).not.toBeNull();
@@ -833,8 +716,8 @@ describe('PessoaController (e2e)', () => {
 
   it('/api/v1/pessoa (POST - 204) - Deletar uma pessoa', async () => {
     const pessoa: CreatePessoaDto = {
-      nome: faker.name.firstName('female'),
-      sobrenome: faker.name.lastName(),
+      nome: faker.name.fullName(),
+
       cpfCnpj: Util.getRandomCPF(),
       sexo: SexoEnum.FEMININO,
       email: faker.internet.email(),
@@ -888,7 +771,6 @@ describe('PessoaController (e2e)', () => {
     );
     expect(response.body.id).not.toBeNull();
     expect(response.body.nome).not.toBeNull();
-    expect(response.body.sobrenome).not.toBeNull();
     expect(response.body.cpfCnpj).not.toBeNull();
     expect(response.body.sexo).not.toBeNull();
     expect(response.body.ativo).not.toBeNull();

@@ -17,4 +17,15 @@ export class TelefoneService {
     telefoneCreated.pessoa = pessoa;
     return await this.telefoneRepository.save(telefoneCreated);
   }
+
+  async findByPessoa({ pessoa }: { pessoa: Pessoa }): Promise<Telefone[]> {
+    const enderecos = await this.telefoneRepository.find({
+      where: {
+        pessoa: {
+          id: pessoa.id,
+        },
+      },
+    });
+    return enderecos;
+  }
 }

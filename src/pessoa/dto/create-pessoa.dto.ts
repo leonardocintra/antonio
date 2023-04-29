@@ -22,11 +22,6 @@ export class CreatePessoaDto {
   nome: string;
 
   @IsNotEmpty()
-  @MaxLength(100)
-  @ApiProperty()
-  sobrenome: string;
-
-  @IsNotEmpty()
   @MaxLength(14)
   @MinLength(11)
   @ApiProperty()

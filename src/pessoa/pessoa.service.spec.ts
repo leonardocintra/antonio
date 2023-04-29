@@ -21,6 +21,7 @@ import { Telefone } from './telefone/entities/telefone.entity';
 import { TelefoneService } from './telefone/telefone.service';
 import { HttpModule } from '@nestjs/axios';
 import { ViacepService } from './endereco/viacep/viacep.service';
+import { enderecoEntityListMock } from '../../test/mocks/enderecoEntityMock';
 
 describe('PessoaService', () => {
   let pessoaService: PessoaService;
@@ -37,13 +38,15 @@ describe('PessoaService', () => {
         TelefoneService,
         {
           provide: getRepositoryToken(Telefone),
-          useValue: {},
+          useValue: {
+            find: jest.fn(),
+          },
         },
         EnderecoService,
         {
           provide: getRepositoryToken(Endereco),
           useValue: {
-            find: jest.fn(),
+            find: jest.fn().mockResolvedValue(enderecoEntityListMock[0]),
             findOneByOrFail: jest.fn(),
             create: jest.fn(),
             save: jest.fn(),
@@ -122,7 +125,8 @@ describe('PessoaService', () => {
       );
       // assert
       expect(result).toEqual(pessoaEntityListMock[0]);
-      expect(result.nome).toEqual('Leonardo');
+      expect(result.nome).toEqual('Leonardo Nascimento Cintra');
+      expect(result.enderecos).toBeDefined();
       expect(result.id).toEqual('26c971c2-b831-4df0-9947-319900a92064');
       expect(pessoaRepository.findOneByOrFail).toHaveBeenCalledTimes(1);
     });

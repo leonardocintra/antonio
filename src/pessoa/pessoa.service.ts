@@ -28,7 +28,9 @@ export class PessoaService {
     try {
       const pessoa = await this.pessoaRepository.findOneByOrFail({ id: uuid });
       const enderecos = await this.enderecoService.findByPessoa({ pessoa });
+      const telefones = await this.telefoneService.findByPessoa({ pessoa });
       pessoa.enderecos = enderecos;
+      pessoa.telefones = telefones;
       return pessoa;
     } catch (error) {
       throw new NotFoundException('Pessoa', error.message);
