@@ -15,6 +15,7 @@ import { Product } from './catalogs/products/entities/product.entity';
 import { Variation } from './catalogs/variations/entities/variation.entity';
 import { VariationsValue } from './catalogs/variations/variations-values/entities/variations-value.entity';
 import { FirmsModule } from './firms/firms.module';
+import { Firm } from './firms/entities/firm.entity';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { FirmsModule } from './firms/firms.module';
             Usuario,
             Pessoa,
             Endereco,
+            Firm,
             Telefone,
             Category,
             Product,

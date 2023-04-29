@@ -1,15 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { FirmsService } from './firms.service';
 import { CreateFirmDto } from './dto/create-firm.dto';
 import { UpdateFirmDto } from './dto/update-firm.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@Controller('firms')
+@Controller('api/v1/firms')
+@UseGuards(JwtAuthGuard)
+@ApiTags('firms')
 export class FirmsController {
   constructor(private readonly firmsService: FirmsService) {}
 
   @Post()
-  create(@Body() createFirmDto: CreateFirmDto) {
-    return this.firmsService.create(createFirmDto);
+  @ApiOperation({ summary: 'Cadastrar uma loja/empresa/firma, etc' })
+  @ApiResponse({ status: 201, description: 'Firma cadastrada com sucesso' })
+  @ApiResponse({ status: 400, description: 'Dados inválidos no cadastro' })
+  create(@Req() req, @Body() createFirmDto: CreateFirmDto) {
+    const userUuid = req.user.id;
+    return this.firmsService.create(createFirmDto, userUuid);
   }
 
   @Get()

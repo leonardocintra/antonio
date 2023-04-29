@@ -4,11 +4,12 @@ import {
   BeforeInsert,
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Firm } from '../../firms/entities/firm.entity';
 
 @Entity()
 export class Usuario {
@@ -34,6 +35,9 @@ export class Usuario {
   @ApiProperty()
   ativo: boolean;
 
+  @OneToMany(() => Firm, (photo) => photo.usuarioResponsavel)
+  firms: Firm[];
+
   @CreateDateColumn({ name: 'created_at' })
   @ApiProperty()
   createdAt: string;
@@ -41,10 +45,6 @@ export class Usuario {
   @UpdateDateColumn({ name: 'updated_at' })
   @ApiProperty()
   updateddAt: string;
-
-  @DeleteDateColumn({ name: 'deleted_at' })
-  @ApiProperty()
-  deletedAt: string;
 
   @BeforeInsert()
   criptografarSenha() {
@@ -57,8 +57,8 @@ export class Usuario {
     this.password = usuario?.password;
     this.email = usuario?.email;
     this.ativo = usuario?.ativo;
+    this.firms = usuario?.firms;
     this.createdAt = usuario?.createdAt;
     this.updateddAt = usuario?.updateddAt;
-    this.deletedAt = usuario?.deletedAt;
   }
 }
