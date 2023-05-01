@@ -39,7 +39,7 @@ export class FirmsService {
     return `This action updates a #${id} firm`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} firm`;
+  async remove(id: number) {
+    return await this.firmRepository.delete(id);
   }
 }

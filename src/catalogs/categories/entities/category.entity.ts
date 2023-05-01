@@ -4,16 +4,21 @@ import {
   CreateDateColumn,
   Entity,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
 import slugify from 'slugify';
+import { Firm } from '../../../firms/entities/firm.entity';
 
 @Entity()
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @ManyToOne(() => Firm, (firm) => firm.categories, { nullable: false })
+  firm: Firm;
 
   @Column({ default: true })
   active: boolean;
@@ -27,7 +32,7 @@ export class Category {
   @Column({ length: 150, nullable: false, unique: false })
   slug: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'parent_id' })
   parentId: number;
 
   @ManyToMany(() => Product, (product) => product.categories)

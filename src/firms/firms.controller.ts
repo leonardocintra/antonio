@@ -14,6 +14,7 @@ import { CreateFirmDto } from './dto/create-firm.dto';
 import { UpdateFirmDto } from './dto/update-firm.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CatarinaException } from '../helpers/http.exception';
 
 @Controller('api/v1/firms')
 @UseGuards(JwtAuthGuard)
@@ -26,8 +27,12 @@ export class FirmsController {
   @ApiResponse({ status: 201, description: 'Firma cadastrada com sucesso' })
   @ApiResponse({ status: 400, description: 'Dados inválidos no cadastro' })
   create(@Req() req, @Body() createFirmDto: CreateFirmDto) {
-    const userUuid = req.user.id;
-    return this.firmsService.create(createFirmDto, userUuid);
+    try {
+      const userUuid = req.user.id;
+      return this.firmsService.create(createFirmDto, userUuid);
+    } catch (error) {
+      CatarinaException.QueryFailedErrorException(error);
+    }
   }
 
   @Get()

@@ -18,8 +18,8 @@ describe('UsuarioController (e2e)', () => {
       ativo: true,
       createdAt: '2020-01-01T00:00:00.000Z',
       updateddAt: '2020-01-01T00:00:00.000Z',
-      deletedAt: null,
       criptografarSenha: null,
+      firms: null,
     },
     {
       id: '2',
@@ -29,8 +29,8 @@ describe('UsuarioController (e2e)', () => {
       ativo: true,
       createdAt: '2020-01-01T00:00:00.000Z',
       updateddAt: '2020-01-01T00:00:00.000Z',
-      deletedAt: null,
       criptografarSenha: null,
+      firms: null,
     },
     {
       id: '3',
@@ -40,8 +40,8 @@ describe('UsuarioController (e2e)', () => {
       ativo: true,
       createdAt: '2020-01-01T00:00:00.000Z',
       updateddAt: '2020-01-01T00:00:00.000Z',
-      deletedAt: null,
       criptografarSenha: null,
+      firms: null,
     },
   ];
 

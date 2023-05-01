@@ -4,6 +4,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from './entities/category.entity';
+import { CatarinaException } from '../../helpers/http.exception';
 
 @Injectable()
 export class CategoriesService {
@@ -13,8 +14,12 @@ export class CategoriesService {
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const category = this.categoryRepository.create(createCategoryDto);
-    return await this.categoryRepository.save(category);
+    try {
+      const category = this.categoryRepository.create(createCategoryDto);
+      return await this.categoryRepository.save(category);
+    } catch (err) {
+      CatarinaException.QueryFailedErrorException(err);
+    }
   }
 
   async findAll(): Promise<Category[]> {

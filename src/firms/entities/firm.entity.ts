@@ -4,12 +4,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Pessoa } from '../../pessoa/entities/pessoa.entity';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
+import { Category } from '../../catalogs/categories/entities/category.entity';
 
 @Entity()
 export class Firm {
@@ -37,6 +39,9 @@ export class Firm {
 
   // usuarios que controlam e/ou administram essa loja/empresa
   // usuarios: Usuario[];
+
+  @OneToMany(() => Category, (category) => category.firm)
+  categories: Category[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;

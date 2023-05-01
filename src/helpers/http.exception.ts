@@ -2,6 +2,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 
 const DUPLICATE_ENTRY_ERROR = 1062;
+const FIELD_CANNOT_BE_NULL_ERROR = 1364;
 
 function QueryFailedErrorException(err: QueryFailedError) {
   if (err.driverError.errno === DUPLICATE_ENTRY_ERROR) {
@@ -10,6 +11,15 @@ function QueryFailedErrorException(err: QueryFailedError) {
       {
         status: HttpStatus.BAD_REQUEST,
         error: `Field already exists. ${err.message}`,
+        errorMessageDetail: err,
+      },
+      HttpStatus.BAD_REQUEST,
+    );
+  } else if (err.driverError.errno === FIELD_CANNOT_BE_NULL_ERROR) {
+    throw new HttpException(
+      {
+        status: HttpStatus.BAD_REQUEST,
+        error: `Field cannot be null. ${err.message}`,
         errorMessageDetail: err,
       },
       HttpStatus.BAD_REQUEST,

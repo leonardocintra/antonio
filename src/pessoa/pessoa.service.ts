@@ -7,6 +7,7 @@ import { Pessoa } from './entities/pessoa.entity';
 import { EnderecoService } from './endereco/endereco.service';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { TelefoneService } from './telefone/telefone.service';
+import { CatarinaException } from '../helpers/http.exception';
 
 @Injectable()
 export class PessoaService {
@@ -38,23 +39,27 @@ export class PessoaService {
   }
 
   async create(pessoa: CreatePessoaDto, userUuid: string): Promise<Pessoa> {
-    const user = await this.usuarioService.findOne(userUuid);
-    pessoa.usuarioInsert = user;
-    pessoa.usuarioUpdate = user;
+    try {
+      const user = await this.usuarioService.findOne(userUuid);
+      pessoa.usuarioInsert = user;
+      pessoa.usuarioUpdate = user;
+      
+      const pessoaSaved = await this.pessoaRepository.save(
+        this.pessoaRepository.create(pessoa),
+      );
 
-    const pessoaSaved = await this.pessoaRepository.save(
-      this.pessoaRepository.create(pessoa),
-    );
+      // TODO: postar na fila rabbitMQ e depois outro processo valida
+      if (pessoaSaved.enderecos) {
+        pessoaSaved.enderecos.map((e) => {
+          this.enderecoService.validate({ id: e.id });
+        });
+      }
 
-    // TODO: postar na fila rabbitMQ e depois outro processo valida
-    if (pessoaSaved.enderecos) {
-      pessoaSaved.enderecos.map((e) => {
-        this.enderecoService.validate({ id: e.id });
-      });
+      this.logger.log(`Pessoa created successfully - ${pessoa.nome}`);
+      return pessoaSaved;
+    } catch (error) {
+      CatarinaException.QueryFailedErrorException(error);
     }
-
-    this.logger.log(`Pessoa created successfully - ${pessoaSaved.id}`);
-    return pessoaSaved;
   }
 
   async update(id: string, data: UpdatePessoaDto): Promise<Pessoa> {

@@ -26,7 +26,6 @@ import { enderecoEntityListMock } from '../../test/mocks/enderecoEntityMock';
 describe('PessoaService', () => {
   let pessoaService: PessoaService;
   let enderecoService: EnderecoService;
-  let viaCepService: ViacepService;
   let telefoneService: TelefoneService;
   let usuarioService: UsuariosService;
   let pessoaRepository: Repository<Pessoa>;
