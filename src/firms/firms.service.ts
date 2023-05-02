@@ -23,11 +23,12 @@ export class FirmsService {
     );
     const firmCreated = await this.firmRepository.create(createFirmDto);
     firmCreated.usuarioResponsavel = pessoa.usuarioInsert;
+    firmCreated.usuarios = [pessoa.usuarioInsert];
     firmCreated.pessoa = pessoa;
     return await this.firmRepository.save(firmCreated);
   }
 
-  findAll() {
+  findAllByUserId(id: number) {
     return `This action returns all firms`;
   }
 

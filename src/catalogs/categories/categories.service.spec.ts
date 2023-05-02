@@ -3,10 +3,12 @@ import { CategoriesService } from './categories.service';
 import { Repository } from 'typeorm';
 import { Category } from './entities/category.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { UsuariosService } from '../../usuarios/usuarios.service';
+import { Usuario } from '../../usuarios/entities/usuario.entity';
 
 describe('CategoriesService', () => {
-  let categoriesService: CategoriesService;
   let categoryRepository: Repository<Category>;
+  let categoriesService: CategoriesService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -14,6 +16,11 @@ describe('CategoriesService', () => {
         CategoriesService,
         {
           provide: getRepositoryToken(Category),
+          useValue: {},
+        },
+        UsuariosService,
+        {
+          provide: getRepositoryToken(Usuario),
           useValue: {},
         },
       ],

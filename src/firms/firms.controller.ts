@@ -16,9 +16,9 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CatarinaException } from '../helpers/http.exception';
 
-@Controller('api/v1/firms')
 @UseGuards(JwtAuthGuard)
 @ApiTags('firms')
+@Controller('api/v1/firms')
 export class FirmsController {
   constructor(private readonly firmsService: FirmsService) {}
 
@@ -36,8 +36,9 @@ export class FirmsController {
   }
 
   @Get()
-  findAll() {
-    return this.firmsService.findAll();
+  findAll(@Req() req) {
+    const userUuid = req.user.id;
+    return this.firmsService.findAllByUserId(2);
   }
 
   @Get(':id')

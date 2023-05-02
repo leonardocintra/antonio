@@ -5,6 +5,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -13,9 +15,9 @@ import { Firm } from '../../firms/entities/firm.entity';
 
 @Entity()
 export class Usuario {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   @ApiProperty()
-  id: string;
+  id: number;
 
   @Column({ length: 100, unique: true })
   @ApiProperty()
@@ -35,8 +37,9 @@ export class Usuario {
   @ApiProperty()
   ativo: boolean;
 
-  @OneToMany(() => Firm, (photo) => photo.usuarioResponsavel)
-  firms: Firm[];
+  // @ManyToMany(() => Firm, (firm) => firm.usuarios)
+  // @JoinTable()
+  // firms: Firm[];
 
   @CreateDateColumn({ name: 'created_at' })
   @ApiProperty()
@@ -57,7 +60,7 @@ export class Usuario {
     this.password = usuario?.password;
     this.email = usuario?.email;
     this.ativo = usuario?.ativo;
-    this.firms = usuario?.firms;
+    //this.firms = usuario?.firms;
     this.createdAt = usuario?.createdAt;
     this.updateddAt = usuario?.updateddAt;
   }
