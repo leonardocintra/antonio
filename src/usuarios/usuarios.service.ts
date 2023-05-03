@@ -24,7 +24,7 @@ export class UsuariosService {
     return await this.usuarioRepository.find();
   }
 
-  async findOne(id: string): Promise<Usuario> {
+  async findOne(id: number): Promise<Usuario> {
     return await this.findByParam({ id });
   }
 
@@ -33,7 +33,7 @@ export class UsuariosService {
   }
 
   async update(
-    id: string,
+    id: number,
     updateUsuarioDto: UpdateUsuarioDto,
   ): Promise<Usuario> {
     const usuario = await this.findOne(id);
@@ -42,8 +42,8 @@ export class UsuariosService {
     );
   }
 
-  async remove(uuid: string): Promise<void> {
-    await this.usuarioRepository.delete(uuid);
+  async remove(id: number): Promise<void> {
+    await this.usuarioRepository.delete(id);
   }
 
   private async findByParam(where: {}): Promise<Usuario> {

@@ -77,8 +77,8 @@ describe('UsuariosController', () => {
       email: 'upchh@example.com',
     };
 
-    expect(controller.update('1', dto)).toEqual({
-      id: '1',
+    expect(controller.update(1, dto)).toEqual({
+      id: 1,
       ...dto,
     });
 

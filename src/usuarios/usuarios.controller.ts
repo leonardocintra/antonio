@@ -41,7 +41,7 @@ export class UsuariosController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Busca um usuario pelo seu id' })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.usuariosService.findOne(id);
   }
 
@@ -61,13 +61,13 @@ export class UsuariosController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Atualiza um usuario pelo seu id' })
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
+  update(@Param('id') id: number, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuariosService.update(id, updateUsuarioDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Deleta um usuario pelo seu id' })
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.usuariosService.remove(id);
   }
 }

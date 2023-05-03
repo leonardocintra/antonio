@@ -7,12 +7,9 @@ import { PessoaModule } from '../pessoa/pessoa.module';
 import { EnderecoModule } from '../pessoa/endereco/endereco.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Firm]),
-    PessoaModule,
-    EnderecoModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Firm]), PessoaModule, EnderecoModule],
   controllers: [FirmsController],
   providers: [FirmsService],
+  exports: [FirmsService],
 })
 export class FirmsModule {}

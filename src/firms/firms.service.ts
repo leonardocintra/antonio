@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Firm } from './entities/firm.entity';
 import { Repository } from 'typeorm';
 import { PessoaService } from '../pessoa/pessoa.service';
+import { CatarinaException } from '../helpers/http.exception';
 
 @Injectable()
 export class FirmsService {
@@ -14,10 +15,10 @@ export class FirmsService {
     private readonly pessoaService: PessoaService,
   ) {}
 
-  async create(createFirmDto: CreateFirmDto, userUuid: string): Promise<Firm> {
+  async create(createFirmDto: CreateFirmDto, userId: number): Promise<Firm> {
     const pessoa = await this.pessoaService.create(
       createFirmDto.pessoa,
-      userUuid,
+      userId,
     );
     const firmCreated = await this.firmRepository.create(createFirmDto);
     firmCreated.usuarioResponsavel = pessoa.usuarioInsert;
@@ -27,12 +28,16 @@ export class FirmsService {
   }
 
   async findAllByUserId(id: number): Promise<Firm[]> {
-    const firms = await this.firmRepository
-      .createQueryBuilder('firm')
-      .leftJoinAndSelect('firm.usuarios', 'usuario')
-      .where('usuario.id = :id', { id })
-      .getMany();
-    return firms;
+    try {
+      const firms = await this.firmRepository
+        .createQueryBuilder('firm')
+        .leftJoinAndSelect('firm.usuarios', 'usuario')
+        .where('usuario.id = :id', { id })
+        .getMany();
+      return firms;
+    } catch (error) {
+      CatarinaException.QueryFailedErrorException(error);
+    }
   }
 
   async findOne(id: number) {

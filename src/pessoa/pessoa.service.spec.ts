@@ -149,7 +149,7 @@ describe('PessoaService', () => {
 
       jest.spyOn(pessoaRepository, 'save').mockRejectedValueOnce(new Error());
 
-      expect(pessoaService.create(data, '38293829080')).rejects.toThrowError();
+      expect(pessoaService.create(data, 1)).rejects.toThrowError();
     });
 
     it('deve criar uma pessoa com sucesso', async () => {
@@ -159,10 +159,7 @@ describe('PessoaService', () => {
         .spyOn(usuarioService, 'findOne')
         .mockResolvedValue(new Usuario(data));
       // act
-      const result = await pessoaService.create(
-        data,
-        'e4e5263a-3e77-431c-ae47-70b858618682',
-      );
+      const result = await pessoaService.create(data, 1);
       // assert
       expect(result).toEqual(pessoaEntityListMock[1]);
       expect(pessoaRepository.save).toHaveBeenCalledTimes(1);

@@ -38,9 +38,9 @@ export class PessoaService {
     }
   }
 
-  async create(pessoa: CreatePessoaDto, userUuid: string): Promise<Pessoa> {
+  async create(pessoa: CreatePessoaDto, userId: number): Promise<Pessoa> {
     try {
-      const user = await this.usuarioService.findOne(userUuid);
+      const user = await this.usuarioService.findOne(userId);
       pessoa.usuarioInsert = user;
       pessoa.usuarioUpdate = user;
       
