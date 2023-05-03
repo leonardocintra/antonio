@@ -37,8 +37,8 @@ export class FirmsController {
 
   @Get()
   findAll(@Req() req) {
-    const userUuid = req.user.id;
-    return this.firmsService.findAllByUserId(2);
+    const userId = req.user.id;
+    return this.firmsService.findAllByUserId(userId);
   }
 
   @Get(':id')

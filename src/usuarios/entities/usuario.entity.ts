@@ -5,13 +5,9 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Firm } from '../../firms/entities/firm.entity';
 
 @Entity()
 export class Usuario {
@@ -37,10 +33,6 @@ export class Usuario {
   @ApiProperty()
   ativo: boolean;
 
-  // @ManyToMany(() => Firm, (firm) => firm.usuarios)
-  // @JoinTable()
-  // firms: Firm[];
-
   @CreateDateColumn({ name: 'created_at' })
   @ApiProperty()
   createdAt: string;
@@ -60,7 +52,6 @@ export class Usuario {
     this.password = usuario?.password;
     this.email = usuario?.email;
     this.ativo = usuario?.ativo;
-    //this.firms = usuario?.firms;
     this.createdAt = usuario?.createdAt;
     this.updateddAt = usuario?.updateddAt;
   }

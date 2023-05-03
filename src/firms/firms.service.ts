@@ -4,7 +4,6 @@ import { UpdateFirmDto } from './dto/update-firm.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Firm } from './entities/firm.entity';
 import { Repository } from 'typeorm';
-import { UsuariosService } from '../usuarios/usuarios.service';
 import { PessoaService } from '../pessoa/pessoa.service';
 
 @Injectable()
@@ -13,7 +12,6 @@ export class FirmsService {
     @InjectRepository(Firm)
     private readonly firmRepository: Repository<Firm>,
     private readonly pessoaService: PessoaService,
-    private readonly usuarioService: UsuariosService,
   ) {}
 
   async create(createFirmDto: CreateFirmDto, userUuid: string): Promise<Firm> {
@@ -28,12 +26,17 @@ export class FirmsService {
     return await this.firmRepository.save(firmCreated);
   }
 
-  findAllByUserId(id: number) {
-    return `This action returns all firms`;
+  async findAllByUserId(id: number): Promise<Firm[]> {
+    const firms = await this.firmRepository
+      .createQueryBuilder('firm')
+      .leftJoinAndSelect('firm.usuarios', 'usuario')
+      .where('usuario.id = :id', { id })
+      .getMany();
+    return firms;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} firm`;
+  async findOne(id: number) {
+    return await this.firmRepository.findOneByOrFail({ id });
   }
 
   update(id: number, updateFirmDto: UpdateFirmDto) {

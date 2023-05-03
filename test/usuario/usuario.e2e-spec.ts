@@ -11,7 +11,7 @@ describe('UsuarioController (e2e)', () => {
 
   const mockUsuarios: Usuario[] = [
     {
-      id: '1',
+      id: 1,
       username: 'admin',
       password: '123456',
       email: 'admin@example.com',
@@ -19,10 +19,9 @@ describe('UsuarioController (e2e)', () => {
       createdAt: '2020-01-01T00:00:00.000Z',
       updateddAt: '2020-01-01T00:00:00.000Z',
       criptografarSenha: null,
-      firms: null,
     },
     {
-      id: '2',
+      id: 2,
       username: 'robinho',
       password: '123456',
       email: 'robinho@example.com',
@@ -30,10 +29,9 @@ describe('UsuarioController (e2e)', () => {
       createdAt: '2020-01-01T00:00:00.000Z',
       updateddAt: '2020-01-01T00:00:00.000Z',
       criptografarSenha: null,
-      firms: null,
     },
     {
-      id: '3',
+      id: 3,
       username: 'ronaldo',
       password: '123456',
       email: 'ronaldo@example.com',
@@ -41,7 +39,6 @@ describe('UsuarioController (e2e)', () => {
       createdAt: '2020-01-01T00:00:00.000Z',
       updateddAt: '2020-01-01T00:00:00.000Z',
       criptografarSenha: null,
-      firms: null,
     },
   ];
 
