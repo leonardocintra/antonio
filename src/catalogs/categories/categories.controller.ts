@@ -20,16 +20,18 @@ import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 @Controller('api/v1/catalogs/categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
-
+  
   @Post()
   create(@Req() req, @Body() createCategoryDto: CreateCategoryDto) {
-    const userUuid = req.user.id;
-    return this.categoriesService.create(createCategoryDto, userUuid);
+    const userId = req.user.id;
+    return this.categoriesService.create(createCategoryDto, userId);
   }
-
+  
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  findAll(@Req() req) {
+    const userId = req.user.id;
+    const firm = req.headers['firm-slug'];
+    return this.categoriesService.findAllByUserIdAndFirmSlug(userId, firm);
   }
 
   @Get(':id')

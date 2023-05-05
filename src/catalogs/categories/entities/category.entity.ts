@@ -6,6 +6,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
@@ -13,6 +14,7 @@ import slugify from 'slugify';
 import { Firm } from '../../../firms/entities/firm.entity';
 
 @Entity()
+@Unique(['firm', 'slug'])
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;

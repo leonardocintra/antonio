@@ -31,6 +31,7 @@ import { Firm } from './firms/entities/firm.entity';
           username: configService.get('DB_USERNAME'),
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB_DATABASE'),
+          logging: false,
           entities: [
             Usuario,
             Pessoa,
