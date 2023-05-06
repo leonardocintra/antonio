@@ -7,10 +7,12 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   Entity,
+  ManyToOne,
 } from 'typeorm';
 import { Category } from '../../categories/entities/category.entity';
 import { Variation } from '../../variations/entities/variation.entity';
 import slugify from 'slugify';
+import { Firm } from '../../../firms/entities/firm.entity';
 
 @Entity()
 export class Product {
@@ -42,6 +44,9 @@ export class Product {
   })
   @JoinTable()
   categories: Category[];
+
+  @ManyToOne(() => Firm, { nullable: false })
+  firm: Firm;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

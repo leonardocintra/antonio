@@ -10,7 +10,9 @@ import {
 import { VariationsValuesService } from './variations-values.service';
 import { CreateVariationsValueDto } from './dto/create-variations-value.dto';
 import { UpdateVariationsValueDto } from './dto/update-variations-value.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('catalog.variations-values')
 @Controller('api/v1/catalogs/variations/values')
 export class VariationsValuesController {
   constructor(

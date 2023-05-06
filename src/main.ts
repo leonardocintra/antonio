@@ -5,12 +5,10 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   const config = new DocumentBuilder()
     .setTitle('Catarina API')
-    .setDescription(
-      'Catarina API é um controle de cadastro de pessoas e seus dados',
-    )
+    .setDescription('Catarina API - Complete ERP')
     .setVersion('0.0.2')
     .build();
   const document = SwaggerModule.createDocument(app, config);

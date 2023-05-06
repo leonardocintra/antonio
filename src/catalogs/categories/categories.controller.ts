@@ -16,7 +16,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
-@ApiTags('categories')
+@ApiTags('catalog.categories')
 @Controller('api/v1/catalogs/categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}

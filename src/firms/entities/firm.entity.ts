@@ -17,7 +17,6 @@ import { Usuario } from '../../usuarios/entities/usuario.entity';
 import { Category } from '../../catalogs/categories/entities/category.entity';
 import slugify from 'slugify';
 import { v4 as uuidv4 } from 'uuid';
-import { type } from 'os';
 
 @Entity()
 export class Firm {
