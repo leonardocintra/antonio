@@ -8,6 +8,7 @@ import {
   BeforeInsert,
   Entity,
   ManyToOne,
+  Unique,
 } from 'typeorm';
 import { Category } from '../../categories/entities/category.entity';
 import { Variation } from '../../variations/entities/variation.entity';
@@ -15,6 +16,7 @@ import slugify from 'slugify';
 import { Firm } from '../../../firms/entities/firm.entity';
 
 @Entity()
+@Unique(['firm', 'slug'])
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
@@ -22,14 +24,17 @@ export class Product {
   @Column({ default: true })
   active: boolean;
 
-  @Column({ length: 60, nullable: false, unique: true })
+  @Column({ length: 60, nullable: false })
   name: string;
 
   @Column({ nullable: true })
   description: string;
 
-  @Column({ length: 100, nullable: false, unique: true })
+  @Column({ length: 100, nullable: false })
   slug: string;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  price: number;
 
   @ManyToMany(() => Variation, (variation) => variation.products, {
     cascade: true,
@@ -67,7 +72,9 @@ export class Product {
     this.active = product?.active;
     this.description = product?.description;
     this.slug = product?.slug;
+    this.price = product?.price;
     this.categories = product?.categories;
     this.variations = product?.variations;
+    this.firm = product?.firm;
   }
 }

@@ -14,23 +14,25 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { CatarinaConstants } from '../../helpers/constants';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('catalog.categories')
 @Controller('api/v1/catalogs/categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
-  
+
   @Post()
   create(@Req() req, @Body() createCategoryDto: CreateCategoryDto) {
     const userId = req.user.id;
-    return this.categoriesService.create(createCategoryDto, userId);
+    const firm = req.headers[CatarinaConstants.FIRM_SLUG];
+    return this.categoriesService.create(createCategoryDto, userId, firm);
   }
-  
+
   @Get()
   findAll(@Req() req) {
     const userId = req.user.id;
-    const firm = req.headers['firm-slug'];
+    const firm = req.headers[CatarinaConstants.FIRM_SLUG];
     return this.categoriesService.findAllByUserIdAndFirmSlug(userId, firm);
   }
 

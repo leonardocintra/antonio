@@ -439,9 +439,9 @@ describe('PessoaController (e2e)', () => {
       .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa2);
 
-    expect(response2.status).toEqual(HttpStatus.BAD_REQUEST);
+    expect(response2.status).toEqual(HttpStatus.CONFLICT);
     expect(response2.body).toBeDefined();
-    expect(response2.body.status).toEqual(400);
+    expect(response2.body.status).toEqual(409);
     expect(response2.body.error).toContain(
       `Field already exists. Duplicate entry '${cpfDuplicado}' for key`,
     );
@@ -497,9 +497,9 @@ describe('PessoaController (e2e)', () => {
       .set('Authorization', 'Bearer ' + jwtToken)
       .send(pessoa2);
 
-    expect(response2.status).toEqual(HttpStatus.BAD_REQUEST);
+    expect(response2.status).toEqual(HttpStatus.CONFLICT);
     expect(response2.body).toBeDefined();
-    expect(response2.body.status).toEqual(400);
+    expect(response2.body.status).toEqual(409);
     expect(response2.body.errorMessageDetail).toBeDefined();
     expect(response2.body.error).toContain(
       `Field already exists. Duplicate entry '${emailUnico}' for key`,

@@ -40,19 +40,6 @@ export class FirmsService {
     }
   }
 
-  async findByIdAndUserId(firmId: number, userId: number): Promise<Firm> {
-    try {
-      return await this.firmRepository
-        .createQueryBuilder('firm')
-        .leftJoinAndSelect('firm.usuarios', 'usuario')
-        .where('firm.id = :firmId', { firmId })
-        .andWhere('usuario.id = :userId', { userId })
-        .getOneOrFail();
-    } catch (error) {
-      CatarinaException.EntityNotFoundException('Firm', error);
-    }
-  }
-
   async findBySlugAndUserId(firmSlug: string, userId: number): Promise<Firm> {
     try {
       return await this.firmRepository

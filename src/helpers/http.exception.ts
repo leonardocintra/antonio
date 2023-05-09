@@ -9,11 +9,11 @@ function QueryFailedErrorException(err: QueryFailedError) {
     // TODO: especificar qual é o campo que esta duplicado.
     throw new HttpException(
       {
-        status: HttpStatus.BAD_REQUEST,
+        status: HttpStatus.CONFLICT,
         error: `Field already exists. ${err.message}`,
         errorMessageDetail: err,
       },
-      HttpStatus.BAD_REQUEST,
+      HttpStatus.CONFLICT,
     );
   } else if (err.driverError.errno === FIELD_CANNOT_BE_NULL_ERROR) {
     throw new HttpException(

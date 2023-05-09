@@ -18,12 +18,9 @@ export class CategoriesService {
   async create(
     createCategoryDto: CreateCategoryDto,
     userId: number,
+    firmSlug: string
   ): Promise<Category> {
-    const firm = await this.firmService.findByIdAndUserId(
-      createCategoryDto.firmId,
-      userId,
-    );
-
+    const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
     try {
       const category = this.categoryRepository.create(createCategoryDto);
       category.firm = firm;
