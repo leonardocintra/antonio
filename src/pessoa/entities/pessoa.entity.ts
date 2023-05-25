@@ -19,9 +19,9 @@ import { Telefone } from '../telefone/entities/telefone.entity';
 
 @Entity()
 export class Pessoa {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('increment')
   @ApiProperty()
-  id: string;
+  id: number;
 
   @Column({ length: 100 })
   @ApiProperty()

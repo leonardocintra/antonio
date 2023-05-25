@@ -23,10 +23,10 @@ export class EnderecoService {
     return await this.enderecoRepository.save(enderecoCreated);
   }
 
-  async findByUuid({ uuid }: { uuid: string }): Promise<Endereco> {
+  async findById(id: number): Promise<Endereco> {
     try {
       return await this.enderecoRepository.findOneByOrFail({
-        id: uuid,
+        id: id,
       });
     } catch (error) {
       throw new NotFoundException('Endereço', error.message);
@@ -44,7 +44,7 @@ export class EnderecoService {
     return enderecos;
   }
 
-  async validate({ id }: { id: string }): Promise<void> {
+  async validate(id: number): Promise<void> {
     const validarViaEnderecoViaCep =
       process.env.VALIDAR_ENDERECO_VIA_CEP === 'true' ? true : false;
 
@@ -56,7 +56,7 @@ export class EnderecoService {
       return;
     }
 
-    const endereco = await this.findByUuid({ uuid: id });
+    const endereco = await this.findById(id);
     const viacep = await this.viaCepService.findByCep(endereco.cep);
 
     // TODO: viacep esta retornando "erro" em vez de 404 quando nao encontra um CEP
@@ -100,7 +100,7 @@ export class EnderecoService {
     });
   }
 
-  private async updateInvalidField(id: string, invalidField: string) {
+  private async updateInvalidField(id: number, invalidField: string) {
     await this.enderecoRepository.update(id, {
       campo_invalido: invalidField,
     });

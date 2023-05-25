@@ -20,7 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
 export class Firm {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ length: 100 })

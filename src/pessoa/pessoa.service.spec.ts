@@ -119,7 +119,7 @@ describe('PessoaService', () => {
     it('deve retornar uma pessoa por uuid com sucess', async () => {
       // arrange
       // act
-      const result = await pessoaService.findByUuid(
+      const result = await pessoaService.findById(
         '26c971c2-b831-4df0-9947-319900a92064',
       );
       // assert
@@ -137,7 +137,7 @@ describe('PessoaService', () => {
         .mockRejectedValueOnce(new Error());
       // act
       // assert
-      expect(pessoaService.findByUuid('111')).rejects.toThrowError(
+      expect(pessoaService.findById('111')).rejects.toThrowError(
         NotFoundException,
       );
     });

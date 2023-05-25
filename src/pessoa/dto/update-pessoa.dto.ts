@@ -10,7 +10,7 @@ import { SexoEnum } from '../enum/sexoEnum';
 
 export class UpdatePessoaDto {
   @IsNotEmpty()
-  id: string;
+  id: number;
 
   @IsNotEmpty()
   @MaxLength(100)

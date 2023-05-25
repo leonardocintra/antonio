@@ -10,7 +10,7 @@ import { Variation } from '../../entities/variation.entity';
 
 @Entity()
 export class VariationsValue {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ nullable: false, length: 40 })

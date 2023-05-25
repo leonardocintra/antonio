@@ -18,7 +18,7 @@ import { Firm } from '../../../firms/entities/firm.entity';
 @Entity()
 @Unique(['firm', 'slug'])
 export class Product {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ default: true })

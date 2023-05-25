@@ -11,7 +11,7 @@ import {
 
 @Entity()
 export class Usuario {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('increment')
   @ApiProperty()
   id: number;
 

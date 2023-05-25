@@ -8,7 +8,7 @@ export class EnderecoController {
   constructor(private readonly enderecoService: EnderecoService) {}
 
   @Get(':id')
-  async getEnderecoById(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.enderecoService.findByUuid({ uuid: id });
+  async getEnderecoById(@Param('id') id: number) {
+    return this.enderecoService.findById(id);
   }
 }

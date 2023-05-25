@@ -6,7 +6,6 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseUUIDPipe,
   Post,
   Req,
   UseGuards,
@@ -45,8 +44,8 @@ export class PessoaController {
     description: 'Lista dados de uma pessoa especifica',
   })
   @ApiResponse({ status: 404, description: 'Pessoa não encontrada' })
-  async getById(@Param('id', new ParseUUIDPipe()) id: string): Promise<Pessoa> {
-    return await this.pessoaService.findByUuid(id);
+  async getById(@Param('id') id: number): Promise<Pessoa> {
+    return await this.pessoaService.findById(id);
   }
 
   @Delete(':id')
@@ -54,7 +53,7 @@ export class PessoaController {
   @ApiOperation({ summary: 'Deletar uma pessoa especifica' })
   @ApiResponse({ status: 204, description: 'Pessoa deletada com sucesso' })
   @ApiResponse({ status: 404, description: 'Pessoa não encontrada' })
-  async delete(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
+  async delete(@Param('id') id: number): Promise<void> {
     await this.pessoaService.delete(id);
   }
 

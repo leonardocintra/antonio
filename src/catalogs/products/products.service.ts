@@ -32,14 +32,20 @@ export class ProductsService {
         );
 
       try {
+        // valida se a categoria pertence a firma/empresa/loja
         let validCategory = true;
-        categories.map((category) => {
-          const catDto = createProductDto.categories.filter(
-            (c) => c.id === category.id,
-          ).length;
+        const categoryToSave = [];
+        createProductDto.categories.map((categorie) => {
+          categoryToSave.push(categorie.id);
+        });
 
-          if (validCategory) {
-            catDto <= 0 ? (validCategory = false) : (validCategory = true);
+        categoryToSave.map((category) => {
+          const finded = categories.filter((c) => {
+            return category === c.id;
+          });
+
+          if (finded.length === 0) {
+            validCategory = false;
           }
         });
 
@@ -65,6 +71,9 @@ export class ProductsService {
   async findAllByUserIdAndFirmSlug(userId: number, firmSlug: string) {
     const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
     return await this.productRepository.find({
+      relations: {
+        categories: true,
+      },
       where: {
         firm: {
           id: firm.id,

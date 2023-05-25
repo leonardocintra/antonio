@@ -12,8 +12,8 @@ import { Pessoa } from '../../entities/pessoa.entity';
 
 @Entity()
 export class Endereco {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   @Column({ length: 8 })
   cep: string;

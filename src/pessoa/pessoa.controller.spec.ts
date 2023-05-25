@@ -63,7 +63,7 @@ describe('PessoaController', () => {
       );
       expect(typeof result).toEqual('object');
       expect(result).toEqual(pessoaEntityListMock[1]);
-      expect(pessoaService.findByUuid).toHaveBeenCalledTimes(1);
+      expect(pessoaService.findById).toHaveBeenCalledTimes(1);
       expect(result.id).toEqual('2d2a5822-5424-4030-9ab7-3a70a52d0843');
       expect(result.nome).toEqual('Juliana Rosa Rodrigues Cintra');
     });

@@ -13,7 +13,7 @@ describe('PessoaController (e2e)', () => {
   const username = 'usuarioTeste';
   const password = '#usuARIO2023#';
   let jwtToken = '';
-  const pessoaIdInexistente = '09b58991-538e-4410-824f-054bf8009d55';
+  const pessoaIdInexistente = 75456;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -67,7 +67,7 @@ describe('PessoaController (e2e)', () => {
     });
   });
 
-  it('/api/v1/pessoa (GET - 404) - Pessoa não encontrada by UUID', async () => {
+  it('/api/v1/pessoa (GET - 404) - Pessoa não encontrada by Id', async () => {
     const url = `${BASE_PATH}/${pessoaIdInexistente}`;
     return request(app.getHttpServer())
       .get(url)
@@ -424,9 +424,6 @@ describe('PessoaController (e2e)', () => {
 
     expect(response1.status).toEqual(HttpStatus.CREATED);
     expect(response1.body).toBeDefined();
-    expect(response1.body.id).toMatch(
-      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
-    );
     expect(response1.body.nome).not.toBeNull();
     expect(response1.body.cpfCnpj).not.toBeNull();
     expect(response1.body.sexo).not.toBeNull();
@@ -482,9 +479,6 @@ describe('PessoaController (e2e)', () => {
 
     expect(response1.status).toEqual(HttpStatus.CREATED);
     expect(response1.body).toBeDefined();
-    expect(response1.body.id).toMatch(
-      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
-    );
     expect(response1.body.nome).not.toBeNull();
     expect(response1.body.cpfCnpj).not.toBeNull();
     expect(response1.body.sexo).not.toBeNull();
@@ -526,9 +520,6 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.status).toEqual(HttpStatus.CREATED);
     expect(response.body).toBeDefined();
-    expect(response.body.id).toMatch(
-      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
-    );
     expect(response.body.nome).not.toBeNull();
     expect(response.body.cpfCnpj).not.toBeNull();
     expect(response.body.sexo).not.toBeNull();
@@ -579,9 +570,6 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.status).toEqual(HttpStatus.CREATED);
     expect(response.body).toBeDefined();
-    expect(response.body.id).toMatch(
-      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
-    );
     expect(response.body.nome).not.toBeNull();
     expect(response.body.cpfCnpj).not.toBeNull();
     expect(response.body.sexo).not.toBeNull();
@@ -638,9 +626,6 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.status).toEqual(HttpStatus.CREATED);
     expect(response.body).toBeDefined();
-    expect(response.body.id).toMatch(
-      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
-    );
     expect(response.body.nome).not.toBeNull();
     expect(response.body.cpfCnpj).not.toBeNull();
     expect(response.body.sexo).not.toBeNull();
@@ -702,9 +687,6 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.status).toEqual(HttpStatus.CREATED);
     expect(response.body).toBeDefined();
-    expect(response.body.id).toMatch(
-      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
-    );
     expect(response.body.nome).not.toBeNull();
     expect(response.body.cpfCnpj).not.toBeNull();
     expect(response.body.sexo).not.toBeNull();
@@ -766,9 +748,6 @@ describe('PessoaController (e2e)', () => {
 
     expect(response.status).toEqual(HttpStatus.CREATED);
     expect(response.body).toBeDefined();
-    expect(response.body.id).toMatch(
-      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
-    );
     expect(response.body.id).not.toBeNull();
     expect(response.body.nome).not.toBeNull();
     expect(response.body.cpfCnpj).not.toBeNull();

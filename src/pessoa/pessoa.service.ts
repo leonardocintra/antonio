@@ -25,9 +25,9 @@ export class PessoaService {
     return await this.pessoaRepository.find();
   }
 
-  async findByUuid(uuid: string): Promise<Pessoa> {
+  async findById(id: number): Promise<Pessoa> {
     try {
-      const pessoa = await this.pessoaRepository.findOneByOrFail({ id: uuid });
+      const pessoa = await this.pessoaRepository.findOneByOrFail({ id });
       const enderecos = await this.enderecoService.findByPessoa({ pessoa });
       const telefones = await this.telefoneService.findByPessoa({ pessoa });
       pessoa.enderecos = enderecos;
@@ -43,7 +43,7 @@ export class PessoaService {
       const user = await this.usuarioService.findOne(userId);
       pessoa.usuarioInsert = user;
       pessoa.usuarioUpdate = user;
-      
+
       const pessoaSaved = await this.pessoaRepository.save(
         this.pessoaRepository.create(pessoa),
       );
@@ -51,7 +51,7 @@ export class PessoaService {
       // TODO: postar na fila rabbitMQ e depois outro processo valida
       if (pessoaSaved.enderecos) {
         pessoaSaved.enderecos.map((e) => {
-          this.enderecoService.validate({ id: e.id });
+          this.enderecoService.validate(e.id);
         });
       }
 
@@ -62,15 +62,15 @@ export class PessoaService {
     }
   }
 
-  async update(id: string, data: UpdatePessoaDto): Promise<Pessoa> {
-    const pessoa = await this.findByUuid(id);
+  async update(id: number, data: UpdatePessoaDto): Promise<Pessoa> {
+    const pessoa = await this.findById(id);
 
     this.pessoaRepository.merge(pessoa, data);
     return await this.pessoaRepository.save(pessoa);
   }
 
-  async delete(id: string): Promise<void> {
-    await this.findByUuid(id);
+  async delete(id: number): Promise<void> {
+    await this.findById(id);
     await this.pessoaRepository.delete(id);
   }
 }

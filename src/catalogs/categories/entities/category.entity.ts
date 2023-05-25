@@ -16,7 +16,7 @@ import { Firm } from '../../../firms/entities/firm.entity';
 @Entity()
 @Unique(['firm', 'slug'])
 export class Category {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @ManyToOne(() => Firm, (firm) => firm.categories, { nullable: false })
