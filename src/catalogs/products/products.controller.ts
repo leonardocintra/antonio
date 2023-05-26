@@ -47,7 +47,9 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+  remove(@Req() req, @Param('id') id: string) {
+    const userId = req.user.id;
+    const firm = req.headers[CatarinaConstants.FIRM_SLUG];
+    return this.productsService.remove(+id, firm, userId);
   }
 }

@@ -3,7 +3,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { EntityNotFoundError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CategoriesService } from '../categories/categories.service';
 import { CatarinaException } from '../../helpers/http.exception';
 import { FirmsService } from '../../firms/firms.service';
@@ -85,7 +85,13 @@ export class ProductsService {
     return `This action updates a #${id} product`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number, firmSlug: string, userId: number) {
+    const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
+    return await this.productRepository
+      .createQueryBuilder('product')
+      .delete()
+      .from(Product)
+      .where('id = :id and firmId = :firmId', { id, firmId: firm.id })
+      .execute();
   }
 }
