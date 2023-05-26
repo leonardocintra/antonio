@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker';
 import { Util } from '../utils';
 
 export const updatePessoaDtoMock: UpdatePessoaDto = {
-  id: '2d2a5822-5424-4030-9ab7-3a70a52d0843',
+  id: 3,
   nome: 'Luisa',
   cpfCnpj: '44743873410',
   sexo: SexoEnum.FEMININO,

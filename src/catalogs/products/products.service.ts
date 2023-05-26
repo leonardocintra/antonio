@@ -7,6 +7,7 @@ import { EntityNotFoundError, Repository } from 'typeorm';
 import { CategoriesService } from '../categories/categories.service';
 import { CatarinaException } from '../../helpers/http.exception';
 import { FirmsService } from '../../firms/firms.service';
+import { Category } from '../categories/entities/category.entity';
 
 @Injectable()
 export class ProductsService {
@@ -33,29 +34,23 @@ export class ProductsService {
 
       try {
         // valida se a categoria pertence a firma/empresa/loja
-        let validCategory = true;
         const categoryToSave = [];
         createProductDto.categories.map((categorie) => {
           categoryToSave.push(categorie.id);
         });
 
-        categoryToSave.map((category) => {
-          const finded = categories.filter((c) => {
-            return category === c.id;
-          });
+        const validsCategories: Category[] = categories.filter((category) =>
+          categoryToSave.includes(category.id),
+        );
 
-          if (finded.length === 0) {
-            validCategory = false;
-          }
-        });
-
-        if (!validCategory) {
+        if (validsCategories.length > 0) {
+          created.categories = validsCategories;
+        } else {
           throw new Error();
         }
       } catch (err) {
         CatarinaException.EntityNotFoundException('Category', err);
       }
-      created.categories = categories;
     }
 
     const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);

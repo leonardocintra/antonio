@@ -115,13 +115,11 @@ describe('PessoaService', () => {
     });
   });
 
-  describe('findByUuid pessoa', () => {
-    it('deve retornar uma pessoa por uuid com sucess', async () => {
+  describe('findById pessoa', () => {
+    it('deve retornar uma pessoa por id com sucesso', async () => {
       // arrange
       // act
-      const result = await pessoaService.findById(
-        '26c971c2-b831-4df0-9947-319900a92064',
-      );
+      const result = await pessoaService.findById(1);
       // assert
       expect(result).toEqual(pessoaEntityListMock[0]);
       expect(result.nome).toEqual('Leonardo Nascimento Cintra');
@@ -137,7 +135,7 @@ describe('PessoaService', () => {
         .mockRejectedValueOnce(new Error());
       // act
       // assert
-      expect(pessoaService.findById('111')).rejects.toThrowError(
+      expect(pessoaService.findById(111)).rejects.toThrowError(
         NotFoundException,
       );
     });
@@ -174,7 +172,7 @@ describe('PessoaService', () => {
       jest.spyOn(pessoaRepository, 'save').mockRejectedValueOnce(new Error());
       // act
       // assert
-      expect(pessoaService.update('2', data)).rejects.toThrowError();
+      expect(pessoaService.update(2, data)).rejects.toThrowError();
     });
 
     it('deve retornar um not found exception quando der erro no update', () => {
@@ -185,7 +183,7 @@ describe('PessoaService', () => {
         .mockRejectedValueOnce(new Error());
       // act
       // assert
-      expect(pessoaService.update('1', data)).rejects.toThrowError(
+      expect(pessoaService.update(1, data)).rejects.toThrowError(
         NotFoundException,
       );
     });
@@ -200,10 +198,7 @@ describe('PessoaService', () => {
         .mockResolvedValueOnce(pessoaEntityMockUpdated);
 
       // act
-      const result = await pessoaService.update(
-        '2d2a5822-5424-4030-9ab7-3a70a52d0843',
-        data,
-      );
+      const result = await pessoaService.update(1, data);
 
       // assert
       expect(result).toEqual(pessoaEntityMockUpdated);
@@ -214,7 +209,7 @@ describe('PessoaService', () => {
     it('deve dar exception quando ocorrer um erro ao salvar', async () => {
       jest.spyOn(pessoaRepository, 'delete').mockRejectedValueOnce(new Error());
 
-      expect(pessoaService.delete('32')).rejects.toThrowError();
+      expect(pessoaService.delete(32)).rejects.toThrowError();
     });
 
     it('deve dar not found exception quando pessoa nao existe', async () => {
@@ -222,14 +217,14 @@ describe('PessoaService', () => {
         .spyOn(pessoaRepository, 'findOneByOrFail')
         .mockRejectedValueOnce(new Error());
 
-      expect(pessoaService.delete('32')).rejects.toThrowError(
+      expect(pessoaService.delete(13232)).rejects.toThrowError(
         NotFoundException,
       );
     });
 
     it('deve deletar uma pessoa com sucesso', async () => {
       // act
-      const result = await pessoaService.delete('2323');
+      const result = await pessoaService.delete(1);
 
       // assert
       expect(result).toBeUndefined();

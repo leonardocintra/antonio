@@ -58,9 +58,8 @@ describe('PessoaController', () => {
     });
 
     it('deve retornar uma pessoa by id', async () => {
-      const result = await pessoaController.getById(
-        '2d2a5822-5424-4030-9ab7-3a70a52d0843',
-      );
+      const result = await pessoaController.getById(1);
+
       expect(typeof result).toEqual('object');
       expect(result).toEqual(pessoaEntityListMock[1]);
       expect(pessoaService.findById).toHaveBeenCalledTimes(1);
