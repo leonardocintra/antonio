@@ -124,7 +124,7 @@ describe('PessoaService', () => {
       expect(result).toEqual(pessoaEntityListMock[0]);
       expect(result.nome).toEqual('Leonardo Nascimento Cintra');
       expect(result.enderecos).toBeDefined();
-      expect(result.id).toEqual('26c971c2-b831-4df0-9947-319900a92064');
+      expect(result.id).toEqual(1);
       expect(pessoaRepository.findOneByOrFail).toHaveBeenCalledTimes(1);
     });
 

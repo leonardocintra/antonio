@@ -22,7 +22,7 @@ describe('PessoaController', () => {
           provide: PessoaService,
           useValue: {
             findAll: jest.fn().mockResolvedValue(pessoaEntityListMock),
-            findByUuid: jest.fn().mockResolvedValue(pessoaEntityListMock[1]),
+            findById: jest.fn().mockResolvedValue(pessoaEntityListMock[1]),
             create: jest.fn().mockResolvedValue(pessoaEntityListMock[1]),
             delete: jest.fn(),
           },
@@ -63,7 +63,7 @@ describe('PessoaController', () => {
       expect(typeof result).toEqual('object');
       expect(result).toEqual(pessoaEntityListMock[1]);
       expect(pessoaService.findById).toHaveBeenCalledTimes(1);
-      expect(result.id).toEqual('2d2a5822-5424-4030-9ab7-3a70a52d0843');
+      expect(result.id).toEqual(2);
       expect(result.nome).toEqual('Juliana Rosa Rodrigues Cintra');
     });
   });
