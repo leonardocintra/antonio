@@ -13,7 +13,7 @@ import { VariationsValue } from '../variations-values/entities/variations-value.
 
 @Entity()
 export class Variation {
-  // Variation: color, weight, etc...
+  // Variation: color, weight, categoria (python, java, etc) etc...
 
   @PrimaryGeneratedColumn('increment')
   id: number;

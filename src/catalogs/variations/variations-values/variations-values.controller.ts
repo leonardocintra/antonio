@@ -6,13 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { VariationsValuesService } from './variations-values.service';
 import { CreateVariationsValueDto } from './dto/create-variations-value.dto';
 import { UpdateVariationsValueDto } from './dto/update-variations-value.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { CatarinaConstants } from '../../../helpers/constants';
+import { JwtAuthGuard } from '../../../auth/jwt-auth.guard';
 
 @ApiTags('catalog.variations-values')
+@UseGuards(JwtAuthGuard)
 @Controller('api/v1/catalogs/variations/values')
 export class VariationsValuesController {
   constructor(
@@ -20,7 +25,12 @@ export class VariationsValuesController {
   ) {}
 
   @Post()
-  create(@Body() createVariationsValueDto: CreateVariationsValueDto) {
+  create(
+    @Req() req,
+    @Body() createVariationsValueDto: CreateVariationsValueDto,
+  ) {
+    const userId = req.user.id;
+    const firm = req.headers[CatarinaConstants.FIRM_SLUG];
     return this.variationsValuesService.create(createVariationsValueDto);
   }
 
