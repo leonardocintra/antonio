@@ -15,6 +15,7 @@ import { Telefone } from '../../pessoa/telefone/entities/telefone.entity';
 import { TelefoneService } from '../../pessoa/telefone/telefone.service';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
 import { UsuariosService } from '../../usuarios/usuarios.service';
+import { VariationsValue } from './entities/variations-value.entity';
 
 describe('VariationsController', () => {
   let controller: VariationsController;
@@ -26,6 +27,10 @@ describe('VariationsController', () => {
         VariationsService,
         {
           provide: getRepositoryToken(Variation),
+          useValue: {},
+        },
+        {
+          provide: getRepositoryToken(VariationsValue),
           useValue: {},
         },
         FirmsService,

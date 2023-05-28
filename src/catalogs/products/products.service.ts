@@ -43,7 +43,7 @@ export class ProductsService {
           categoryToSave.includes(category.id),
         );
 
-        if (validsCategories.length > 0) {
+        if (validsCategories.length === createProductDto.categories.length) {
           created.categories = validsCategories;
         } else {
           throw new Error();

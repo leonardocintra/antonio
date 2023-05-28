@@ -9,12 +9,13 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { VariationsService } from './variations.service';
 import { CreateVariationDto } from './dto/create-variation.dto';
 import { UpdateVariationDto } from './dto/update-variation.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { CatarinaConstants } from '../../helpers/constants';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { VariationsService } from './variations.service';
+import { CreateVariationsValueDto } from './dto/create-variations-value.dto';
 
 @ApiTags('catalog.variations')
 @UseGuards(JwtAuthGuard)
@@ -30,13 +31,17 @@ export class VariationsController {
   }
 
   @Get()
-  findAll() {
-    return this.variationsService.findAll();
+  findAll(@Req() req) {
+    const userId = req.user.id;
+    const firm = req.headers[CatarinaConstants.FIRM_SLUG];
+    return this.variationsService.findAllByUserIdAndFirmSlug(userId, firm);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.variationsService.findOne(+id);
+  findOne(@Req() req, @Param('id') id: string) {
+    const userId = req.user.id;
+    const firm = req.headers[CatarinaConstants.FIRM_SLUG];
+    return this.variationsService.findOne(+id, userId, firm);
   }
 
   @Patch(':id')
@@ -50,5 +55,21 @@ export class VariationsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.variationsService.remove(+id);
+  }
+
+  @Post(':id/values')
+  async createValues(
+    @Req() req,
+    @Param('id') id: number,
+    @Body() createVariationsValueDto: CreateVariationsValueDto,
+  ) {
+    const userId = req.user.id;
+    const firm = req.headers[CatarinaConstants.FIRM_SLUG];
+    return this.variationsService.createVariationValues(
+      id,
+      createVariationsValueDto,
+      userId,
+      firm,
+    );
   }
 }

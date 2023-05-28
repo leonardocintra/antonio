@@ -13,7 +13,7 @@ import { CatalogsModule } from './catalogs/catalogs.module';
 import { Category } from './catalogs/categories/entities/category.entity';
 import { Product } from './catalogs/products/entities/product.entity';
 import { Variation } from './catalogs/variations/entities/variation.entity';
-import { VariationsValue } from './catalogs/variations/variations-values/entities/variations-value.entity';
+import { VariationsValue } from './catalogs/variations/entities/variations-value.entity';
 import { FirmsModule } from './firms/firms.module';
 import { Firm } from './firms/entities/firm.entity';
 

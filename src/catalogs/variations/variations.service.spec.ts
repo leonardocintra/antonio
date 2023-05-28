@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { VariationsService } from './variations.service';
 import { HttpService } from '@nestjs/axios';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Firm } from '../../firms/entities/firm.entity';
@@ -14,6 +13,8 @@ import { TelefoneService } from '../../pessoa/telefone/telefone.service';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
 import { UsuariosService } from '../../usuarios/usuarios.service';
 import { Variation } from './entities/variation.entity';
+import { VariationsService } from './variations.service';
+import { VariationsValue } from './entities/variations-value.entity';
 
 describe('VariationsService', () => {
   let service: VariationsService;
@@ -24,6 +25,10 @@ describe('VariationsService', () => {
         VariationsService,
         {
           provide: getRepositoryToken(Variation),
+          useValue: {},
+        },
+        {
+          provide: getRepositoryToken(VariationsValue),
           useValue: {},
         },
         FirmsService,

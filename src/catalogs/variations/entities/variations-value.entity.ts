@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   Entity,
 } from 'typeorm';
-import { Variation } from '../../entities/variation.entity';
+import { Variation } from './variation.entity';
 
 @Entity()
 export class VariationsValue {
@@ -14,9 +14,9 @@ export class VariationsValue {
   id: number;
 
   @Column({ nullable: false, length: 40 })
-  name: string;
+  value: string;
 
-  @Column({ nullable: true, length: 25 })
+  @Column({ nullable: true, length: 20 })
   color: string;
 
   @ManyToOne(

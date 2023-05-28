@@ -7,11 +7,15 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Entity,
+  ManyToOne,
+  Unique,
 } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
-import { VariationsValue } from '../variations-values/entities/variations-value.entity';
+import { VariationsValue } from './variations-value.entity';
+import { Firm } from '../../../firms/entities/firm.entity';
 
 @Entity()
+@Unique(['firm', 'name'])
 export class Variation {
   // Variation: color, weight, categoria (python, java, etc) etc...
 
@@ -35,6 +39,9 @@ export class Variation {
 
   @ManyToMany(() => Product, (product) => product.variations)
   products: Product[];
+
+  @ManyToOne(() => Firm, { nullable: false })
+  firm: Firm;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
