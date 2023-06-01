@@ -8,6 +8,8 @@ import { CategoriesService } from '../categories/categories.service';
 import { CatarinaException } from '../../helpers/http.exception';
 import { FirmsService } from '../../firms/firms.service';
 import { Category } from '../categories/entities/category.entity';
+import { VariationsService } from '../variations/variations.service';
+import { Variation } from '../variations/entities/variation.entity';
 
 @Injectable()
 export class ProductsService {
@@ -15,6 +17,7 @@ export class ProductsService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
     private readonly categoriesService: CategoriesService,
+    private readonly variationsService: VariationsService,
     private readonly firmService: FirmsService,
   ) {}
 
@@ -53,6 +56,34 @@ export class ProductsService {
       }
     }
 
+    if (createProductDto.variations) {
+      const variations =
+        await this.variationsService.findAllByUserIdAndFirmSlug(
+          userId,
+          firmSlug,
+        );
+
+      try {
+        // valida se a variação (variation) pertence a firma/empresa/loja
+        const variationToSave = [];
+        createProductDto.variations.map((variation) => {
+          variationToSave.push(variation.id);
+        });
+
+        const validsVariations: Variation[] = variations.filter((variation) =>
+          variationToSave.includes(variation.id),
+        );
+
+        if (validsVariations.length === createProductDto.categories.length) {
+          created.variations = validsVariations;
+        } else {
+          throw new Error();
+        }
+      } catch (err) {
+        CatarinaException.EntityNotFoundException('Variation', err);
+      }
+    }
+
     const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
 
     try {
@@ -63,11 +94,17 @@ export class ProductsService {
     }
   }
 
-  async findAllByUserIdAndFirmSlug(userId: number, firmSlug: string) {
+  async findAllByUserIdAndFirmSlug(
+    userId: number,
+    firmSlug: string,
+  ): Promise<Product[]> {
     const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
     return await this.productRepository.find({
       relations: {
         categories: true,
+        variations: {
+          variationValues: true,
+        },
       },
       where: {
         firm: {

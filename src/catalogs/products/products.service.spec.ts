@@ -16,6 +16,9 @@ import { Telefone } from '../../pessoa/telefone/entities/telefone.entity';
 import { TelefoneService } from '../../pessoa/telefone/telefone.service';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
 import { UsuariosService } from '../../usuarios/usuarios.service';
+import { VariationsService } from '../variations/variations.service';
+import { Variation } from '../variations/entities/variation.entity';
+import { VariationsValue } from '../variations/entities/variations-value.entity';
 
 describe('ProductsService', () => {
   let service: ProductsService;
@@ -31,6 +34,15 @@ describe('ProductsService', () => {
         CategoriesService,
         {
           provide: getRepositoryToken(Category),
+          useValue: {},
+        },
+        VariationsService,
+        {
+          provide: getRepositoryToken(Variation),
+          useValue: {},
+        },
+        {
+          provide: getRepositoryToken(VariationsValue),
           useValue: {},
         },
         FirmsService,

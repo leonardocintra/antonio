@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../../../src/app.module';
+import { AppModule } from '../../src/app.module';
 
-describe('CatalogController - Category (e2e)', () => {
+describe('FirmController - (e2e)', () => {
   let app: INestApplication;
-  const BASE_PATH = '/api/v1/catalogs/categories';
+  const BASE_PATH = '/api/v1/firms';
   const username = 'usuarioTeste';
   const password = '#usuARIO2023#';
   let jwtToken = '';
@@ -55,22 +55,21 @@ describe('CatalogController - Category (e2e)', () => {
     jwtToken = loginResponse.body.token;
   });
 
-  it('/api/v1/pessoa (GET - 401) - Unauthorized', async () => {
+  it('/api/v1/firms (GET - 401) - Unauthorized', async () => {
     return request(app.getHttpServer()).get(`${BASE_PATH}`).expect(401, {
       statusCode: 401,
       message: 'Unauthorized',
     });
   });
 
-  it(`${BASE_PATH} (GET - 404) - should status 404 when firm not exists`, async () => {
+  it(`${BASE_PATH} (GET - 200) - should status 200 when user is logged`, async () => {
     const url = `${BASE_PATH}`;
     const response = await request(app.getHttpServer())
       .get(url)
       .set('Authorization', 'Bearer ' + jwtToken);
 
     expect(response.body).toBeDefined();
-    expect(response.status).toEqual(HttpStatus.NOT_FOUND);
-    expect(response.body.status).toEqual(404);
-    expect(response.body.error).toEqual('Entity Firm not found');
+    expect(response.status).toEqual(HttpStatus.OK);
+    expect(response.body).toBeDefined();
   });
 });

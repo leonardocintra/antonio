@@ -41,7 +41,7 @@ export class VariationsController {
   findOne(@Req() req, @Param('id') id: string) {
     const userId = req.user.id;
     const firm = req.headers[CatarinaConstants.FIRM_SLUG];
-    return this.variationsService.findOne(+id, userId, firm);
+    return this.variationsService.findOneVariation(+id, userId, firm);
   }
 
   @Patch(':id')
@@ -68,6 +68,22 @@ export class VariationsController {
     return this.variationsService.createVariationValues(
       id,
       createVariationsValueDto,
+      userId,
+      firm,
+    );
+  }
+
+  @Delete(':variationId/values/:variationValueId')
+  async removeValues(
+    @Req() req,
+    @Param('variationId') variationId: number,
+    @Param('variationValueId') variationValueId: number,
+  ) {
+    const userId = req.user.id;
+    const firm = req.headers[CatarinaConstants.FIRM_SLUG];
+    return this.variationsService.removeVariationValues(
+      variationValueId,
+      variationId,
       userId,
       firm,
     );

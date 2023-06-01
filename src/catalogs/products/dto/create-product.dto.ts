@@ -11,7 +11,7 @@ import {
   Min,
 } from 'class-validator';
 
-class ProductCategoriesDto {
+class ArrayWithIdDto {
   @IsNumber({ maxDecimalPlaces: 0 })
   @IsPositive()
   id: number;
@@ -39,5 +39,9 @@ export class CreateProductDto {
 
   @IsArray()
   @IsOptional()
-  categories: ProductCategoriesDto[];
+  categories: ArrayWithIdDto[];
+
+  @IsArray()
+  @IsOptional()
+  variations: ArrayWithIdDto[];
 }

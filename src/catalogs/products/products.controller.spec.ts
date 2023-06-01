@@ -17,6 +17,9 @@ import { Telefone } from '../../pessoa/telefone/entities/telefone.entity';
 import { TelefoneService } from '../../pessoa/telefone/telefone.service';
 import { UsuariosService } from '../../usuarios/usuarios.service';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
+import { Variation } from '../variations/entities/variation.entity';
+import { VariationsService } from '../variations/variations.service';
+import { VariationsValue } from '../variations/entities/variations-value.entity';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
@@ -33,6 +36,15 @@ describe('ProductsController', () => {
         CategoriesService,
         {
           provide: getRepositoryToken(Category),
+          useValue: {},
+        },
+        VariationsService,
+        {
+          provide: getRepositoryToken(Variation),
+          useValue: {},
+        },
+        {
+          provide: getRepositoryToken(VariationsValue),
           useValue: {},
         },
         FirmsService,

@@ -13,5 +13,6 @@ import { VariationsValue } from './entities/variations-value.entity';
     TypeOrmModule.forFeature([Variation, VariationsValue]),
     FirmsModule,
   ],
+  exports: [VariationsService],
 })
 export class VariationsModule {}

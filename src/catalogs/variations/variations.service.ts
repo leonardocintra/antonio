@@ -41,6 +41,9 @@ export class VariationsService {
     const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
 
     return await this.variationRepository.find({
+      relations: {
+        variationValues: true,
+      },
       where: {
         firm: {
           id: firm.id,
@@ -49,7 +52,11 @@ export class VariationsService {
     });
   }
 
-  async findOne(id: number, userId: number, firmSlug: string) {
+  async findOneVariation(
+    id: number,
+    userId: number,
+    firmSlug: string,
+  ): Promise<Variation> {
     const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
     return await this.variationRepository.findOneOrFail({
       where: {
@@ -76,7 +83,11 @@ export class VariationsService {
     firmSlug: string,
   ) {
     try {
-      const variation = await this.findOne(variationId, userId, firmSlug);
+      const variation = await this.findOneVariation(
+        variationId,
+        userId,
+        firmSlug,
+      );
 
       if (variation) {
         const created = this.variationsValuesRepository.create(
@@ -87,6 +98,31 @@ export class VariationsService {
       } else {
         throw new Error();
       }
+    } catch (err) {
+      CatarinaException.EntityNotFoundException('Variation', err);
+    }
+  }
+
+  async removeVariationValues(
+    id: number,
+    variationId: number,
+    userId: number,
+    firmSlug: string,
+  ) {
+    try {
+      const variation = await this.findOneVariation(
+        variationId,
+        userId,
+        firmSlug,
+      );
+
+      return await this.variationsValuesRepository
+        .createQueryBuilder('remove-variation-values')
+        .delete()
+        .from(VariationsValue)
+        .where('id = :id', { id })
+        .andWhere('variationId = :variationId', { variationId: variation.id })
+        .execute();
     } catch (err) {
       CatarinaException.EntityNotFoundException('Variation', err);
     }
