@@ -74,7 +74,7 @@ export class ProductsService {
           variationToSave.includes(variation.id),
         );
 
-        if (validsVariations.length === createProductDto.categories.length) {
+        if (validsVariations.length === createProductDto.variations.length) {
           created.variations = validsVariations;
         } else {
           throw new Error();
