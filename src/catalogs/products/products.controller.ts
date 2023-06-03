@@ -36,9 +36,11 @@ export class ProductsController {
     return this.productsService.findAllByUserIdAndFirmSlug(userId, firm);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+  @Get(':slug')
+  findOneBySlug(@Req() req, @Param('slug') slug: string) {
+    const userId = req.user.id;
+    const firm = req.headers[CatarinaConstants.FIRM_SLUG];
+    return this.productsService.findOne(slug, firm, userId);
   }
 
   @Patch(':id')

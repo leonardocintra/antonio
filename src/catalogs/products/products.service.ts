@@ -114,8 +114,26 @@ export class ProductsService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(slug: string, firmSlug: string, userId: number) {
+    try {
+      const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
+      return await this.productRepository.findOneOrFail({
+        relations: {
+          categories: true,
+          variations: {
+            variationValues: true,
+          },
+        },
+        where: {
+          slug,
+          firm: {
+            id: firm.id,
+          },
+        },
+      });
+    } catch (err) {
+      CatarinaException.EntityNotFoundException('Product', err);
+    }
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
