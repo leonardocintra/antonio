@@ -14,6 +14,7 @@ import { Category } from '../../categories/entities/category.entity';
 import { Variation } from '../../variations/entities/variation.entity';
 import slugify from 'slugify';
 import { Firm } from '../../../firms/entities/firm.entity';
+import { VariationsValue } from '../../variations/entities/variations-value.entity';
 
 @Entity()
 @Unique(['firm', 'slug'])
@@ -42,6 +43,17 @@ export class Product {
   })
   @JoinTable()
   variations: Variation[];
+
+  @ManyToMany(
+    () => VariationsValue,
+    (variationValues) => variationValues.products,
+    {
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
+  )
+  @JoinTable()
+  variationsValues: VariationsValue[];
 
   @ManyToMany(() => Category, (category) => category.products, {
     cascade: true,

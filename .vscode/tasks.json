@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Delete dist",
+      "type": "shell",
+      "command": "rm -R dist/",
+      "problemMatcher": []
+    },
+    {
+      "label": "preLaunch",
+      "dependsOn": ["Delete dist", "tsc: build - tsconfig.json"]
+    }
+  ]
+}

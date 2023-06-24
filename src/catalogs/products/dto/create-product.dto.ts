@@ -1,6 +1,6 @@
+import { Type } from 'class-transformer';
 import {
   IsArray,
-  IsDecimal,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -11,10 +11,27 @@ import {
   Min,
 } from 'class-validator';
 
-class ArrayWithIdDto {
+class ProductCategoriesDto {
   @IsNumber({ maxDecimalPlaces: 0 })
   @IsPositive()
   id: number;
+}
+
+class ProductVariationsValuesDto {
+  @IsNumber({ maxDecimalPlaces: 0 })
+  @IsPositive()
+  id: number;
+}
+
+class ProductVariationsDto {
+  @IsNumber({ maxDecimalPlaces: 0 })
+  @IsPositive()
+  id: number;
+
+  @Type(() => ProductVariationsValuesDto)
+  @IsArray()
+  @IsOptional()
+  variationsValues: ProductVariationsValuesDto[];
 }
 
 export class CreateProductDto {
@@ -37,11 +54,13 @@ export class CreateProductDto {
   @Max(9999)
   price: number;
 
+  @Type(() => ProductCategoriesDto)
   @IsArray()
   @IsOptional()
-  categories: ArrayWithIdDto[];
+  categories: ProductCategoriesDto[];
 
+  @Type(() => ProductVariationsDto)
   @IsArray()
   @IsOptional()
-  variations: ArrayWithIdDto[];
+  variations: ProductVariationsDto[];
 }

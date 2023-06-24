@@ -8,6 +8,8 @@ import {
   Delete,
   Req,
   UseGuards,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -49,6 +51,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Req() req, @Param('id') id: string) {
     const userId = req.user.id;
     const firm = req.headers[CatarinaConstants.FIRM_SLUG];

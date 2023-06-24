@@ -35,7 +35,7 @@ export class Variation {
     },
   )
   @JoinColumn()
-  variationValues: VariationsValue[];
+  variationsValues: VariationsValue[];
 
   @ManyToMany(() => Product, (product) => product.variations)
   products: Product[];

@@ -42,7 +42,7 @@ export class VariationsService {
 
     return await this.variationRepository.find({
       relations: {
-        variationValues: true,
+        variationsValues: true,
       },
       where: {
         firm: {

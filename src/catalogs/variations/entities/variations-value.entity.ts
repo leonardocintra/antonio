@@ -5,8 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Entity,
+  ManyToMany,
 } from 'typeorm';
 import { Variation } from './variation.entity';
+import { Product } from '../../products/entities/product.entity';
 
 @Entity()
 export class VariationsValue {
@@ -21,13 +23,16 @@ export class VariationsValue {
 
   @ManyToOne(
     () => Variation,
-    (variation: Variation) => variation.variationValues,
+    (variation: Variation) => variation.variationsValues,
     {
       nullable: false,
       onDelete: 'CASCADE',
     },
   )
   variation: Variation;
+
+  @ManyToMany(() => Product, (product) => product.variations)
+  products: Product[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

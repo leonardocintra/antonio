@@ -10,6 +10,7 @@ import { FirmsService } from '../../firms/firms.service';
 import { Category } from '../categories/entities/category.entity';
 import { VariationsService } from '../variations/variations.service';
 import { Variation } from '../variations/entities/variation.entity';
+import { VariationsValue } from '../variations/entities/variations-value.entity';
 
 @Injectable()
 export class ProductsService {
@@ -57,6 +58,7 @@ export class ProductsService {
     }
 
     if (createProductDto.variations) {
+      let messageEntityNotFound = 'Variation';
       const variations =
         await this.variationsService.findAllByUserIdAndFirmSlug(
           userId,
@@ -79,8 +81,38 @@ export class ProductsService {
         } else {
           throw new Error();
         }
+
+        // Variations values
+        createProductDto.variations.forEach((variationDto) => {
+          if (variationDto.variationsValues) {
+            let variationValuesToSave: VariationsValue[] = [];
+            let variationsValuesDb: VariationsValue[] = [];
+
+            variations.forEach((element) => {
+              element.variationsValues.forEach((vv) => {
+                variationsValuesDb.push(vv);
+              });
+            });
+
+            variationDto.variationsValues.forEach((element) => {
+              variationsValuesDb.forEach((vvDb) => {
+                if (vvDb.id === element.id) {
+                  variationValuesToSave.push(vvDb);
+                }
+              });
+            });
+
+
+            if (variationValuesToSave.length > 0) {
+              created.variationsValues = variationValuesToSave;
+            } else {
+              messageEntityNotFound = 'Variation Values';
+              throw new Error();
+            }
+          }
+        });
       } catch (err) {
-        CatarinaException.EntityNotFoundException('Variation', err);
+        CatarinaException.EntityNotFoundException(messageEntityNotFound, err);
       }
     }
 
@@ -103,7 +135,7 @@ export class ProductsService {
       relations: {
         categories: true,
         variations: {
-          variationValues: true,
+          variationsValues: true,
         },
       },
       where: {
@@ -121,7 +153,7 @@ export class ProductsService {
         relations: {
           categories: true,
           variations: {
-            variationValues: true,
+            variationsValues: true,
           },
         },
         where: {
@@ -142,11 +174,17 @@ export class ProductsService {
 
   async remove(id: number, firmSlug: string, userId: number) {
     const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
-    return await this.productRepository
+    const deleted = await this.productRepository
       .createQueryBuilder('product')
       .delete()
       .from(Product)
       .where('id = :id and firmId = :firmId', { id, firmId: firm.id })
       .execute();
+
+    if (deleted.affected > 0) {
+      return deleted;
+    } else {
+      CatarinaException.EntityNotFoundException('Product', null);
+    }
   }
 }
