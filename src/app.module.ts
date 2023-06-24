@@ -44,10 +44,16 @@ import { Firm } from './firms/entities/firm.entity';
             VariationsValue,
           ],
           synchronize: true,
+          ssl: true,
+          extra: {
+            ssl: {
+              rejectUnauthorized: false,
+            },
+          },
           options: {
             encrypt: configService.get('DB_ENCRYPT'), // Habilitar criptografia SSL
-            trustServerCertificate: configService.get('DB_SSL')
-          }
+            trustServerCertificate: configService.get('DB_SSL'),
+          },
         } as TypeOrmModuleAsyncOptions),
     }),
     AuthModule,

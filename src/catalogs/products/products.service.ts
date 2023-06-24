@@ -85,8 +85,8 @@ export class ProductsService {
         // Variations values
         createProductDto.variations.forEach((variationDto) => {
           if (variationDto.variationsValues) {
-            let variationValuesToSave: VariationsValue[] = [];
-            let variationsValuesDb: VariationsValue[] = [];
+            const variationValuesToSave: VariationsValue[] = [];
+            const variationsValuesDb: VariationsValue[] = [];
 
             variations.forEach((element) => {
               element.variationsValues.forEach((vv) => {
@@ -101,7 +101,6 @@ export class ProductsService {
                 }
               });
             });
-
 
             if (variationValuesToSave.length > 0) {
               created.variationsValues = variationValuesToSave;
