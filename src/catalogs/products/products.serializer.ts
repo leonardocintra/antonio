@@ -25,9 +25,9 @@ export default function productSerializer(product: Product) {
 }
 
 function productVariationSerializer(productVariations: ProductVariation[]) {
-  let datas: VariationsType[] = [];
+  const datas: VariationsType[] = [];
 
-  for (let element of productVariations) {
+  for (const element of productVariations) {
     const data = datas.find((v) => v.id === element.variation.id);
     if (data) {
       data.values.push({

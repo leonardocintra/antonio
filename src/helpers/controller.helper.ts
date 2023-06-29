@@ -4,7 +4,7 @@ import { IResponseData } from './interfaces/IResponseData';
 export default function success(data: any, options: any): IResponseData {
   options = options || {};
   options.query = options.query || {};
-  let responseBody: IResponseData = {
+  const responseBody: IResponseData = {
     meta: undefined,
     records: [],
   };

@@ -9,10 +9,7 @@ import { VariationValue } from '../../entities/variation-value.entity';
 @Module({
   controllers: [VariationsController],
   providers: [VariationsService],
-  imports: [
-    TypeOrmModule.forFeature([Variation, VariationValue]),
-    FirmsModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Variation, VariationValue]), FirmsModule],
   exports: [VariationsService],
 })
 export class VariationsModule {}

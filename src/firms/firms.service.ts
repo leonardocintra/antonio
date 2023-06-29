@@ -40,7 +40,10 @@ export class FirmsService {
     }
   }
 
-  async findBySlugAndUserIdOrFail(firmSlug: string, userId: number): Promise<Firm> {
+  async findBySlugAndUserIdOrFail(
+    firmSlug: string,
+    userId: number,
+  ): Promise<Firm> {
     try {
       return await this.firmRepository
         .createQueryBuilder('firm')

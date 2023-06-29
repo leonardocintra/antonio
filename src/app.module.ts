@@ -43,7 +43,7 @@ import { ProductVariation } from './entities/product-variation.entity';
             Product,
             Variation,
             VariationValue,
-            ProductVariation
+            ProductVariation,
           ],
           synchronize: true,
           ssl: true,

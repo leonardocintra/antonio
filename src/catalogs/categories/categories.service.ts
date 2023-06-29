@@ -18,9 +18,12 @@ export class CategoriesService {
   async create(
     createCategoryDto: CreateCategoryDto,
     userId: number,
-    firmSlug: string
+    firmSlug: string,
   ): Promise<Category> {
-    const firm = await this.firmService.findBySlugAndUserIdOrFail(firmSlug, userId);
+    const firm = await this.firmService.findBySlugAndUserIdOrFail(
+      firmSlug,
+      userId,
+    );
     try {
       const category = this.categoryRepository.create(createCategoryDto);
       category.firm = firm;
@@ -34,7 +37,10 @@ export class CategoriesService {
     userId: number,
     firmSlug: string,
   ): Promise<Category[]> {
-    const firm = await this.firmService.findBySlugAndUserIdOrFail(firmSlug, userId);
+    const firm = await this.firmService.findBySlugAndUserIdOrFail(
+      firmSlug,
+      userId,
+    );
     return await this.categoryRepository.find({
       where: {
         firm: {

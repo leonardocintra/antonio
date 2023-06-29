@@ -73,7 +73,7 @@ export class ProductsService {
           firmSlug,
         );
 
-      let variationsValuesDb: VariationValue[] = [];
+      const variationsValuesDb: VariationValue[] = [];
 
       // variations values
       variationsDb.forEach((variation) => {
@@ -90,7 +90,7 @@ export class ProductsService {
               (vv) => vv.id === vvDto.id,
             );
 
-            let productVariation: ProductVariation = new ProductVariation();
+            const productVariation: ProductVariation = new ProductVariation();
 
             if (variationValue) {
               productVariation.variation = variationsDb.find(
@@ -101,7 +101,7 @@ export class ProductsService {
             }
           });
         } else {
-          let productVariation: ProductVariation = new ProductVariation();
+          const productVariation: ProductVariation = new ProductVariation();
           productVariation.variation = variationsDb.find(
             (v) => v.id === vDto.id,
           );
