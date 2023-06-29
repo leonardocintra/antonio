@@ -11,8 +11,8 @@ import { Category } from '../../entities/category.entity';
 import { VariationsService } from '../variations/variations.service';
 import { ProductVariation } from '../../entities/product-variation.entity';
 import { VariationValue } from '../../entities/variation-value.entity';
-import productSerializer from './products.serializer';
 import { CreateProductResponseDto } from './dto/create-product-response.dto';
+import { productSerializer } from './products.serializer';
 
 @Injectable()
 export class ProductsService {
@@ -112,7 +112,7 @@ export class ProductsService {
 
     try {
       const result = await this.productRepository.save(created);
-      return productSerializer(result);
+      return productSerializer.serializer(result);
     } catch (err) {
       CatarinaException.QueryFailedErrorException(err);
     }
@@ -127,22 +127,23 @@ export class ProductsService {
   async findAllByUserIdAndFirmSlug(
     userId: number,
     firmSlug: string,
-  ): Promise<Product[]> {
+  ): Promise<CreateProductResponseDto[]> {
     const firm = await this.firmService.findBySlugAndUserIdOrFail(
       firmSlug,
       userId,
     );
 
-    return await this.productRepository.find({
-      relations: {
-        categories: true,
-      },
-      where: {
-        firm: {
-          id: firm.id,
-        },
-      },
-    });
+    const products = await this.productRepository
+      .createQueryBuilder('products')
+      .select()
+      .leftJoinAndSelect('products.categories', 'categories')
+      .leftJoinAndSelect('products.variations', 'productVariations')
+      .leftJoinAndSelect('productVariations.variation', 'variation')
+      .leftJoinAndSelect('productVariations.variationValue', 'variationValue')
+      .where('products.firmId = :firmId', { firmId: firm.id })
+      .getMany();
+
+    return productSerializer.serializers(products);
   }
 
   async findOne(slug: string, firmSlug: string, userId: number) {

@@ -13,18 +13,26 @@ type VariationValueType = {
   color?: string;
 };
 
-export default function productSerializer(product: Product) {
+function serializers(products: Product[]) {
+  return products.map((product) => {
+    return serializer(product);
+  });
+}
+
+function serializer(product: Product) {
   return {
+    id: product.id,
+    active: product.active,
     name: product.name,
     slug: product.slug,
     description: product.description,
     price: product.price,
     categories: product.categories,
-    variations: productVariationSerializer(product.variations),
+    variations: _productVariationSerializer(product.variations),
   };
 }
 
-function productVariationSerializer(productVariations: ProductVariation[]) {
+function _productVariationSerializer(productVariations: ProductVariation[]) {
   const datas: VariationsType[] = [];
 
   for (const element of productVariations) {
@@ -58,3 +66,8 @@ function productVariationSerializer(productVariations: ProductVariation[]) {
   }
   return datas;
 }
+
+export const productSerializer = {
+  serializer,
+  serializers,
+};
