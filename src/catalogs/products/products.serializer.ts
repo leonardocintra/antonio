@@ -27,8 +27,10 @@ function serializer(product: Product) {
     slug: product.slug,
     description: product.description,
     price: product.price,
-    categories: product.categories,
-    variations: _productVariationSerializer(product.variations),
+    categories: product.categories ? product.categories : [],
+    variations: product.variations
+      ? _productVariationSerializer(product.variations)
+      : [],
   };
 }
 
