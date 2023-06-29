@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { CreateVariationDto } from './dto/create-variation.dto';
 import { UpdateVariationDto } from './dto/update-variation.dto';
-import { Variation } from './entities/variation.entity';
+import { Variation } from '../../entities/variation.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FirmsService } from '../../firms/firms.service';
 import { CatarinaException } from '../../helpers/http.exception';
 import { CreateVariationsValueDto } from './dto/create-variations-value.dto';
-import { VariationsValue } from './entities/variations-value.entity';
+import { VariationValue } from '../../entities/variation-value.entity';
 
 @Injectable()
 export class VariationsService {
   constructor(
     @InjectRepository(Variation)
     private readonly variationRepository: Repository<Variation>,
-    @InjectRepository(VariationsValue)
-    private readonly variationsValuesRepository: Repository<VariationsValue>,
+    @InjectRepository(VariationValue)
+    private readonly variationsValuesRepository: Repository<VariationValue>,
     private readonly firmService: FirmsService,
   ) {}
 
@@ -24,7 +24,10 @@ export class VariationsService {
     userId: number,
     firmSlug: string,
   ): Promise<Variation> {
-    const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
+    const firm = await this.firmService.findBySlugAndUserIdOrFail(
+      firmSlug,
+      userId,
+    );
     try {
       const variation = this.variationRepository.create(createVariationDto);
       variation.firm = firm;
@@ -34,22 +37,34 @@ export class VariationsService {
     }
   }
 
-  async findAllByUserIdAndFirmSlug(
+  async findAllByUserIdAndFirmSlugOrFail(
     userId: number,
     firmSlug: string,
   ): Promise<Variation[]> {
-    const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
+    const firm = await this.firmService.findBySlugAndUserIdOrFail(
+      firmSlug,
+      userId,
+    );
 
-    return await this.variationRepository.find({
-      relations: {
-        variationsValues: true,
-      },
-      where: {
-        firm: {
-          id: firm.id,
+    try {
+      const results = await this.variationRepository.find({
+        relations: {
+          variationsValues: true,
         },
-      },
-    });
+        where: {
+          firm: {
+            id: firm.id,
+          },
+        },
+      });
+
+      if (!results) {
+        throw new Error();
+      }
+      return results;
+    } catch (err) {
+      CatarinaException.EntityNotFoundException('Variation', err);
+    }
   }
 
   async findOneVariation(
@@ -57,7 +72,10 @@ export class VariationsService {
     userId: number,
     firmSlug: string,
   ): Promise<Variation> {
-    const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
+    const firm = await this.firmService.findBySlugAndUserIdOrFail(
+      firmSlug,
+      userId,
+    );
     return await this.variationRepository.findOneOrFail({
       where: {
         id,
@@ -119,7 +137,7 @@ export class VariationsService {
       return await this.variationsValuesRepository
         .createQueryBuilder('remove-variation-values')
         .delete()
-        .from(VariationsValue)
+        .from(VariationValue)
         .where('id = :id', { id })
         .andWhere('variationId = :variationId', { variationId: variation.id })
         .execute();

@@ -3,21 +3,21 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { UsuariosModule } from '../../src/usuarios/usuarios.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Usuario } from '../../src/usuarios/entities/usuario.entity';
+import { Usuario } from '../../src/entities/usuario.entity';
 
 describe('UsuarioController (e2e)', () => {
   let app: INestApplication;
   const BASE_PATH = '/api/v1/usuarios';
 
-  const mockUsuarios: Usuario[] = [
+  const mockUsuarios = [
     {
       id: 1,
       username: 'admin',
       password: '123456',
       email: 'admin@example.com',
       ativo: true,
-      createdAt: '2020-01-01T00:00:00.000Z',
-      updateddAt: '2020-01-01T00:00:00.000Z',
+      createdAt: new Date('2020-01-01T00:00:00.000Z').toString(),
+      updatedAt: new Date('2020-01-01T00:00:00.000Z').toString(),
       criptografarSenha: null,
     },
     {
@@ -26,8 +26,8 @@ describe('UsuarioController (e2e)', () => {
       password: '123456',
       email: 'robinho@example.com',
       ativo: true,
-      createdAt: '2020-01-01T00:00:00.000Z',
-      updateddAt: '2020-01-01T00:00:00.000Z',
+      createdAt: new Date('2020-01-01T00:00:00.000Z').toString(),
+      updatedAt: new Date('2020-01-01T00:00:00.000Z').toString(),
       criptografarSenha: null,
     },
     {
@@ -36,8 +36,8 @@ describe('UsuarioController (e2e)', () => {
       password: '123456',
       email: 'ronaldo@example.com',
       ativo: true,
-      createdAt: '2020-01-01T00:00:00.000Z',
-      updateddAt: '2020-01-01T00:00:00.000Z',
+      createdAt: new Date('2020-01-01T00:00:00.000Z').toString(),
+      updatedAt: new Date('2020-01-01T00:00:00.000Z').toString(),
       criptografarSenha: null,
     },
   ];

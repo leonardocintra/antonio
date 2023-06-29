@@ -2,15 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from './entities/product.entity';
+import { Product } from '../../entities/product.entity';
 import { Repository } from 'typeorm';
 import { CategoriesService } from '../categories/categories.service';
 import { CatarinaException } from '../../helpers/http.exception';
 import { FirmsService } from '../../firms/firms.service';
-import { Category } from '../categories/entities/category.entity';
+import { Category } from '../../entities/category.entity';
 import { VariationsService } from '../variations/variations.service';
-import { Variation } from '../variations/entities/variation.entity';
-import { VariationsValue } from '../variations/entities/variations-value.entity';
+import { ProductVariation } from '../../entities/product-variation.entity';
+import { VariationValue } from '../../entities/variation-value.entity';
+import productSerializer from './products.serializer';
+import { CreateProductResponseDto } from './dto/create-product-response.dto';
 
 @Injectable()
 export class ProductsService {
@@ -26,8 +28,12 @@ export class ProductsService {
     createProductDto: CreateProductDto,
     firmSlug: string,
     userId: number,
-  ): Promise<CreateProductDto> {
+  ): Promise<CreateProductResponseDto> {
     const created = this.productRepository.create(createProductDto);
+    created.firm = await this.firmService.findBySlugAndUserIdOrFail(
+      firmSlug,
+      userId,
+    );
 
     if (createProductDto.categories) {
       const categories =
@@ -58,70 +64,63 @@ export class ProductsService {
     }
 
     if (createProductDto.variations) {
-      let messageEntityNotFound = 'Variation';
-      const variations =
-        await this.variationsService.findAllByUserIdAndFirmSlug(
+      removeVariationsOriginals();
+
+      const variationsDto = createProductDto.variations;
+      const variationsDb =
+        await this.variationsService.findAllByUserIdAndFirmSlugOrFail(
           userId,
           firmSlug,
         );
 
-      try {
-        // valida se a variação (variation) pertence a firma/empresa/loja
-        const variationToSave = [];
-        createProductDto.variations.map((variation) => {
-          variationToSave.push(variation.id);
+      let variationsValuesDb: VariationValue[] = [];
+
+      // variations values
+      variationsDb.forEach((variation) => {
+        variation.variationsValues.forEach((vv) => {
+          vv.variation = variation;
+          variationsValuesDb.push(vv);
         });
+      });
 
-        const validsVariations: Variation[] = variations.filter((variation) =>
-          variationToSave.includes(variation.id),
-        );
+      variationsDto.forEach((vDto) => {
+        if (vDto.variationsValues) {
+          vDto.variationsValues.forEach((vvDto) => {
+            const variationValue: VariationValue = variationsValuesDb.find(
+              (vv) => vv.id === vvDto.id,
+            );
 
-        if (validsVariations.length === createProductDto.variations.length) {
-          created.variations = validsVariations;
-        } else {
-          throw new Error();
-        }
+            let productVariation: ProductVariation = new ProductVariation();
 
-        // Variations values
-        createProductDto.variations.forEach((variationDto) => {
-          if (variationDto.variationsValues) {
-            const variationValuesToSave: VariationsValue[] = [];
-            const variationsValuesDb: VariationsValue[] = [];
-
-            variations.forEach((element) => {
-              element.variationsValues.forEach((vv) => {
-                variationsValuesDb.push(vv);
-              });
-            });
-
-            variationDto.variationsValues.forEach((element) => {
-              variationsValuesDb.forEach((vvDb) => {
-                if (vvDb.id === element.id) {
-                  variationValuesToSave.push(vvDb);
-                }
-              });
-            });
-
-            if (variationValuesToSave.length > 0) {
-              created.variationsValues = variationValuesToSave;
-            } else {
-              messageEntityNotFound = 'Variation Values';
-              throw new Error();
+            if (variationValue) {
+              productVariation.variation = variationsDb.find(
+                (v) => v.id === vDto.id,
+              );
+              productVariation.variationValue = variationValue;
+              created.variations.push(productVariation);
             }
-          }
-        });
-      } catch (err) {
-        CatarinaException.EntityNotFoundException(messageEntityNotFound, err);
-      }
+          });
+        } else {
+          let productVariation: ProductVariation = new ProductVariation();
+          productVariation.variation = variationsDb.find(
+            (v) => v.id === vDto.id,
+          );
+          created.variations.push(productVariation);
+        }
+      });
     }
 
-    const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
-
     try {
-      created.firm = firm;
-      return await this.productRepository.save(created);
+      const result = await this.productRepository.save(created);
+      return productSerializer(result);
     } catch (err) {
       CatarinaException.QueryFailedErrorException(err);
+    }
+
+    function removeVariationsOriginals() {
+      for (let i = 0; i <= created.variations.length; i++) {
+        created.variations.pop();
+      }
     }
   }
 
@@ -129,13 +128,14 @@ export class ProductsService {
     userId: number,
     firmSlug: string,
   ): Promise<Product[]> {
-    const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
+    const firm = await this.firmService.findBySlugAndUserIdOrFail(
+      firmSlug,
+      userId,
+    );
+
     return await this.productRepository.find({
       relations: {
         categories: true,
-        variations: {
-          variationsValues: true,
-        },
       },
       where: {
         firm: {
@@ -147,13 +147,13 @@ export class ProductsService {
 
   async findOne(slug: string, firmSlug: string, userId: number) {
     try {
-      const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
+      const firm = await this.firmService.findBySlugAndUserIdOrFail(
+        firmSlug,
+        userId,
+      );
       return await this.productRepository.findOneOrFail({
         relations: {
           categories: true,
-          variations: {
-            variationsValues: true,
-          },
         },
         where: {
           slug,
@@ -172,7 +172,10 @@ export class ProductsService {
   }
 
   async remove(id: number, firmSlug: string, userId: number) {
-    const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
+    const firm = await this.firmService.findBySlugAndUserIdOrFail(
+      firmSlug,
+      userId,
+    );
     const deleted = await this.productRepository
       .createQueryBuilder('product')
       .delete()

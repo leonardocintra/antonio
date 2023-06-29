@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateFirmDto } from './dto/create-firm.dto';
 import { UpdateFirmDto } from './dto/update-firm.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Firm } from './entities/firm.entity';
+import { Firm } from '../entities/firm.entity';
 import { Repository } from 'typeorm';
 import { PessoaService } from '../pessoa/pessoa.service';
 import { CatarinaException } from '../helpers/http.exception';
@@ -40,7 +40,7 @@ export class FirmsService {
     }
   }
 
-  async findBySlugAndUserId(firmSlug: string, userId: number): Promise<Firm> {
+  async findBySlugAndUserIdOrFail(firmSlug: string, userId: number): Promise<Firm> {
     try {
       return await this.firmRepository
         .createQueryBuilder('firm')

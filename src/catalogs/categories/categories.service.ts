@@ -3,7 +3,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Category } from './entities/category.entity';
+import { Category } from '../../entities/category.entity';
 import { CatarinaException } from '../../helpers/http.exception';
 import { FirmsService } from '../../firms/firms.service';
 
@@ -20,7 +20,7 @@ export class CategoriesService {
     userId: number,
     firmSlug: string
   ): Promise<Category> {
-    const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
+    const firm = await this.firmService.findBySlugAndUserIdOrFail(firmSlug, userId);
     try {
       const category = this.categoryRepository.create(createCategoryDto);
       category.firm = firm;
@@ -34,7 +34,7 @@ export class CategoriesService {
     userId: number,
     firmSlug: string,
   ): Promise<Category[]> {
-    const firm = await this.firmService.findBySlugAndUserId(firmSlug, userId);
+    const firm = await this.firmService.findBySlugAndUserIdOrFail(firmSlug, userId);
     return await this.categoryRepository.find({
       where: {
         firm: {

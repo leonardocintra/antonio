@@ -1,4 +1,4 @@
-import { Endereco } from '../../src/pessoa/endereco/entities/endereco.entity';
+import { Endereco } from '../../src/entities/endereco.entity';
 
 export const enderecoEntityListMock: Endereco[] = [
   new Endereco({
@@ -18,6 +18,5 @@ export const enderecoEntityListMock: Endereco[] = [
     campo_invalido: null,
     createdAt: new Date(),
     updatedAt: new Date(),
-    deletedAt: new Date(),
   }),
 ];

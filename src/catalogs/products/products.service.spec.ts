@@ -1,24 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsService } from './products.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Product } from './entities/product.entity';
+import { Product } from '../../entities/product.entity';
 import { CategoriesService } from '../categories/categories.service';
-import { Category } from '../categories/entities/category.entity';
+import { Category } from '../../entities/category.entity';
 import { HttpService } from '@nestjs/axios';
-import { Firm } from '../../firms/entities/firm.entity';
+import { Firm } from '../../entities/firm.entity';
 import { FirmsService } from '../../firms/firms.service';
 import { EnderecoService } from '../../pessoa/endereco/endereco.service';
-import { Endereco } from '../../pessoa/endereco/entities/endereco.entity';
+import { Endereco } from '../../entities/endereco.entity';
 import { ViacepService } from '../../pessoa/endereco/viacep/viacep.service';
-import { Pessoa } from '../../pessoa/entities/pessoa.entity';
+import { Pessoa } from '../../entities/pessoa.entity';
 import { PessoaService } from '../../pessoa/pessoa.service';
-import { Telefone } from '../../pessoa/telefone/entities/telefone.entity';
+import { Telefone } from '../../entities/telefone.entity';
 import { TelefoneService } from '../../pessoa/telefone/telefone.service';
-import { Usuario } from '../../usuarios/entities/usuario.entity';
+import { Usuario } from '../../entities/usuario.entity';
 import { UsuariosService } from '../../usuarios/usuarios.service';
 import { VariationsService } from '../variations/variations.service';
-import { Variation } from '../variations/entities/variation.entity';
-import { VariationsValue } from '../variations/entities/variations-value.entity';
+import { Variation } from '../../entities/variation.entity';
+import { VariationValue } from '../../entities/variation-value.entity';
 
 describe('ProductsService', () => {
   let service: ProductsService;
@@ -42,7 +42,7 @@ describe('ProductsService', () => {
           useValue: {},
         },
         {
-          provide: getRepositoryToken(VariationsValue),
+          provide: getRepositoryToken(VariationValue),
           useValue: {},
         },
         FirmsService,

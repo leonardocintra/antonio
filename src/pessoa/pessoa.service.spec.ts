@@ -2,7 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Pessoa } from './entities/pessoa.entity';
+import { Pessoa } from '../entities/pessoa.entity';
 import { PessoaService } from './pessoa.service';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import {
@@ -14,10 +14,10 @@ import {
   updatePessoaDtoMock,
 } from '../../test/mocks/pessoaDtoMock';
 import { EnderecoService } from './endereco/endereco.service';
-import { Endereco } from './endereco/entities/endereco.entity';
+import { Endereco } from '../entities/endereco.entity';
 import { UsuariosService } from '../usuarios/usuarios.service';
-import { Usuario } from '../usuarios/entities/usuario.entity';
-import { Telefone } from './telefone/entities/telefone.entity';
+import { Usuario } from '../entities/usuario.entity';
+import { Telefone } from '../entities/telefone.entity';
 import { TelefoneService } from './telefone/telefone.service';
 import { HttpModule } from '@nestjs/axios';
 import { ViacepService } from './endereco/viacep/viacep.service';

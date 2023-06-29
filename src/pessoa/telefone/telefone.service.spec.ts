@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Telefone } from './entities/telefone.entity';
+import { Telefone } from '../../entities/telefone.entity';
 import { TelefoneService } from './telefone.service';
 
 describe('TelefoneService', () => {

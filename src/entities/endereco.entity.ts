@@ -2,19 +2,14 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Pessoa } from '../../entities/pessoa.entity';
+import { Pessoa } from './pessoa.entity';
+import { BaseTable } from './commons/baseTable';
 
 @Entity()
-export class Endereco {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
-
+export class Endereco extends BaseTable {
   @Column({ length: 8 })
   cep: string;
 
@@ -61,16 +56,8 @@ export class Endereco {
   @JoinColumn()
   pessoa: Pessoa;
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
-
-  @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt: Date;
-
   constructor(endereco?: Partial<Endereco>) {
+    super();
     this.id = endereco?.id;
     this.numero = endereco?.numero;
     this.endereco = endereco?.endereco;
@@ -80,8 +67,5 @@ export class Endereco {
     this.ativo = endereco?.ativo;
     this.referencia = endereco?.referencia;
     this.complemento = endereco?.complemento;
-    this.createdAt = endereco?.createdAt;
-    this.updatedAt = endereco?.updatedAt;
-    this.deletedAt = endereco?.deletedAt;
   }
 }

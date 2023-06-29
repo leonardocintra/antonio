@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Endereco } from './entities/endereco.entity';
+import { Endereco } from '../../entities/endereco.entity';
 import { EnderecoService } from './endereco.service';
 import { ViacepService } from './viacep/viacep.service';
 import { HttpModule, HttpService } from '@nestjs/axios';

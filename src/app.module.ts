@@ -4,18 +4,19 @@ import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { DataSource } from 'typeorm';
-import { Pessoa } from './pessoa/entities/pessoa.entity';
-import { Endereco } from './pessoa/endereco/entities/endereco.entity';
+import { Pessoa } from './entities/pessoa.entity';
+import { Endereco } from './entities/endereco.entity';
 import { UsuariosModule } from './usuarios/usuarios.module';
-import { Usuario } from './usuarios/entities/usuario.entity';
-import { Telefone } from './pessoa/telefone/entities/telefone.entity';
+import { Usuario } from './entities/usuario.entity';
+import { Telefone } from './entities/telefone.entity';
 import { CatalogsModule } from './catalogs/catalogs.module';
-import { Category } from './catalogs/categories/entities/category.entity';
-import { Product } from './catalogs/products/entities/product.entity';
-import { Variation } from './catalogs/variations/entities/variation.entity';
-import { VariationsValue } from './catalogs/variations/entities/variations-value.entity';
+import { Category } from './entities/category.entity';
+import { Product } from './entities/product.entity';
+import { Variation } from './entities/variation.entity';
 import { FirmsModule } from './firms/firms.module';
-import { Firm } from './firms/entities/firm.entity';
+import { Firm } from './entities/firm.entity';
+import { VariationValue } from './entities/variation-value.entity';
+import { ProductVariation } from './entities/product-variation.entity';
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { Firm } from './firms/entities/firm.entity';
             Category,
             Product,
             Variation,
-            VariationsValue,
+            VariationValue,
+            ProductVariation
           ],
           synchronize: true,
           ssl: true,
@@ -49,10 +51,6 @@ import { Firm } from './firms/entities/firm.entity';
             ssl: {
               rejectUnauthorized: false,
             },
-          },
-          options: {
-            encrypt: configService.get('DB_ENCRYPT'), // Habilitar criptografia SSL
-            trustServerCertificate: configService.get('DB_SSL'),
           },
         } as TypeOrmModuleAsyncOptions),
     }),

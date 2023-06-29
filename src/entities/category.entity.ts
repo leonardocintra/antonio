@@ -1,24 +1,19 @@
 import {
   BeforeInsert,
   Column,
-  CreateDateColumn,
   Entity,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
   Unique,
-  UpdateDateColumn,
 } from 'typeorm';
-import { Product } from '../../products/entities/product.entity';
+import { Product } from './product.entity';
 import slugify from 'slugify';
-import { Firm } from '../../../firms/entities/firm.entity';
+import { Firm } from './firm.entity';
+import { BaseTable } from './commons/baseTable';
 
 @Entity()
 @Unique(['firm', 'slug'])
-export class Category {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
-
+export class Category extends BaseTable {
   @ManyToOne(() => Firm, (firm) => firm.categories, { nullable: false })
   firm: Firm;
 
@@ -40,12 +35,6 @@ export class Category {
   @ManyToMany(() => Product, (product) => product.categories)
   products: Product[];
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
-
   @BeforeInsert()
   setSlug() {
     this.slug = slugify(this.name, {
@@ -54,7 +43,7 @@ export class Category {
   }
 
   constructor(category?: Partial<Category>) {
-    this.id = category?.id;
+    super();
     this.name = category?.name;
     this.description = category?.description;
     this.slug = category?.slug;

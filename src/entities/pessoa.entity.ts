@@ -1,28 +1,22 @@
-import { SexoEnum } from '../enum/sexoEnum';
+import { SexoEnum } from '../pessoa/enum/sexoEnum';
 
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
   OneToMany,
   BeforeInsert,
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
-import { Endereco } from '../endereco/entities/endereco.entity';
+import { Endereco } from './endereco.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { hashSync } from 'bcrypt';
-import { Usuario } from '../../usuarios/entities/usuario.entity';
-import { Telefone } from '../telefone/entities/telefone.entity';
+import { Usuario } from './usuario.entity';
+import { Telefone } from './telefone.entity';
+import { BaseTable } from './commons/baseTable';
 
 @Entity()
-export class Pessoa {
-  @PrimaryGeneratedColumn('increment')
-  @ApiProperty()
-  id: number;
-
+export class Pessoa extends BaseTable {
   @Column({ length: 100 })
   @ApiProperty()
   nome: string;
@@ -75,14 +69,6 @@ export class Pessoa {
   @JoinColumn()
   usuarioUpdate: Usuario;
 
-  @CreateDateColumn({ name: 'created_at' })
-  @ApiProperty()
-  createdAt: string;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  @ApiProperty()
-  updateddAt: string;
-
   @BeforeInsert()
   criptografarDados() {
     const salts = 10;
@@ -90,6 +76,7 @@ export class Pessoa {
   }
 
   constructor(pessoa?: Partial<Pessoa>) {
+    super();
     this.id = pessoa?.id;
     this.nome = pessoa?.nome;
     this.cpfCnpj = pessoa?.cpfCnpj;
@@ -100,7 +87,5 @@ export class Pessoa {
     this.usuarioUpdate = pessoa?.usuarioUpdate;
     this.enderecos = pessoa?.enderecos;
     this.telefones = pessoa?.telefones;
-    this.createdAt = pessoa?.createdAt;
-    this.updateddAt = pessoa?.updateddAt;
   }
 }

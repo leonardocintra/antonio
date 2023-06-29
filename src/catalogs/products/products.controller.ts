@@ -25,10 +25,15 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  create(@Req() req, @Body() createProductDto: CreateProductDto) {
+  async create(@Req() req, @Body() createProductDto: CreateProductDto) {
     const userId = req.user.id;
     const firm = req.headers[CatarinaConstants.FIRM_SLUG];
-    return this.productsService.create(createProductDto, firm, userId);
+    const products = await this.productsService.create(
+      createProductDto,
+      firm,
+      userId,
+    );
+    return products;
   }
 
   @Get()

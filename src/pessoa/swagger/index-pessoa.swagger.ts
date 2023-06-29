@@ -1,8 +1,4 @@
 import { OmitType } from '@nestjs/swagger';
-import { Pessoa } from '../entities/pessoa.entity';
+import { Pessoa } from '../../entities/pessoa.entity';
 
-export class IndexPessoaSwagger extends OmitType(Pessoa, [
-  'ativo',
-  'createdAt',
-  'updateddAt',
-]) {}
+export class IndexPessoaSwagger extends OmitType(Pessoa, ['ativo']) {}

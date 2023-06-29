@@ -34,7 +34,7 @@ export class VariationsController {
   findAll(@Req() req) {
     const userId = req.user.id;
     const firm = req.headers[CatarinaConstants.FIRM_SLUG];
-    return this.variationsService.findAllByUserIdAndFirmSlug(userId, firm);
+    return this.variationsService.findAllByUserIdAndFirmSlugOrFail(userId, firm);
   }
 
   @Get(':id')

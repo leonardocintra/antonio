@@ -1,18 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CategoriesService } from './categories.service';
 import { Repository } from 'typeorm';
-import { Category } from './entities/category.entity';
+import { Category } from '../../entities/category.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UsuariosService } from '../../usuarios/usuarios.service';
-import { Usuario } from '../../usuarios/entities/usuario.entity';
+import { Usuario } from '../../entities/usuario.entity';
 import { FirmsService } from '../../firms/firms.service';
-import { Firm } from '../../firms/entities/firm.entity';
+import { Firm } from '../../entities/firm.entity';
 import { PessoaService } from '../../pessoa/pessoa.service';
-import { Pessoa } from '../../pessoa/entities/pessoa.entity';
+import { Pessoa } from '../../entities/pessoa.entity';
 import { TelefoneService } from '../../pessoa/telefone/telefone.service';
 import { EnderecoService } from '../../pessoa/endereco/endereco.service';
-import { Telefone } from '../../pessoa/telefone/entities/telefone.entity';
-import { Endereco } from '../../pessoa/endereco/entities/endereco.entity';
+import { Telefone } from '../../entities/telefone.entity';
+import { Endereco } from '../../entities/endereco.entity';
 import { ViacepService } from '../../pessoa/endereco/viacep/viacep.service';
 import { HttpService } from '@nestjs/axios';
 

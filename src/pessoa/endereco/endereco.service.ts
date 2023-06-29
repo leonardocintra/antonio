@@ -1,8 +1,8 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Endereco } from './entities/endereco.entity';
-import { Pessoa } from '../entities/pessoa.entity';
+import { Endereco } from '../../entities/endereco.entity';
+import { Pessoa } from '../../entities/pessoa.entity';
 import { CreateEnderecoDto } from './dto/create-endereco.dto';
 import { ViacepService } from './viacep/viacep.service';
 import { compareTwoStrings } from 'string-similarity';

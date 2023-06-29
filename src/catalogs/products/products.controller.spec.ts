@@ -2,24 +2,25 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Product } from './entities/product.entity';
+import { Product } from '../../entities/product.entity';
 import { CategoriesService } from '../categories/categories.service';
 import { FirmsService } from '../../firms/firms.service';
-import { Category } from '../categories/entities/category.entity';
-import { Firm } from '../../firms/entities/firm.entity';
+import { Category } from '../../entities/category.entity';
+import { Firm } from '../../entities/firm.entity';
 import { PessoaService } from '../../pessoa/pessoa.service';
-import { Pessoa } from '../../pessoa/entities/pessoa.entity';
+import { Pessoa } from '../../entities/pessoa.entity';
 import { HttpService } from '@nestjs/axios';
 import { EnderecoService } from '../../pessoa/endereco/endereco.service';
-import { Endereco } from '../../pessoa/endereco/entities/endereco.entity';
+import { Endereco } from '../../entities/endereco.entity';
 import { ViacepService } from '../../pessoa/endereco/viacep/viacep.service';
-import { Telefone } from '../../pessoa/telefone/entities/telefone.entity';
+import { Telefone } from '../../entities/telefone.entity';
 import { TelefoneService } from '../../pessoa/telefone/telefone.service';
 import { UsuariosService } from '../../usuarios/usuarios.service';
-import { Usuario } from '../../usuarios/entities/usuario.entity';
-import { Variation } from '../variations/entities/variation.entity';
+import { Usuario } from '../../entities/usuario.entity';
+import { Variation } from '../../entities/variation.entity';
 import { VariationsService } from '../variations/variations.service';
-import { VariationsValue } from '../variations/entities/variations-value.entity';
+import { VariationValue } from '../../entities/variation-value.entity';
+import { ProductVariation } from '../../entities/product-variation.entity';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
@@ -33,6 +34,10 @@ describe('ProductsController', () => {
           provide: getRepositoryToken(Product),
           useValue: {},
         },
+        {
+          provide: getRepositoryToken(ProductVariation),
+          useValue: {},
+        },
         CategoriesService,
         {
           provide: getRepositoryToken(Category),
@@ -44,7 +49,7 @@ describe('ProductsController', () => {
           useValue: {},
         },
         {
-          provide: getRepositoryToken(VariationsValue),
+          provide: getRepositoryToken(VariationValue),
           useValue: {},
         },
         FirmsService,

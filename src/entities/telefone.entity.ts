@@ -1,21 +1,11 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-} from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { TelefoneTipo } from '../enum/telefoneTipoEnum';
-import { Pessoa } from '../../entities/pessoa.entity';
+import { TelefoneTipo } from '../pessoa/telefone/enum/telefoneTipoEnum';
+import { Pessoa } from './pessoa.entity';
+import { BaseTable } from './commons/baseTable';
 
 @Entity()
-export class Telefone {
-  @PrimaryGeneratedColumn('increment')
-  @ApiProperty()
-  id: string;
-
+export class Telefone extends BaseTable {
   @Column({ length: 3 })
   @ApiProperty()
   area: string;
@@ -36,14 +26,6 @@ export class Telefone {
   @ApiProperty()
   ativo: boolean;
 
-  @CreateDateColumn({ name: 'created_at' })
-  @ApiProperty()
-  createdAt: string;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  @ApiProperty()
-  updateddAt: string;
-
   @ManyToOne(() => Pessoa, (pessoa: Pessoa) => pessoa.telefones, {
     nullable: false,
     onDelete: 'CASCADE',
@@ -51,12 +33,11 @@ export class Telefone {
   pessoa: Pessoa;
 
   constructor(telefone?: Partial<Telefone>) {
+    super();
     this.id = telefone?.id;
     this.area = telefone?.area;
     this.numero = telefone?.numero;
     this.tipo = telefone?.tipo;
     this.ativo = telefone?.ativo;
-    this.createdAt = telefone?.createdAt;
-    this.updateddAt = telefone?.updateddAt;
   }
 }

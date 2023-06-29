@@ -1,20 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { hashSync } from 'bcrypt';
-import {
-  BeforeInsert,
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseTable } from './commons/baseTable';
 
 @Entity()
-export class Usuario {
-  @PrimaryGeneratedColumn('increment')
-  @ApiProperty()
-  id: number;
-
+export class Usuario extends BaseTable {
   @Column({ length: 100, unique: true })
   @ApiProperty()
   username: string;
@@ -33,26 +23,17 @@ export class Usuario {
   @ApiProperty()
   ativo: boolean;
 
-  @CreateDateColumn({ name: 'created_at' })
-  @ApiProperty()
-  createdAt: string;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  @ApiProperty()
-  updateddAt: string;
-
   @BeforeInsert()
   criptografarSenha() {
     this.password = hashSync(this.password, 10);
   }
 
   constructor(usuario?: Partial<Usuario>) {
+    super();
     this.id = usuario?.id;
     this.username = usuario?.username;
     this.password = usuario?.password;
     this.email = usuario?.email;
     this.ativo = usuario?.ativo;
-    this.createdAt = usuario?.createdAt;
-    this.updateddAt = usuario?.updateddAt;
   }
 }

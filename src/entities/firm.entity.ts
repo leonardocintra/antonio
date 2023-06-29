@@ -1,7 +1,6 @@
 import {
   BeforeInsert,
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
@@ -10,19 +9,16 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
-import { Pessoa } from '../../pessoa/entities/pessoa.entity';
-import { Usuario } from '../../usuarios/entities/usuario.entity';
-import { Category } from '../../catalogs/categories/entities/category.entity';
+import { Pessoa } from './pessoa.entity';
+import { Usuario } from './usuario.entity';
+import { Category } from './category.entity';
 import slugify from 'slugify';
 import { v4 as uuidv4 } from 'uuid';
+import { BaseTable } from './commons/baseTable';
 
 @Entity()
-export class Firm {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
-
+export class Firm extends BaseTable {
   @Column({ length: 100 })
   name: string;
 
@@ -58,10 +54,4 @@ export class Firm {
     });
     this.slug = word + '-' + uuidv4();
   }
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: string;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updateddAt: string;
 }

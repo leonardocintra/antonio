@@ -11,7 +11,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { CreateEnderecoDto } from '../endereco/dto/create-endereco.dto';
-import { Usuario } from '../../usuarios/entities/usuario.entity';
+import { Usuario } from '../../entities/usuario.entity';
 import { SexoEnum } from '../enum/sexoEnum';
 import { CreateTefoneDto } from '../telefone/dto/create-telefone.dto';
 

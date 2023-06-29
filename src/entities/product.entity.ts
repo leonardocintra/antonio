@@ -1,27 +1,22 @@
 import {
-  PrimaryGeneratedColumn,
   Column,
   ManyToMany,
   JoinTable,
-  CreateDateColumn,
-  UpdateDateColumn,
   BeforeInsert,
   Entity,
   ManyToOne,
   Unique,
+  OneToMany,
 } from 'typeorm';
-import { Category } from '../../categories/entities/category.entity';
-import { Variation } from '../../variations/entities/variation.entity';
+import { Category } from './category.entity';
 import slugify from 'slugify';
-import { Firm } from '../../../firms/entities/firm.entity';
-import { VariationsValue } from '../../variations/entities/variations-value.entity';
+import { Firm } from './firm.entity';
+import { BaseTable } from './commons/baseTable';
+import { ProductVariation } from './product-variation.entity';
 
 @Entity()
 @Unique(['firm', 'slug'])
-export class Product {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
-
+export class Product extends BaseTable {
   @Column({ default: true })
   active: boolean;
 
@@ -37,24 +32,6 @@ export class Product {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
-  @ManyToMany(() => Variation, (variation) => variation.products, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
-  @JoinTable()
-  variations: Variation[];
-
-  @ManyToMany(
-    () => VariationsValue,
-    (variationValues) => variationValues.products,
-    {
-      cascade: true,
-      onDelete: 'CASCADE',
-    },
-  )
-  @JoinTable()
-  variationsValues: VariationsValue[];
-
   @ManyToMany(() => Category, (category) => category.products, {
     cascade: true,
     onDelete: 'CASCADE',
@@ -62,14 +39,19 @@ export class Product {
   @JoinTable()
   categories: Category[];
 
+  @OneToMany(
+    () => ProductVariation,
+    (productVariation) => productVariation.product,
+    {
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
+  )
+  @JoinTable()
+  variations: ProductVariation[];
+
   @ManyToOne(() => Firm, { nullable: false })
   firm: Firm;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 
   @BeforeInsert()
   setSlug() {
@@ -79,14 +61,13 @@ export class Product {
   }
 
   constructor(product?: Partial<Product>) {
-    this.id = product?.id;
+    super();
     this.name = product?.name;
     this.active = product?.active;
     this.description = product?.description;
     this.slug = product?.slug;
     this.price = product?.price;
     this.categories = product?.categories;
-    this.variations = product?.variations;
     this.firm = product?.firm;
   }
 }
