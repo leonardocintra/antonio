@@ -11,7 +11,7 @@ import { Category } from '../../entities/category.entity';
 import { VariationsService } from '../variations/variations.service';
 import { ProductVariation } from '../../entities/product-variation.entity';
 import { VariationValue } from '../../entities/variation-value.entity';
-import { CreateProductResponseDto } from './dto/create-product-response.dto';
+import { ResponseProductDto } from './dto/response-product.dto';
 import { productSerializer } from './products.serializer';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class ProductsService {
     createProductDto: CreateProductDto,
     firmSlug: string,
     userId: number,
-  ): Promise<CreateProductResponseDto> {
+  ): Promise<ResponseProductDto> {
     const created = this.productRepository.create(createProductDto);
     created.firm = await this.firmService.findBySlugAndUserIdOrFail(
       firmSlug,
@@ -127,34 +127,46 @@ export class ProductsService {
   async findAllByUserIdAndFirmSlug(
     userId: number,
     firmSlug: string,
-  ): Promise<CreateProductResponseDto[]> {
+  ): Promise<ResponseProductDto[]> {
     const firm = await this.firmService.findBySlugAndUserIdOrFail(
       firmSlug,
       userId,
     );
 
-    const products = await this.productRepository
-      .createQueryBuilder('products')
-      .select()
-      .leftJoinAndSelect('products.categories', 'categories')
-      .leftJoinAndSelect('products.variations', 'productVariations')
-      .leftJoinAndSelect('productVariations.variation', 'variation')
-      .leftJoinAndSelect('productVariations.variationValue', 'variationValue')
-      .where('products.firmId = :firmId', { firmId: firm.id })
-      .getMany();
-
+    const products = await this.productRepository.find({
+      relations: {
+        categories: true,
+        variations: {
+          variation: true,
+          variationValue: true,
+        },
+      },
+      where: {
+        firm: {
+          id: firm.id,
+        },
+      },
+    });
     return productSerializer.serializers(products);
   }
 
-  async findOne(slug: string, firmSlug: string, userId: number): Promise<Product> {
+  async findOne(
+    slug: string,
+    firmSlug: string,
+    userId: number,
+  ): Promise<ResponseProductDto> {
     try {
       const firm = await this.firmService.findBySlugAndUserIdOrFail(
         firmSlug,
         userId,
       );
-      return await this.productRepository.findOneOrFail({
+      const product = await this.productRepository.findOneOrFail({
         relations: {
           categories: true,
+          variations: {
+            variation: true,
+            variationValue: true,
+          },
         },
         where: {
           slug,
@@ -163,6 +175,7 @@ export class ProductsService {
           },
         },
       });
+      return productSerializer.serializer(product);
     } catch (err) {
       CatarinaException.EntityNotFoundException('Product', err);
     }
