@@ -146,7 +146,7 @@ export class ProductsService {
     return productSerializer.serializers(products);
   }
 
-  async findOne(slug: string, firmSlug: string, userId: number) {
+  async findOne(slug: string, firmSlug: string, userId: number): Promise<Product> {
     try {
       const firm = await this.firmService.findBySlugAndUserIdOrFail(
         firmSlug,

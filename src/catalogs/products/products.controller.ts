@@ -28,12 +28,7 @@ export class ProductsController {
   async create(@Req() req, @Body() createProductDto: CreateProductDto) {
     const userId = req.user.id;
     const firm = req.headers[CatarinaConstants.FIRM_SLUG];
-    const products = await this.productsService.create(
-      createProductDto,
-      firm,
-      userId,
-    );
-    return products;
+    return await this.productsService.create(createProductDto, firm, userId);
   }
 
   @Get()

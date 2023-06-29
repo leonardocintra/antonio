@@ -1,7 +1,7 @@
 import * as os from 'os';
 import { IResponseData } from './interfaces/IResponseData';
 
-export default function success(data: any, options: any): IResponseData {
+export default function success(data: any, options?: any): IResponseData {
   options = options || {};
   options.query = options.query || {};
   const responseBody: IResponseData = {
