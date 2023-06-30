@@ -28,6 +28,10 @@ export class AuthService {
       return null;
     }
 
+    if (!user) {
+      return null;
+    }
+
     const passwordIsValid = compareSync(password, user.password);
 
     if (passwordIsValid) {
