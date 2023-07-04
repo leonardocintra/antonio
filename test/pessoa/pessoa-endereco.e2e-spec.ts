@@ -15,7 +15,7 @@ describe('PessoaController - Endereço (e2e)', () => {
   let jwtToken = '';
 
   const pessoaDto: CreatePessoaDto = {
-    nome: faker.name.fullName(),
+    nome: faker.person.fullName(),
     cpfCnpj: Util.getRandomCPF(),
     sexo: SexoEnum.FEMININO,
     email: faker.internet.email(),
@@ -84,13 +84,13 @@ describe('PessoaController - Endereço (e2e)', () => {
       pessoaDto.enderecos = [
         {
           bairro: '',
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -112,13 +112,13 @@ describe('PessoaController - Endereço (e2e)', () => {
       pessoaDto.enderecos = [
         {
           bairro: null,
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
       const response = await request(app.getHttpServer())
@@ -143,19 +143,19 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo bairro não informado', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.cityName(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            endereco: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -187,13 +187,13 @@ describe('PessoaController - Endereço (e2e)', () => {
         {
           bairro:
             'aaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbb ccccccccccccccccc dddddddddddddddd eeeeeeeeeeeeeeee ddddddddddddddd fffffffffffffff ggggggggggg',
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -213,20 +213,20 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo bairro numerico', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
             bairro: 10000,
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.cityName(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            endereco: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -256,14 +256,14 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep com string vazia', async () => {
       pessoaDto.enderecos = [
         {
-          bairro: faker.address.street(),
+          bairro: faker.location.streetAddress(),
           cep: '',
-          cidade: faker.address.cityName(),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -290,14 +290,14 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep null', async () => {
       pessoaDto.enderecos = [
         {
-          bairro: faker.address.street(),
+          bairro: faker.location.streetAddress(),
           cep: null,
-          cidade: faker.address.cityName(),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
       const response = await request(app.getHttpServer())
@@ -325,19 +325,19 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep não informado', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            bairro: faker.address.street(),
-            cidade: faker.address.cityName(),
+            bairro: faker.location.streetAddress(),
+            cidade: faker.location.city(),
             uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            endereco: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -370,14 +370,14 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep menor que 8 caracteres', async () => {
       pessoaDto.enderecos = [
         {
-          cep: faker.address.zipCode('####'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('####'),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          bairro: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          bairro: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -398,14 +398,14 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep maior que 8 caracteres', async () => {
       pessoaDto.enderecos = [
         {
-          cep: faker.address.zipCode('##########'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('##########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          bairro: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          bairro: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -425,20 +425,20 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cep numerico', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
             cep: 123456,
-            cidade: faker.address.cityName(),
+            cidade: faker.location.city(),
             uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
-            bairro: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            endereco: faker.location.streetAddress(),
+            bairro: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -471,14 +471,14 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cidade com string vazia', async () => {
       pessoaDto.enderecos = [
         {
-          bairro: faker.address.street(),
-          cep: faker.address.zipCode('########'),
+          bairro: faker.location.streetAddress(),
+          cep: faker.location.zipCode('########'),
           cidade: '',
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -499,14 +499,14 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cidade null', async () => {
       pessoaDto.enderecos = [
         {
-          bairro: faker.address.street(),
-          cep: faker.address.zipCode('########'),
+          bairro: faker.location.streetAddress(),
+          cep: faker.location.zipCode('########'),
           cidade: null,
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
       const response = await request(app.getHttpServer())
@@ -531,19 +531,19 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cidade não informado', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cep: faker.address.zipCode('########'),
-            bairro: faker.address.street(),
+            cep: faker.location.zipCode('########'),
+            bairro: faker.location.streetAddress(),
             uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            endereco: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -573,15 +573,15 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cidade maior que 100 caracteres', async () => {
       pessoaDto.enderecos = [
         {
-          cep: faker.address.zipCode('########'),
+          cep: faker.location.zipCode('########'),
           cidade:
-            'faker.address.cityName() aaaaaaaaaaaaaaaaa  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            'faker.location.city() aaaaaaaaaaaaaaaaa  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          bairro: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          bairro: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -601,20 +601,20 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo cidade numerico', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cep: faker.address.zipCode('########'),
+            cep: faker.location.zipCode('########'),
             cidade: 1231231,
             uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
-            bairro: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            endereco: faker.location.streetAddress(),
+            bairro: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -644,14 +644,14 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf com string vazia', async () => {
       pessoaDto.enderecos = [
         {
-          bairro: faker.address.street(),
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.city(),
+          bairro: faker.location.streetAddress(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: '',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -678,14 +678,14 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf null', async () => {
       pessoaDto.enderecos = [
         {
-          bairro: faker.address.street(),
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.city(),
+          bairro: faker.location.streetAddress(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: null,
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
       const response = await request(app.getHttpServer())
@@ -716,19 +716,19 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf não informado', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cidade: faker.address.city(),
-            cep: faker.address.zipCode('########'),
-            bairro: faker.address.street(),
+            cidade: faker.location.city(),
+            cep: faker.location.zipCode('########'),
+            bairro: faker.location.streetAddress(),
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            endereco: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -764,14 +764,14 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf maior que 2 caracteres', async () => {
       pessoaDto.enderecos = [
         {
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.city(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MGG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          bairro: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          endereco: faker.location.streetAddress(),
+          bairro: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -794,20 +794,20 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf numerico', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.city(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 23,
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
-            bairro: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            endereco: faker.location.streetAddress(),
+            bairro: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -840,20 +840,20 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo uf invalido', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.city(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 'NY',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
-            bairro: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            endereco: faker.location.streetAddress(),
+            bairro: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -880,13 +880,13 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo numero com string vazia', async () => {
       pessoaDto.enderecos = [
         {
-          bairro: faker.address.street(),
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          bairro: faker.location.streetAddress(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'RJ',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
+          endereco: faker.location.streetAddress(),
           numero: '',
         },
       ];
@@ -908,13 +908,13 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo numero null', async () => {
       pessoaDto.enderecos = [
         {
-          bairro: faker.address.street(),
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          bairro: faker.location.streetAddress(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
+          endereco: faker.location.streetAddress(),
           numero: null,
         },
       ];
@@ -940,19 +940,19 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo numero não informado', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cep: faker.address.zipCode('########'),
-            bairro: faker.address.street(),
-            cidade: faker.address.cityName(),
+            cep: faker.location.zipCode('########'),
+            bairro: faker.location.streetAddress(),
+            cidade: faker.location.city(),
             uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
+            endereco: faker.location.streetAddress(),
           },
         ],
         telefones: [],
@@ -982,14 +982,14 @@ describe('PessoaController - Endereço (e2e)', () => {
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo numero maior que 10 caracteres', async () => {
       pessoaDto.enderecos = [
         {
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          endereco: faker.address.street(),
-          bairro: faker.address.street(),
-          numero: faker.address.zipCode('#######################'),
+          endereco: faker.location.streetAddress(),
+          bairro: faker.location.streetAddress(),
+          numero: faker.location.zipCode('#######################'),
         },
       ];
 
@@ -1009,19 +1009,19 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo numero é numerico', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.cityName(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            endereco: faker.address.street(),
-            bairro: faker.address.street(),
+            endereco: faker.location.streetAddress(),
+            bairro: faker.location.streetAddress(),
             numero: 12312,
           },
         ],
@@ -1053,13 +1053,13 @@ describe('PessoaController - Endereço (e2e)', () => {
       pessoaDto.enderecos = [
         {
           endereco: '',
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          bairro: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          bairro: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -1081,13 +1081,13 @@ describe('PessoaController - Endereço (e2e)', () => {
       pessoaDto.enderecos = [
         {
           endereco: null,
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          bairro: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          bairro: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
       const response = await request(app.getHttpServer())
@@ -1112,19 +1112,19 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo endereco não informado', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.cityName(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            bairro: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            bairro: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -1156,13 +1156,13 @@ describe('PessoaController - Endereço (e2e)', () => {
         {
           endereco:
             'aaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbb ccccccccccccccccc dddddddddddddddd eeeeeeeeeeeeeeee ddddddddddddddd fffffffffffffff ggggggggggg',
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           complemento: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          bairro: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          bairro: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -1182,20 +1182,20 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo endereco numerico', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
             endereco: 10000,
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.cityName(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 'MG',
             complemento: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            bairro: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            bairro: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -1224,19 +1224,19 @@ describe('PessoaController - Endereço (e2e)', () => {
   describe('Cadastro de pessoa - Campo COMPLEMENTO do endereco', () => {
     it('/api/v1/pessoa (POST - 201) - quando o endereco esta com o campo complento não informado', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.cityName(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 'RR',
             referencia: faker.animal.crocodilia(),
-            bairro: faker.address.street(),
-            endereco: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            bairro: faker.location.streetAddress(),
+            endereco: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -1257,13 +1257,13 @@ describe('PessoaController - Endereço (e2e)', () => {
         {
           complemento:
             'aaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbb ccccccccccccccccc dddddddddddddddd eeeeeeeeeeeeeeee ddddddddddddddd fffffffffffffff ggggggggggg',
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           endereco: faker.animal.fish(),
           referencia: faker.animal.crocodilia(),
-          bairro: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          bairro: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -1283,20 +1283,20 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo complemento numerico', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
             complemento: 10000,
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.cityName(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 'MG',
             endereco: faker.animal.fish(),
             referencia: faker.animal.crocodilia(),
-            bairro: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            bairro: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -1325,19 +1325,19 @@ describe('PessoaController - Endereço (e2e)', () => {
   describe('Cadastro de pessoa - Campo REFERENCIA do endereco', () => {
     it('/api/v1/pessoa (POST - 201) - quando o endereco esta com o campo referencia não informado', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.cityName(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 'RR',
             complemento: faker.animal.crocodilia(),
-            bairro: faker.address.street(),
-            endereco: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            bairro: faker.location.streetAddress(),
+            endereco: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
@@ -1358,13 +1358,13 @@ describe('PessoaController - Endereço (e2e)', () => {
         {
           referencia:
             'aaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbb ccccccccccccccccc dddddddddddddddd eeeeeeeeeeeeeeee ddddddddddddddd fffffffffffffff ggggggggggg',
-          cep: faker.address.zipCode('########'),
-          cidade: faker.address.cityName(),
+          cep: faker.location.zipCode('########'),
+          cidade: faker.location.city(),
           uf: 'MG',
           endereco: faker.animal.fish(),
           complemento: faker.animal.crocodilia(),
-          bairro: faker.address.street(),
-          numero: faker.address.zipCode('####'),
+          bairro: faker.location.streetAddress(),
+          numero: faker.location.zipCode('####'),
         },
       ];
 
@@ -1384,20 +1384,20 @@ describe('PessoaController - Endereço (e2e)', () => {
 
     it('/api/v1/pessoa (POST - 400) - quando o endereco esta com o campo referencia numerico', async () => {
       const dto = {
-        nome: faker.name.fullName(),
+        nome: faker.person.fullName(),
         cpfCnpj: Util.getRandomCPF(),
         sexo: SexoEnum.FEMININO,
         email: faker.internet.email(),
         enderecos: [
           {
             referencia: 10000,
-            cep: faker.address.zipCode('########'),
-            cidade: faker.address.cityName(),
+            cep: faker.location.zipCode('########'),
+            cidade: faker.location.city(),
             uf: 'MG',
             endereco: faker.animal.fish(),
             complemento: faker.animal.crocodilia(),
-            bairro: faker.address.street(),
-            numero: faker.address.zipCode('####'),
+            bairro: faker.location.streetAddress(),
+            numero: faker.location.zipCode('####'),
           },
         ],
         telefones: [],
