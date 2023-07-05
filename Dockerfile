@@ -16,5 +16,7 @@ COPY . .
 # Expõe a porta em que a API estará rodando (certifique-se de configurar o NestJS para usar a mesma porta)
 EXPOSE 3000
 
+RUN npm build
+
 # Define o comando de execução do contêiner
 CMD [ "npm", "run", "start:prod" ]
