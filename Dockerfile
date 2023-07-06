@@ -8,8 +8,7 @@ WORKDIR /home/node/app
 
 COPY --chown=node:node . .
 
-RUN npm install --production
-RUN npm install -g @nestjs/cli
+RUN npm install
 RUN npm run build
 
 ENV NODE_ENV=prod
