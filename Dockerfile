@@ -9,8 +9,8 @@ WORKDIR /home/node/app
 COPY --chown=node:node . .
 
 RUN npm install
+RUN npm run prebuild
 RUN npm run build
-RUN rm -R dist/
 
 ENV NODE_ENV=prod
 
