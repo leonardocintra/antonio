@@ -42,10 +42,6 @@ export class Product extends BaseTable {
   @OneToMany(
     () => ProductVariation,
     (productVariation) => productVariation.product,
-    {
-      cascade: true,
-      onDelete: 'CASCADE',
-    },
   )
   @JoinTable()
   variations: ProductVariation[];

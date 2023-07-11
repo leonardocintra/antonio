@@ -6,7 +6,10 @@ import { Variation } from './variation.entity';
 
 @Entity()
 export class ProductVariation extends BaseTable {
-  @ManyToOne(() => Product, { nullable: false })
+  @ManyToOne(() => Product, (product: Product) => product.variations, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   product: Product;
 
   @ManyToOne(() => Variation, { nullable: false })
