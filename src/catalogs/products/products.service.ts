@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,6 +16,8 @@ import { productSerializer } from './products.serializer';
 
 @Injectable()
 export class ProductsService {
+  private readonly logger = new Logger(ProductsService.name);
+
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
@@ -84,13 +86,13 @@ export class ProductsService {
       });
 
       variationsDto.forEach((vDto) => {
+        const productVariation: ProductVariation = new ProductVariation();
+
         if (vDto.variationsValues) {
           vDto.variationsValues.forEach((vvDto) => {
             const variationValue: VariationValue = variationsValuesDb.find(
-              (vv) => vv.id === vvDto.id,
+              (vv) => vv.id === vvDto.id && vv.variation.id === vDto.id,
             );
-
-            const productVariation: ProductVariation = new ProductVariation();
 
             if (variationValue) {
               productVariation.variation = variationsDb.find(
@@ -98,10 +100,13 @@ export class ProductsService {
               );
               productVariation.variationValue = variationValue;
               created.variations.push(productVariation);
+            } else {
+              this.logger.warn(
+                `Product "${created.name}" did not register the variation (${vDto.id}) and variationValue (${vvDto.id} ​​because they do not match`,
+              );
             }
           });
         } else {
-          const productVariation: ProductVariation = new ProductVariation();
           productVariation.variation = variationsDb.find(
             (v) => v.id === vDto.id,
           );
