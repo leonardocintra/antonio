@@ -1,14 +1,13 @@
-version: "3.5"
+version: '3.9'
+
 services:
-  app:
-    build:
-      context: .
+  postgres:
+    image: postgres:14-alpine
     ports:
-      - "3000:3000"
+      - 5432:5432
+    volumes:
+      - ~/apps/postgres-antonio:/var/lib/postgresql/data
     environment:
-      - NODE_ENV=production
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_DATABASE=${DB_DATABASE}
+      - POSTGRES_PASSWORD=antonio
+      - POSTGRES_USER=antonio
+      - POSTGRES_DB=antonio

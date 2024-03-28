@@ -1,90 +1,57 @@
-# Catarina API
+# 🚀 Getting started with Strapi
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/08da26fbb0574c04933646f9735614fa)](https://app.codacy.com/gh/leonardocintra/catarina/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
 
-## ERPzinho
+### `develop`
 
-### Pessoas / Clientes / Empresas
-
-API de dados pessoais criptografados (LGPD)
-
-- Dados pessoas
-- Dados endereco
-- Dados telefone
-
-### Produtos / SKU / Catalogo
-
-- Dados de produtos
-- Categorias
-- SKU
-- Variações (P, M, G, GG, ect)
-- Controle de estoque
-
-## Validações
-
-- Valida se o endereço/CEP esta correto consultando a api do ViaCEP
-
-![santa-Caterina-e-il-Dialogo](https://user-images.githubusercontent.com/5832193/230446119-01e5e763-3e6e-4223-8c13-b9629fa7e9f7.jpg)
-
-## Descrição
-
-Liberte-se da complexidade do gerenciamento de cadastros e dados pessoais em seus sistemas.
-
-### Conheca o Catarina API - nosso sistema backend:
-
-- Atende aos requisitos da lei LGPD
-- Oferece uma solução segura e eficiente para que você possa se concentrar no desenvolvimento do seu negócio.
-- Salve apenas um campo que ache necessario (Ex: id, email, cpf ou CNPJ) no seu banco de dados.
-
-## Installation
-
-```bash
-$ npm install
-$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
-$ docker run -d --name=grafana -p 3333:3333 grafana/grafana
+Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
 
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run develop
+# or
+yarn develop
 ```
 
-## Documentação
+### `start`
 
-http://localhost:3000/api
+Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+npm run start
+# or
+yarn start
 ```
 
-## Support
+### `build`
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
 
-## Stay in touch
+```
+npm run build
+# or
+yarn build
+```
 
-- Author - Leonardo Cintra
-- API Backend - https://catarina-production.up.railway.app/api
-- Twitter - [@leonardoncintra](https://twitter.com/leonardoncintra)
+## ⚙️ Deployment
 
-## License
+Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
 
-Nest is [MIT licensed](LICENSE).
+## 📚 Learn more
+
+- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
+- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
+- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
+- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
+- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
+
+Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
+
+## ✨ Community
+
+- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
+- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
+- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
+
+---
+
+<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>

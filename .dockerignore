@@ -1,6 +1,9 @@
-.history/
+.tmp/
+.cache/
 .git/
-dist/
+.env
+build/
 node_modules/
-docker-compose.yml
-Dockerfile
+# Ignoring folders that might be used in starter templates
+data/
+backup/
