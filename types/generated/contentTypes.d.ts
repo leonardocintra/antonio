@@ -788,12 +788,72 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiProductProduct extends Schema.CollectionType {
+  collectionName: 'products';
+  info: {
+    singularName: 'product';
+    pluralName: 'products';
+    displayName: 'Product';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 50;
+      }>;
+    active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    imagesMock: Attribute.Media & Attribute.Required;
+    description: Attribute.Text & Attribute.DefaultTo<'100% Algod\u00E3o'>;
+    seller: Attribute.Relation<
+      'api::product.product',
+      'manyToOne',
+      'api::seller.seller'
+    >;
+    sub_category: Attribute.Relation<
+      'api::product.product',
+      'manyToOne',
+      'api::sub-category.sub-category'
+    >;
+    imageDesign: Attribute.Media & Attribute.Required;
+    basePrice: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 1.99;
+        },
+        number
+      > &
+      Attribute.DefaultTo<55.99>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiProductTypeProductType extends Schema.CollectionType {
   collectionName: 'product_types';
   info: {
     singularName: 'product-type';
     pluralName: 'product-types';
     displayName: 'ProductType';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -806,6 +866,8 @@ export interface ApiProductTypeProductType extends Schema.CollectionType {
         maxLength: 50;
       }>;
     active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    slug: Attribute.UID<'api::product-type.product-type', 'description'> &
+      Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -817,6 +879,46 @@ export interface ApiProductTypeProductType extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::product-type.product-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSellerSeller extends Schema.CollectionType {
+  collectionName: 'sellers';
+  info: {
+    singularName: 'seller';
+    pluralName: 'sellers';
+    displayName: 'Seller';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    description: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 60;
+      }>;
+    products: Attribute.Relation<
+      'api::seller.seller',
+      'oneToMany',
+      'api::product.product'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::seller.seller',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::seller.seller',
       'oneToOne',
       'admin::user'
     > &
@@ -844,6 +946,13 @@ export interface ApiSubCategorySubCategory extends Schema.CollectionType {
         maxLength: 50;
       }>;
     active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    slug: Attribute.UID<'api::sub-category.sub-category', 'description'> &
+      Attribute.Required;
+    products: Attribute.Relation<
+      'api::sub-category.sub-category',
+      'oneToMany',
+      'api::product.product'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -880,7 +989,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::product.product': ApiProductProduct;
       'api::product-type.product-type': ApiProductTypeProductType;
+      'api::seller.seller': ApiSellerSeller;
       'api::sub-category.sub-category': ApiSubCategorySubCategory;
     }
   }

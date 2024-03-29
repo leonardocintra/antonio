@@ -23,6 +23,17 @@
       "type": "boolean",
       "default": true,
       "required": false
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "description",
+      "required": true
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product",
+      "mappedBy": "sub_category"
     }
   }
 }
