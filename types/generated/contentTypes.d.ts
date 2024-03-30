@@ -830,6 +830,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
       > &
       Attribute.DefaultTo<55.99>;
     mocks: Attribute.Media & Attribute.Required;
+    slug: Attribute.UID<'api::product.product', 'name'> & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

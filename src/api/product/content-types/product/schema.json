@@ -53,11 +53,16 @@
       "min": 1.99
     },
     "mocks": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
       "required": true
     }
   }
