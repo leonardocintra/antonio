@@ -807,8 +807,8 @@ export interface ApiProductProduct extends Schema.CollectionType {
         maxLength: 50;
       }>;
     active: Attribute.Boolean & Attribute.DefaultTo<true>;
-    imagesMock: Attribute.Media & Attribute.Required;
-    description: Attribute.Text & Attribute.DefaultTo<'100% Algod\u00E3o'>;
+    description: Attribute.Text &
+      Attribute.DefaultTo<'A T-shirt Quality \u00E9 a escolha perfeita para quem busca mais do que uma simples camiseta. Com um design cuidadosamente pensado, ela combina estilo e qualidade  Confeccionada com um acabamento refor\u00E7ado em vi\u00E9s ombro a ombro e gola em ribana, voc\u00EA tem durabilidade e conforto incompar\u00E1veis. Sua modelagem com caimento reto garante um visual moderno e elegante, perfeito para qualquer ocasi\u00E3o atendendo todas as suas necessidades.  E para melhorar, voc\u00EA pode ter total tranquilidade, j\u00E1 que a T-shirt Quality foi projetada para resistir ao encolhimento p\u00F3s-lavagem, mantendo a sua forma e qualidade por muito mais tempo!   Percentual de poss\u00EDvel encolhimento p\u00F3s lavagem: Comprimento: 4 a 7% Largura: 3 a 5%  T\u00E9cnica de impress\u00E3o: Silk Digital HD'>;
     seller: Attribute.Relation<
       'api::product.product',
       'manyToOne',
@@ -829,6 +829,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
         number
       > &
       Attribute.DefaultTo<55.99>;
+    mocks: Attribute.Media & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

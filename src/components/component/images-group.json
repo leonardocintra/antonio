@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_component_images_groups",
+  "info": {
+    "displayName": "Images Group",
+    "icon": "picture"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
+      "required": true
+    }
+  }
+}
