@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_models",
+  "info": {
+    "singularName": "product-model",
+    "pluralName": "product-models",
+    "displayName": "ProductModel",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "description": {
+      "type": "string",
+      "required": true,
+      "maxLength": 40,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "description",
+      "required": true
+    },
+    "customerDescription": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "genero": {
+      "type": "enumeration",
+      "enum": [
+        "Masculino",
+        "Feminino",
+        "Infantil",
+        "Unisex"
+      ],
+      "default": "Masculino",
+      "required": true
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "mappedBy": "product_models"
+    },
+    "product_sizes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-size.product-size",
+      "mappedBy": "product_model"
+    },
+    "product_colors": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-color.product-color",
+      "mappedBy": "product_model"
+    }
+  }
+}

@@ -809,11 +809,6 @@ export interface ApiProductProduct extends Schema.CollectionType {
     active: Attribute.Boolean & Attribute.DefaultTo<true>;
     description: Attribute.Text &
       Attribute.DefaultTo<'A T-shirt Quality \u00E9 a escolha perfeita para quem busca mais do que uma simples camiseta. Com um design cuidadosamente pensado, ela combina estilo e qualidade  Confeccionada com um acabamento refor\u00E7ado em vi\u00E9s ombro a ombro e gola em ribana, voc\u00EA tem durabilidade e conforto incompar\u00E1veis. Sua modelagem com caimento reto garante um visual moderno e elegante, perfeito para qualquer ocasi\u00E3o atendendo todas as suas necessidades.  E para melhorar, voc\u00EA pode ter total tranquilidade, j\u00E1 que a T-shirt Quality foi projetada para resistir ao encolhimento p\u00F3s-lavagem, mantendo a sua forma e qualidade por muito mais tempo!   Percentual de poss\u00EDvel encolhimento p\u00F3s lavagem: Comprimento: 4 a 7% Largura: 3 a 5%  T\u00E9cnica de impress\u00E3o: Silk Digital HD'>;
-    seller: Attribute.Relation<
-      'api::product.product',
-      'manyToOne',
-      'api::seller.seller'
-    >;
     sub_category: Attribute.Relation<
       'api::product.product',
       'manyToOne',
@@ -831,6 +826,11 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.DefaultTo<55.99>;
     mocks: Attribute.Media & Attribute.Required;
     slug: Attribute.UID<'api::product.product', 'name'> & Attribute.Required;
+    product_models: Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::product-model.product-model'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -842,6 +842,161 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProductColorProductColor extends Schema.CollectionType {
+  collectionName: 'product_colors';
+  info: {
+    singularName: 'product-color';
+    pluralName: 'product-colors';
+    displayName: 'ProductColor';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    description: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        maxLength: 30;
+      }>;
+    slug: Attribute.UID<'api::product-color.product-color', 'description'>;
+    value: Attribute.String;
+    active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    sequence: Attribute.Integer & Attribute.DefaultTo<0>;
+    product_model: Attribute.Relation<
+      'api::product-color.product-color',
+      'manyToOne',
+      'api::product-model.product-model'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product-color.product-color',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product-color.product-color',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProductModelProductModel extends Schema.CollectionType {
+  collectionName: 'product_models';
+  info: {
+    singularName: 'product-model';
+    pluralName: 'product-models';
+    displayName: 'ProductModel';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    description: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        maxLength: 40;
+      }>;
+    slug: Attribute.UID<'api::product-model.product-model', 'description'> &
+      Attribute.Required;
+    customerDescription: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }>;
+    genero: Attribute.Enumeration<
+      ['Masculino', 'Feminino', 'Infantil', 'Unisex']
+    > &
+      Attribute.Required &
+      Attribute.DefaultTo<'Masculino'>;
+    products: Attribute.Relation<
+      'api::product-model.product-model',
+      'manyToMany',
+      'api::product.product'
+    >;
+    product_sizes: Attribute.Relation<
+      'api::product-model.product-model',
+      'oneToMany',
+      'api::product-size.product-size'
+    >;
+    product_colors: Attribute.Relation<
+      'api::product-model.product-model',
+      'oneToMany',
+      'api::product-color.product-color'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product-model.product-model',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product-model.product-model',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProductSizeProductSize extends Schema.CollectionType {
+  collectionName: 'product_sizes';
+  info: {
+    singularName: 'product-size';
+    pluralName: 'product-sizes';
+    displayName: 'ProductSize';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    description: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        maxLength: 30;
+      }>;
+    customerDescription: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 40;
+      }>;
+    active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    slug: Attribute.UID<'api::product-size.product-size', 'description'>;
+    sequence: Attribute.Integer & Attribute.DefaultTo<0>;
+    product_model: Attribute.Relation<
+      'api::product-size.product-size',
+      'manyToOne',
+      'api::product-model.product-model'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product-size.product-size',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product-size.product-size',
       'oneToOne',
       'admin::user'
     > &
@@ -881,46 +1036,6 @@ export interface ApiProductTypeProductType extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::product-type.product-type',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiSellerSeller extends Schema.CollectionType {
-  collectionName: 'sellers';
-  info: {
-    singularName: 'seller';
-    pluralName: 'sellers';
-    displayName: 'Seller';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    description: Attribute.String &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        minLength: 5;
-        maxLength: 60;
-      }>;
-    products: Attribute.Relation<
-      'api::seller.seller',
-      'oneToMany',
-      'api::product.product'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::seller.seller',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::seller.seller',
       'oneToOne',
       'admin::user'
     > &
@@ -992,8 +1107,10 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::product.product': ApiProductProduct;
+      'api::product-color.product-color': ApiProductColorProductColor;
+      'api::product-model.product-model': ApiProductModelProductModel;
+      'api::product-size.product-size': ApiProductSizeProductSize;
       'api::product-type.product-type': ApiProductTypeProductType;
-      'api::seller.seller': ApiSellerSeller;
       'api::sub-category.sub-category': ApiSubCategorySubCategory;
     }
   }

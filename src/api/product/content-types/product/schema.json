@@ -26,12 +26,6 @@
       "type": "text",
       "default": "A T-shirt Quality é a escolha perfeita para quem busca mais do que uma simples camiseta. Com um design cuidadosamente pensado, ela combina estilo e qualidade  Confeccionada com um acabamento reforçado em viés ombro a ombro e gola em ribana, você tem durabilidade e conforto incomparáveis. Sua modelagem com caimento reto garante um visual moderno e elegante, perfeito para qualquer ocasião atendendo todas as suas necessidades.  E para melhorar, você pode ter total tranquilidade, já que a T-shirt Quality foi projetada para resistir ao encolhimento pós-lavagem, mantendo a sua forma e qualidade por muito mais tempo!   Percentual de possível encolhimento pós lavagem: Comprimento: 4 a 7% Largura: 3 a 5%  Técnica de impressão: Silk Digital HD"
     },
-    "seller": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::seller.seller",
-      "inversedBy": "products"
-    },
     "sub_category": {
       "type": "relation",
       "relation": "manyToOne",
@@ -64,6 +58,12 @@
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "product_models": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product-model.product-model",
+      "inversedBy": "products"
     }
   }
 }

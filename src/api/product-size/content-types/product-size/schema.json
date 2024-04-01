@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_sizes",
+  "info": {
+    "singularName": "product-size",
+    "pluralName": "product-sizes",
+    "displayName": "ProductSize",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "description": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 30
+    },
+    "customerDescription": {
+      "type": "string",
+      "maxLength": 40
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "required": false
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "description"
+    },
+    "sequence": {
+      "type": "integer",
+      "required": false,
+      "default": 0
+    },
+    "product_model": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-model.product-model",
+      "inversedBy": "product_sizes"
+    }
+  }
+}
