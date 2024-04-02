@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "strapi build",
-    "develop": "strapi develop",
+    "develop": "sudo docker compose up -d && strapi develop",
     "start": "strapi start",
     "strapi": "strapi"
   },
@@ -17,6 +17,7 @@
     "@strapi/plugin-cloud": "4.21.1",
     "@strapi/plugin-i18n": "4.21.1",
     "@strapi/plugin-users-permissions": "4.21.1",
+    "@strapi/provider-upload-cloudinary": "^4.21.1",
     "@strapi/strapi": "4.21.1",
     "pg": "8.8.0",
     "react": "^18.0.0",
@@ -24,7 +25,6 @@
     "react-router-dom": "5.3.4",
     "styled-components": "5.3.3"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
